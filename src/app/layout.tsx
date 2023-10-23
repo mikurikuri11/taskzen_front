@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 
 import { Footer } from '@/components/base/Footer'
 import { Header } from '@/components/base/Header'
+import { RecoilProvider } from '@/recoil/Provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,7 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body className={inter.className}>
         <Header />
-        {children}
+          <RecoilProvider>
+            {children}
+          </RecoilProvider>
         <Footer />
       </body>
     </html>

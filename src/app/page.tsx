@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { PurpleButton } from '@/components/ui/PurpleButton'
+import { PurpleButton } from '@/components/ui/Button/PurpleButton'
+import { LoginModal } from '@/components/ui/Modal/LoginModal'
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         >
           学んでみる
         </Link>
+        <LoginModal />
       </div>
     </div>
   )
