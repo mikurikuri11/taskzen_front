@@ -1,14 +1,17 @@
 "use client";
 
 import { Dialog, Transition } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 
 import { FC, Fragment, useState } from 'react'
 
-export const LoginModal: FC = () => {
-  const [open, setOpen] = useState(true)
+type Props = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
 
+export const LoginModal: FC<Props> = (props) => {
+  const { open, setOpen } = props;
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
