@@ -1,6 +1,5 @@
 'use client'
 
-
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
@@ -13,9 +12,9 @@ import { LoginModal } from '../ui/Modal/LoginModal'
 import { showFoodModalAtom } from '@/recoil/atoms/showLoginModalAtom';
 
 const navigation = [
-  { name: 'Docs', href: '#' },
-  { name: 'Todos', href: '#' },
-  { name: 'Report', href: '#' },
+  { name: 'Docs', href: '/' },
+  { name: 'Todos', href: '/' },
+  { name: 'Report', href: '/' },
 ]
 
 export const Header: FC = () => {

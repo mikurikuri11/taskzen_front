@@ -53,14 +53,14 @@ export const LoginModal: FC<Props> = (props) => {
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
                         <Link
-                          href="/test"
+                          href="/todos"
                           className='text-indigo-600 hover:text-indigo-500'
                         >
                         利用規約
                         </Link>
                         、
                         <Link
-                          href="/test"
+                          href="/todos"
                           className='text-indigo-600 hover:text-indigo-500'
                         >
                           プライバシーポリシー
