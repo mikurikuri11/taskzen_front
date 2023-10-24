@@ -54,10 +54,18 @@ export const LoginModal: FC<Props> = (props) => {
                       <p className="text-sm text-gray-500">
                         <Link
                           href="/test"
+                          className='text-indigo-600 hover:text-indigo-500'
                         >
                         利用規約
                         </Link>
-                        、プライバシーポリシーに同意した上でログインしてください。
+                        、
+                        <Link
+                          href="/test"
+                          className='text-indigo-600 hover:text-indigo-500'
+                        >
+                          プライバシーポリシー
+                        </Link>
+                        に同意した上でログインしてください。
                       </p>
                     </div>
                   </div>
