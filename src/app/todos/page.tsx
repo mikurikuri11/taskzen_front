@@ -61,7 +61,7 @@ const activityItems = [
   },
 ]
 
-const page = () => {
+export default function Home() {
   return (
     <>
       <ul role="list" className="divide-y divide-white/5">
@@ -85,5 +85,3 @@ const page = () => {
     </>
   )
 }
-
-export default page
