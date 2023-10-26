@@ -14,9 +14,9 @@ import { LoginModal } from '../ui/Modal/LoginModal'
 import { showFoodModalAtom } from '@/recoil/atoms/showLoginModalAtom';
 
 const navigation = [
-  { name: 'Docs', href: '/' },
+  { name: 'ドキュメント', href: '/' },
   { name: 'Todos', href: '/' },
-  { name: 'Report', href: '/' },
+  { name: 'レポート', href: '/' },
 ]
 
 export const Header: FC = () => {
