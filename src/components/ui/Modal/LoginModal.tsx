@@ -2,8 +2,11 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 import { FC, Fragment, useState } from 'react'
+import { LoginButton } from '../Button/LoginButton';
+import { LogoutButton } from '../Button/LogoutButton';
 
 type Props = {
   open: boolean;
@@ -12,6 +15,8 @@ type Props = {
 
 export const LoginModal: FC<Props> = (props) => {
   const { open, setOpen } = props;
+  const { data: session, status } = useSession();
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -40,13 +45,11 @@ export const LoginModal: FC<Props> = (props) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                 <div className="mt-5 sm:mt-6">
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={() => setOpen(false)}
-                  >
-                    Login With Google
-                  </button>
+                  {status !== 'authenticated' ? (
+                  <LoginButton/>
+                  ) : (
+                  <LogoutButton/>
+                    )}
                 </div>
                 <div>
                   <div className="mt-3 text-center sm:mt-5">

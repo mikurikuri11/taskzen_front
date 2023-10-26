@@ -1,14 +1,17 @@
 "use client";
 
 import Link from 'next/link'
+import { useSession } from 'next-auth/react';
 import { useRecoilState } from 'recoil'
 
+import { LogoutButton } from '@/components/ui/Button/LogoutButton';
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
 import { LoginModal } from '@/components/ui/Modal/LoginModal'
 import { showFoodModalAtom } from '@/recoil/atoms/showLoginModalAtom';
 
 export default function Home() {
   const [ showFoodModal, setShowFoodModal ] = useRecoilState(showFoodModalAtom);
+  const { data: session, status } = useSession();
 
   const openModal = () => {
     setShowFoodModal(true);
@@ -20,11 +23,15 @@ export default function Home() {
         あなたの日々の生活に７つの習慣を取り入れてみましょう。きっと生活が豊かになります。
       </div>
       <div className='flex'>
-        <PurpleButton
-          onClick={openModal}
-        >
-          Log in
-        </PurpleButton>
+        {status !== 'authenticated' ? (
+          <PurpleButton
+            onClick={openModal}
+          >
+            ログイン
+          </PurpleButton>
+        ) : (
+          <LogoutButton />
+        )}
         <Link
           href='/'
           passHref
