@@ -4,23 +4,25 @@ import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSession, signOut } from 'next-auth/react'
 
 import { FC, useState } from 'react'
+import { BiLogIn, BiLogOut } from 'react-icons/bi'
 
 import { useRecoilState } from 'recoil'
 import { LoginModal } from '../ui/Modal/LoginModal'
 import { showFoodModalAtom } from '@/recoil/atoms/showLoginModalAtom';
 
 const navigation = [
-  { name: 'Docs', href: '/' },
+  { name: 'ドキュメント', href: '/' },
   { name: 'Todos', href: '/' },
-  { name: 'Report', href: '/' },
+  { name: 'レポート', href: '/' },
 ]
 
 export const Header: FC = () => {
   const [ mobileMenuOpen, setMobileMenuOpen ] = useState(false)
-
   const [ showFoodModal, setShowFoodModal ] = useRecoilState(showFoodModalAtom);
+  const { data: session, status } = useSession();
 
   const openModal = () => {
     setShowFoodModal(true);
@@ -60,12 +62,21 @@ export const Header: FC = () => {
             ))}
           </div>
           <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-            <div
-              className='text-sm font-semibold leading-6 text-white'
-              onClick={openModal}
-              >
-              Log in <span aria-hidden='true'>&rarr;</span>
-            </div>
+              {status !== 'authenticated' ? (
+                <div
+                  className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
+                  onClick={openModal}
+                >
+                  ログイン <BiLogIn className='ml-2'/>
+                </div>
+                ) : (
+                <div
+                  className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
+                  onClick={() => signOut()}
+                >
+                  ログアウト <BiLogOut className='ml-2' />
+                </div>
+              )}
           </div>
         </nav>
         <Dialog as='div' className='lg:hidden' open={mobileMenuOpen} onClose={setMobileMenuOpen}>
