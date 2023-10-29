@@ -3,7 +3,9 @@ export type Todo = {
   userId: number;
   title: string;
   description: string;
-  dueDate: Date;
+  dueDate: string;
   completed: boolean;
   zone: number;
+  createdAt: string;
+  updatedAt: string;
 };
