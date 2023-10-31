@@ -5,7 +5,7 @@ export interface SessionInfo {
   email: string;
 }
 
-export const getServerSessionInfo = async (): Promise<SessionInfo | null> => {
+export const useGetServerSession = async (): Promise<SessionInfo | null> => {
   const session: Session | null = await getServerSession();
   if (!session) return null;
   return {
