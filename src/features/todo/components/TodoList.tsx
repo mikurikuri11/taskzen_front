@@ -14,11 +14,11 @@ interface TodoListProps {
   todos: Todo[];
 }
 
-export const TodoList: FC<TodoListProps> = async ({ todos }) => {
+export const TodoList: FC<TodoListProps> = ({ todos }) => {
 
-  const sessionInfo: SessionInfo | null = await useGetServerSession();
-  console.log("sessionInfo", sessionInfo?.name);
-  console.log("sessionInfo", sessionInfo?.email);
+  // const sessionInfo: SessionInfo | null = await useGetServerSession();
+  // console.log("sessionInfo", sessionInfo?.name);
+  // console.log("sessionInfo", sessionInfo?.email);
 
   return (
     <>
@@ -32,7 +32,7 @@ export const TodoList: FC<TodoListProps> = async ({ todos }) => {
           <TodoCard key={todo.id} todo={todo} />
         ))}
       </ul>
-      <TodoModalBase />
+      {/* <TodoModalBase /> */}
     </>
     )
 }
