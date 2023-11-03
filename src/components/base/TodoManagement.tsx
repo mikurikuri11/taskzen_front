@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, FC } from 'react'
-import { useRecoilState } from 'recoil'
 
 import { useSelectTodo } from '../../features/todo/hooks/useSelectTodo'
 
@@ -11,17 +10,15 @@ import { Todo } from '@/features/todo/api/types/index'
 
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
-import { showTodoModalAtom } from '@/recoil/atoms/showTodoModalAtom'
 
 interface TodoListProps {
   todos: Todo[]
 }
 
 export const TodoManagement: FC<TodoListProps> = ({ todos }) => {
-  const [showLoginModal, setShowLoginModal] = useRecoilState(showTodoModalAtom)
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
-  const { selectedTodo, onSelectTodo } = useSelectTodo();
+  const { selectedTodo, onSelectTodo } = useSelectTodo()
 
   // const sessionInfo: SessionInfo | null = await useGetServerSession();
   // console.log("sessionInfo", sessionInfo?.name);
@@ -35,7 +32,7 @@ export const TodoManagement: FC<TodoListProps> = ({ todos }) => {
     <>
       <div className='mx-auto max-w-screen-md flex justify-between my-8'>
         <h1 className='text-white text-2xl font-bold mt-4'>Todo Matrix</h1>
-        <PurpleButton onClick={openSidebar}>Add Todo</PurpleButton>
+        <PurpleButton onClick={openSidebar}>Open Sidebar</PurpleButton>
       </div>
       <div className='mx-auto max-w-screen-md flex justify-between my-8'>
         <TodoMatrix todos={todos} />

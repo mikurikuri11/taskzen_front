@@ -1,7 +1,7 @@
 import { Todo } from "./types/index";
 
 export const addTodos = async (todo: Todo): Promise<Todo> => {
-  const response = await fetch(process.env.TODO_INDEX || "", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/todos`, {
     method: "POST",
     body: JSON.stringify(todo),
     headers: {

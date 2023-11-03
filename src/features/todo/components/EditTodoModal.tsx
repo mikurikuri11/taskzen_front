@@ -7,12 +7,13 @@ import { FC, Fragment, useState } from 'react'
 import { Todo } from '../api/types';
 
 type Props = {
+  todo: Todo | null;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export const CreateTodoModal: FC<Props> = (props) => {
-  const { open, setOpen } = props;
+export const EditTodoModal: FC<Props> = (props) => {
+  const { todo, open, setOpen } = props;
   const { data: session, status } = useSession();
 
   return (
@@ -53,6 +54,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                     </label>
                     <div className="mt-2">
                       <input
+                        defaultValue={todo?.title}
                         id="title"
                         name="title"
                         type="text"
@@ -67,6 +69,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                       完了済み
                     </label>
                     <input
+                      defaultChecked={todo?.completed}
                       type="checkbox"
                       id="area"
                       name="area"
@@ -81,16 +84,16 @@ export const CreateTodoModal: FC<Props> = (props) => {
                     </label>
                     <div className="mt-2">
                       <select
+                        defaultValue={todo?.zone}
                         id="area"
                         name="area"
                         autoComplete="area"
                         className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                       >
-                        <option value="1">未設定</option>
-                        <option value="2">第1領域</option>
-                        <option value="3">第2領域</option>
-                        <option value="4">第3領域</option>
-                        <option value="5">第4領域</option>
+                        <option value="1">第1領域</option>
+                        <option value="2">第2領域</option>
+                        <option value="3">第3領域</option>
+                        <option value="4">第4領域</option>
                       </select>
                     </div>
                   </div>
@@ -101,6 +104,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                     </label>
                     <div className="mt-2">
                       <input
+                        defaultValue={todo?.dueDate}
                         id="date"
                         name="date"
                         type="date"
@@ -116,6 +120,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                     </label>
                     <div className="mt-2">
                       <textarea
+                        defaultValue={todo?.description}
                         name="details"
                         id="details"
                         autoComplete="details"
