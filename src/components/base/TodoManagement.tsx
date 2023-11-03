@@ -9,6 +9,7 @@ import { Sidebar } from '@/components/base/Sidebar'
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
 import { Todo } from '@/features/todo/api/types/index'
 
+import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
 import { showTodoModalAtom } from '@/recoil/atoms/showTodoModalAtom'
 
@@ -35,8 +36,11 @@ export const TodoManagement: FC<TodoListProps> = ({ todos }) => {
         <PurpleButton
           onClick={openSidebar}
         >
-          Open Sidebar
+          Add Todo
         </PurpleButton>
+      </div>
+      <div className='mx-auto max-w-screen-md flex justify-between my-8'>
+        <TodoMatrix todos={todos} />
       </div>
       <Sidebar
         todos={todos}
