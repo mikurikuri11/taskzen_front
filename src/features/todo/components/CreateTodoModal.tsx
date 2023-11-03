@@ -69,7 +69,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                       Complete
                     </label>
                     <input
-                      checked={todo?.completed}
+                      defaultChecked={todo?.completed}
                       type="checkbox"
                       id="area"
                       name="area"
