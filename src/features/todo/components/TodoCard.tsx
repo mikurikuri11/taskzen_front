@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Todo } from "../api/types";
+import { Fragment, useState, FC } from 'react'
+
 import { TodoCardProps } from "./types";
 
 export const TodoCard: FC<TodoCardProps> = (props) => {
@@ -23,20 +23,31 @@ export const TodoCard: FC<TodoCardProps> = (props) => {
   //   }
   // }
 
-  const { id, todo, openModal } = props;
+  const { todo, id, openModal } = props;
 
   return (
-    <li
-      key={todo.title}
-      className="py-4"
-    >
-      <div className="flex todos-center gap-x-3">
-        <h3
-          className="flex-auto truncate text-sm font-semibold leading-6 text-white cursor-pointer"
-          onClick={() => openModal(id)}
-        >
-          {todo.title}
-        </h3>
+    <li>
+      <div className="group relative flex items-center px-5 py-6">
+        <div className="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true" />
+        <div className="relative flex min-w-0 flex-1 items-center">
+          <span className="relative inline-block flex-shrink-0">
+            <input
+              type="checkbox"
+              id="area"
+              name="area"
+              autoComplete="area"
+              className="mt-2 h-5 w-5 rounded border-0 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
+            />
+          </span>
+          <div className="ml-4 truncate">
+            <p
+              className="cursor-pointer truncate text-sm font-medium text-gray-900"
+              onClick={() => openModal(id)}
+            >
+              {todo.title}
+            </p>
+          </div>
+        </div>
       </div>
     </li>
   )

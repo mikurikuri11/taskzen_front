@@ -54,7 +54,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                     </label>
                     <div className="mt-2">
                       <input
-                        value={todo?.title}
+                        defaultValue={todo?.title}
                         id="title"
                         name="title"
                         type="text"
@@ -84,7 +84,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                     </label>
                     <div className="mt-2">
                       <select
-                        value={todo?.zone}
+                        defaultValue={todo?.zone}
                         id="area"
                         name="area"
                         autoComplete="area"
@@ -104,7 +104,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                     </label>
                     <div className="mt-2">
                       <input
-                        value={todo?.dueDate}
+                        defaultValue={todo?.dueDate}
                         id="date"
                         name="date"
                         type="date"
@@ -120,7 +120,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                     </label>
                     <div className="mt-2">
                       <textarea
-                        value={todo?.description}
+                        defaultValue={todo?.description}
                         name="details"
                         id="details"
                         autoComplete="details"
