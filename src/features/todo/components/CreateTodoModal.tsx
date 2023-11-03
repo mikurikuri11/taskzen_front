@@ -1,18 +1,19 @@
 "use client";
 
 import { Dialog, Transition } from '@headlessui/react'
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 
 import { FC, Fragment, useState } from 'react'
+import { Todo } from '../api/types';
 
 type Props = {
+  todo?: Todo | null;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
 export const CreateTodoModal: FC<Props> = (props) => {
-  const { open, setOpen } = props;
+  const { todo, open, setOpen } = props;
   const { data: session, status } = useSession();
 
   return (
@@ -45,13 +46,15 @@ export const CreateTodoModal: FC<Props> = (props) => {
                 <div className="mt-5 sm:mt-6">
                 </div>
 
-                <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2 mx-6">
-                  <div className="sm:col-span-4">
+                <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2 mx-8">
+
+                  <div className="sm:col-span-6">
                     <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
                       タイトル
                     </label>
                     <div className="mt-2">
                       <input
+                        value={todo?.title}
                         id="title"
                         name="title"
                         type="text"
@@ -62,11 +65,46 @@ export const CreateTodoModal: FC<Props> = (props) => {
                   </div>
 
                   <div className="sm:col-span-4">
+                    <label htmlFor="area" className="block text-sm font-medium leading-6 text-gray-900">
+                      Complete
+                    </label>
+                    <input
+                      checked={todo?.completed}
+                      type="checkbox"
+                      id="area"
+                      name="area"
+                      autoComplete="area"
+                      className="mt-2 h-5 w-5 rounded border-0 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-4">
+                    <label htmlFor="area" className="block text-sm font-medium leading-6 text-gray-900">
+                      領域
+                    </label>
+                    <div className="mt-2">
+                      <select
+                        value={todo?.zone}
+                        id="area"
+                        name="area"
+                        autoComplete="area"
+                        className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                      >
+                        <option value="1">第1領域</option>
+                        <option value="2">第2領域</option>
+                        <option value="3">第3領域</option>
+                        <option value="4">第4領域</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-4">
                     <label htmlFor="date" className="block text-sm font-medium leading-6 text-gray-900">
                       日付
                     </label>
                     <div className="mt-2">
                       <input
+                        value={todo?.dueDate}
                         id="date"
                         name="date"
                         type="date"
@@ -76,31 +114,13 @@ export const CreateTodoModal: FC<Props> = (props) => {
                     </div>
                   </div>
 
-                  <div className="sm:col-span-3">
-                    <label htmlFor="area" className="block text-sm font-medium leading-6 text-gray-900">
-                      領域
-                    </label>
-                    <div className="mt-2">
-                      <select
-                        id="area"
-                        name="area"
-                        autoComplete="area"
-                        className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      >
-                        <option>第1領域</option>
-                        <option>第2領域</option>
-                        <option>第3領域</option>
-                        <option>第4領域</option>
-                      </select>
-                    </div>
-                  </div>
-
                   <div className="col-span-full">
                     <label htmlFor="details" className="block text-sm font-medium leading-6 text-gray-900">
                       詳細
                     </label>
                     <div className="mt-2">
                       <textarea
+                        value={todo?.description}
                         name="details"
                         id="details"
                         autoComplete="details"
