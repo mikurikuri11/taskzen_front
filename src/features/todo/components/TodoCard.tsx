@@ -23,19 +23,21 @@ export const TodoCard: FC<TodoCardProps> = (props) => {
   //   }
   // }
 
-  const todo: Todo = props.todo;
+  const { id, todo, openModal } = props;
 
   return (
-    <li key={todo.title} className="py-4">
+    <li
+      key={todo.title}
+      className="py-4"
+    >
       <div className="flex todos-center gap-x-3">
-        <h3 className="flex-auto truncate text-sm font-semibold leading-6 text-white">{todo.title}</h3>
-        <time className="flex-none text-xs text-gray-500">
-          日付：{todo.createdAt}
-        </time>
+        <h3
+          className="flex-auto truncate text-sm font-semibold leading-6 text-white cursor-pointer"
+          onClick={() => openModal(id)}
+        >
+          {todo.title}
+        </h3>
       </div>
-      <p className="mt-3 truncate text-sm text-gray-500">
-        {todo.description}
-      </p>
     </li>
   )
 }
