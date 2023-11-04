@@ -6,7 +6,7 @@ import { useSelectTodo } from '../../features/todo/hooks/useSelectTodo'
 
 import { Sidebar } from '@/components/base/Sidebar'
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
-import { Todo } from '@/features/todo/api/types/index'
+import { Todo, User } from '@/features/todo/api/types/index'
 
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
@@ -15,7 +15,9 @@ interface TodoListProps {
   todos: Todo[]
 }
 
-export const TodoManagement: FC<TodoListProps> = ({ todos }) => {
+export const TodoManagement: FC<TodoListProps> = (props) => {
+  const { todos } = props
+
   const [open, setOpen] = useState(false)
 
   const { selectedTodo, onSelectTodo } = useSelectTodo()

@@ -4,8 +4,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react';
 
 import { FC, Fragment, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, set } from 'react-hook-form';
 import { addTodos } from '../api/addTodos';
+import { getUserId } from '../api/getUserId';
 import { Todo } from '../api/types';
 import { PurpleCreateButton } from '@/components/ui/Button/CreatePurpleButton';
 
@@ -20,9 +21,12 @@ export const CreateTodoModal: FC<Props> = (props) => {
   const { data: session, status } = useSession();
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
-    console.log(data);
-    console.log(session);
-    // addTodos(data);
+    const user = session?.user;
+    if (user) {
+      const userId = await getUserId({ uuid: user.id });
+      addTodos({ todo: data, userId: userId });
+      window.location.reload();
+    }
   };
 
   return (
