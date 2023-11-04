@@ -38,6 +38,13 @@ const handler = NextAuth({
 				return false;
 			}
 		},
+		session: ({ session, token }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: token.sub,
+      },
+    }),
 	},
 });
 export { handler as GET, handler as POST };
