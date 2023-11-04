@@ -1,13 +1,13 @@
 export type Todo = {
   id: number;
-  userId: number;
+  user_id: number;
   title: string;
   description: string;
-  dueDate: string;
+  due_date: string;
   completed: boolean;
   zone: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 };
 
 export type User = {
