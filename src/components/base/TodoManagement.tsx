@@ -1,26 +1,55 @@
 'use client'
 
-import { useState, FC } from 'react'
+import { useSession } from 'next-auth/react'
+import { useState, FC, useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 
 import { useSelectTodo } from '../../features/todo/hooks/useSelectTodo'
 
 import { Sidebar } from '@/components/base/Sidebar'
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
+import { getUserId } from '@/features/todo/api/getUserId'
 import { Todo, User } from '@/features/todo/api/types/index'
 
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
+import { loginUserAtom } from '@/recoil/atoms/loginUserAtom'
+import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 interface TodoListProps {
-  todos: Todo[]
+  todoArray: Todo[]
 }
 
 export const TodoManagement: FC<TodoListProps> = (props) => {
-  const { todos } = props
-
   const [open, setOpen] = useState(false)
-
   const { selectedTodo, onSelectTodo } = useSelectTodo()
+
+  const { todoArray } = props
+  const [todos, setTodos] = useRecoilState(TodoAtom)
+  const [loginUser, setLoginUser] = useRecoilState(loginUserAtom)
+  const { data: session, status } = useSession()
+
+  useEffect(() => {
+    const user = session?.user
+    console.log('user', user)
+    const setLoginUserAsync = async () => {
+      if (user) {
+        const userId = await getUserId({ uuid: user.id })
+        setLoginUser(userId)
+      }
+    }
+    setLoginUserAsync()
+  }, [session, setLoginUser])
+
+  useEffect(() => {
+    const userTodoArray = todoArray.filter(function (todo) {
+      return todo.user_id === loginUser
+    })
+    setTodos(userTodoArray)
+  }, [session, setLoginUser, todoArray, loginUser])
+
+  console.log(  'loginUser', loginUser)
+  console.log(  'todos', todos)
 
   // const sessionInfo: SessionInfo | null = await useGetServerSession();
   // console.log("sessionInfo", sessionInfo?.name);

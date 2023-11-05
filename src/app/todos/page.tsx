@@ -7,5 +7,5 @@ export default async function Home() {
   const sessionInfo: SessionInfo | null = await useGetServerSession()
   const todos = await getTodos();
 
-  return <>{sessionInfo ? <TodoManagement todos={todos} /> : <div>アクセスできません</div>}</>
+  return <>{sessionInfo ? <TodoManagement todoArray={todos} /> : <div>アクセスできません</div>}</>
 }

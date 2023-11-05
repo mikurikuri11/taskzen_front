@@ -22,6 +22,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<Todo>()
+
   const { data: session, status } = useSession()
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
