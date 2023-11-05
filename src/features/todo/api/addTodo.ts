@@ -5,7 +5,7 @@ type Props = {
   userId: string;
 }
 
-export const addTodos = async (props: Props): Promise<Todo> => {
+export const addTodo = async (props: Props): Promise<Todo> => {
   const { todo, userId } = props;
   const newTodo = {
     ...todo,
