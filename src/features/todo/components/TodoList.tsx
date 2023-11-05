@@ -29,7 +29,11 @@ export const TodoList: FC<TodoListProps> = (props) => {
   return (
     <>
       <ul role='list' className='flex-1 divide-y divide-gray-200 overflow-y-auto'>
-        {todos.map((todo) => (
+        {/* {todos.map((todo) => (
+          <TodoCard key={todo.id} id={todo.id} todo={todo} openModal={openModal} />
+        ))} */}
+        {todos.filter((todo) => !todo.completed).map((todo) => (
+          console.log('filetedTodo', todo),
           <TodoCard key={todo.id} id={todo.id} todo={todo} openModal={openModal} />
         ))}
       </ul>

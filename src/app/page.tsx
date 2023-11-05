@@ -2,16 +2,32 @@
 
 import Link from 'next/link'
 import { useSession } from 'next-auth/react';
-import { useRecoilState } from 'recoil'
+import { useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { LogoutButton } from '@/components/ui/Button/LogoutButton';
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
 import { LoginModal } from '@/components/ui/Modal/LoginModal'
+import { getUserId } from '@/features/todo/api/getUserId';
+import { loginUserIdAtom } from '@/recoil/atoms/loginUserIdAtom'
 import { showFoodModalAtom } from '@/recoil/atoms/showLoginModalAtom';
 
 export default function Home() {
+  const setLoginUserId = useSetRecoilState(loginUserIdAtom);
+
   const [ showFoodModal, setShowFoodModal ] = useRecoilState(showFoodModalAtom);
   const { data: session, status } = useSession();
+
+  useEffect(() => {
+    const user = session?.user;
+    const setUserId = async () => {
+      if (user) {
+        const userId = await getUserId({ uuid: user.id });
+        setLoginUserId({ id: userId });
+      }
+    };
+    setUserId();
+  }, [session, status]);
 
   const openModal = () => {
     setShowFoodModal(true);

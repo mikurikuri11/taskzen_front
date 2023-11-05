@@ -2,54 +2,42 @@
 
 import { useSession } from 'next-auth/react'
 import { useState, FC, useEffect } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { useSelectTodo } from '../../features/todo/hooks/useSelectTodo'
 
 import { Sidebar } from '@/components/base/Sidebar'
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
+import { getTodos } from '@/features/todo/api/getTodos'
 import { getUserId } from '@/features/todo/api/getUserId'
 import { Todo, User } from '@/features/todo/api/types/index'
 
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
-import { loginUserAtom } from '@/recoil/atoms/loginUserAtom'
+import { loginUserIdAtom } from '@/recoil/atoms/loginUserIdAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
-interface TodoListProps {
-  todoArray: Todo[]
-}
-
-export const TodoManagement: FC<TodoListProps> = (props) => {
+export const TodoManagement: FC = () => {
   const [open, setOpen] = useState(false)
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
-  const { todoArray } = props
   const [todos, setTodos] = useRecoilState(TodoAtom)
-  const [loginUser, setLoginUser] = useRecoilState(loginUserAtom)
+  const loginUserId = useRecoilValue(loginUserIdAtom)
   const { data: session, status } = useSession()
 
   useEffect(() => {
-    const user = session?.user
-    console.log('user', user)
-    const setLoginUserAsync = async () => {
-      if (user) {
-        const userId = await getUserId({ uuid: user.id })
-        setLoginUser(userId)
+    const getTodosAsync = async () => {
+      if (loginUserId) {
+        const todos = await getTodos(loginUserId);
+        console.log("todos", todos);
+        setTodos(todos);
       }
-    }
-    setLoginUserAsync()
-  }, [session, setLoginUser])
+    };
+    getTodosAsync();
+  }, [loginUserId]);
 
-  useEffect(() => {
-    const userTodoArray = todoArray.filter(function (todo) {
-      return todo.user_id === loginUser
-    })
-    setTodos(userTodoArray)
-  }, [session, setLoginUser, todoArray, loginUser])
-
-  console.log(  'loginUser', loginUser)
-  console.log(  'todos', todos)
+  console.log("loginuser", loginUserId);
+  console.log("todos", todos);
 
   // const sessionInfo: SessionInfo | null = await useGetServerSession();
   // console.log("sessionInfo", sessionInfo?.name);
@@ -66,9 +54,9 @@ export const TodoManagement: FC<TodoListProps> = (props) => {
         <PurpleButton onClick={openSidebar}>Open Sidebar</PurpleButton>
       </div>
       <div className='mx-auto max-w-screen-md flex justify-between my-8'>
-        <TodoMatrix todos={todos} />
+        {/* <TodoMatrix todos={todos} /> */}
       </div>
-      <Sidebar todos={todos} open={open} setOpen={setOpen} />
+      {/* <Sidebar todos={todos} open={open} setOpen={setOpen} /> */}
     </>
   )
 }

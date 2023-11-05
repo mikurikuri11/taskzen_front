@@ -5,7 +5,7 @@ import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
 
 export default async function Home() {
   const sessionInfo: SessionInfo | null = await useGetServerSession()
-  const todos = await getTodos();
+  // const todos = await getTodos();
 
-  return <>{sessionInfo ? <TodoManagement todoArray={todos} /> : <div>アクセスできません</div>}</>
+  return <>{sessionInfo ? <TodoManagement /> : <div>アクセスできません</div>}</>
 }
