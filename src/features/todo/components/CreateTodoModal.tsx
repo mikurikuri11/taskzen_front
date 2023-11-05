@@ -8,7 +8,7 @@ import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { addTodo } from '../api/addTodo'
 import { getUserId } from '../api/getUserId'
 import { Todo } from '../api/types'
-import { PurpleCreateButton } from '@/components/ui/Button/CreatePurpleButton'
+import { PurpleCreateButton } from '@/components/ui/Button/PurpleCreateButton'
 
 type Props = {
   open: boolean
