@@ -1,23 +1,24 @@
 'use client'
 
-import { FC } from 'react'
+import { FC, useState, useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 
-import { Todo } from '@/features/todo/api/types/index'
+import { incompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom';
 
-interface TodoListProps {
-  todos: Todo[]
-}
+export const TodoMatrix: FC = () => {
+  const [incompletedTodos, setIncompletedTodos] = useRecoilState(incompletedTodoAtom);
 
-export const TodoMatrix: FC<TodoListProps> = (props) => {
-  const { todos } = props;
+  const [todosByOne, setTodosByOne] = useState(incompletedTodos.filter(todo => todo.zone === 1));
+  const [todosByTwo, setTodosByTwo] = useState(incompletedTodos.filter(todo => todo.zone === 2));
+  const [todosByThree, setTodosByThree] = useState(incompletedTodos.filter(todo => todo.zone === 3));
+  const [todosByFour, setTodosByFour] = useState(incompletedTodos.filter(todo => todo.zone === 4));
 
-  const todosByOne = todos.filter(todo => todo.zone === 1);
-
-  const todosByTwo = todos.filter(todo => todo.zone === 2);
-
-  const todosByThree = todos.filter(todo => todo.zone === 3);
-
-  const todosByFour = todos.filter(todo => todo.zone === 4);
+  useEffect(() => {
+    setTodosByOne(incompletedTodos.filter(todo => todo.zone === 1));
+    setTodosByTwo(incompletedTodos.filter(todo => todo.zone === 2));
+    setTodosByThree(incompletedTodos.filter(todo => todo.zone === 3));
+    setTodosByFour(incompletedTodos.filter(todo => todo.zone === 4));
+  }, [incompletedTodos]);
 
   return (
     <div className="mt-4 divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
@@ -117,4 +118,5 @@ export const TodoMatrix: FC<TodoListProps> = (props) => {
         </div>
     </div>
   )
+
 }

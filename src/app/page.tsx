@@ -7,14 +7,14 @@ import { useRecoilState } from 'recoil'
 import { LogoutButton } from '@/components/ui/Button/LogoutButton';
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
 import { LoginModal } from '@/components/ui/Modal/LoginModal'
-import { showFoodModalAtom } from '@/recoil/atoms/showLoginModalAtom';
+import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom';
 
 export default function Home() {
-  const [ showFoodModal, setShowFoodModal ] = useRecoilState(showFoodModalAtom);
+  const [ showLoginModal, setShowLoginModal ] = useRecoilState(showLoginModalAtom);
   const { data: session, status } = useSession();
 
   const openModal = () => {
-    setShowFoodModal(true);
+    setShowLoginModal(true);
   };
 
   return (
@@ -39,7 +39,7 @@ export default function Home() {
         >
           学んでみる
         </Link>
-        <LoginModal open={showFoodModal} setOpen={setShowFoodModal} />
+        <LoginModal open={showLoginModal} setOpen={setShowLoginModal} />
       </div>
     </div>
   )

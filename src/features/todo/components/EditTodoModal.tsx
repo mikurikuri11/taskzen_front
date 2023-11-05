@@ -25,9 +25,8 @@ export const EditTodoModal: FC<Props> = (props) => {
   } = useForm<Todo>()
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
-    console.log('data', data)
     await editTodo({ updatedTodo: data, id: todo?.id })
-    window.location.reload()
+    window.location.reload();
   }
 
   const handleDelete = async (id: number) => {
@@ -153,7 +152,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         />
                       </div>
                       <div className='col-span-full flex gap-4'>
-                        <PurpleCreateButton onClick={() => setOpen(false)}>編集</PurpleCreateButton>
+                        <PurpleCreateButton onClick={() => setOpen(false)}>更新</PurpleCreateButton>
                         <RedDeleteButton onClick={() => handleDelete(todo.id)}>削除</RedDeleteButton>
                       </div>
                     </div>

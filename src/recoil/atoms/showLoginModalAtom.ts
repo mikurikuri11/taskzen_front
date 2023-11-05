@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { atom, RecoilState } from 'recoil';
 
-export const showFoodModalAtom: RecoilState<boolean> = atom({
-  key: 'showFoodModal',
+export const showLoginModalAtom: RecoilState<boolean> = atom({
+  key: 'showLoginModal',
   default: false,
 });

@@ -1,30 +1,51 @@
 'use client'
 
-import { useState, FC } from 'react'
+import { useSession } from 'next-auth/react'
+import { useState, FC, useEffect } from 'react'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { useSelectTodo } from '../../features/todo/hooks/useSelectTodo'
 
 import { Sidebar } from '@/components/base/Sidebar'
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
+import { getTodos } from '@/features/todo/api/getTodos'
 import { Todo, User } from '@/features/todo/api/types/index'
 
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
-import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
+import { completedTodoAtom } from '@/recoil/atoms/completedTodoAtom'
+import { incompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
+import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
-interface TodoListProps {
-  todos: Todo[]
-}
 
-export const TodoManagement: FC<TodoListProps> = (props) => {
-  const { todos } = props
-
+export const TodoManagement: FC = () => {
   const [open, setOpen] = useState(false)
-
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
-  // const sessionInfo: SessionInfo | null = await useGetServerSession();
-  // console.log("sessionInfo", sessionInfo?.name);
-  // console.log("sessionInfo", sessionInfo?.email);
+  const [todos, setTodos] = useRecoilState(TodoAtom)
+  const [completedTodos, setCompletedTodos] = useRecoilState(completedTodoAtom)
+  const [incompletedTodos, setIncompletedTodos] = useRecoilState(incompletedTodoAtom)
+  // const setCompletedTodos = useSetRecoilState(TodoAtom)
+  // const setIncompletedTodos = useSetRecoilState(TodoAtom)
+
+  const { data: session, status } = useSession()
+
+  useEffect(() => {
+    const getTodosAsync = async () => {
+      if (status === 'authenticated' && session) {
+        const todos = await getTodos({ id: session.user.id });
+        setTodos(todos);
+      }
+    };
+    getTodosAsync();
+  }, [status, session]);
+
+  useEffect(() => {
+    const incompletedTodos = todos.filter((todo) => !todo.completed);
+    setIncompletedTodos(incompletedTodos);
+
+    const completedTodos = todos.filter((todo) => todo.completed);
+    setCompletedTodos(completedTodos);
+  }, [todos]);
 
   const openSidebar = () => {
     setOpen(true)
@@ -37,9 +58,9 @@ export const TodoManagement: FC<TodoListProps> = (props) => {
         <PurpleButton onClick={openSidebar}>Open Sidebar</PurpleButton>
       </div>
       <div className='mx-auto max-w-screen-md flex justify-between my-8'>
-        <TodoMatrix todos={todos} />
+        <TodoMatrix />
       </div>
-      <Sidebar todos={todos} open={open} setOpen={setOpen} />
+      <Sidebar open={open} setOpen={setOpen} />
     </>
   )
 }

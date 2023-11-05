@@ -4,19 +4,17 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { SmallPurpleButton } from '../ui/Button/SmallPurpleButton';
-import { Todo } from '@/features/todo/api/types';
 import { TodoList } from '@/features/todo/components/TodoList';
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
 
 type SidebarProps = {
-  todos: Array<Todo>
   open: boolean
   setOpen: (open: boolean) => void
 }
 
 export const Sidebar = (props: SidebarProps) => {
   const setShowCreateTodoModal = useSetRecoilState(showCreateTodoModalAtom);
-  const { todos, open, setOpen } = props;
+  const { open, setOpen } = props;
 
   const openModal = () => {
     setShowCreateTodoModal(true);
@@ -60,7 +58,7 @@ export const Sidebar = (props: SidebarProps) => {
                           </nav>
                         </div>
                       </div>
-                      <TodoList todos={todos} />
+                      <TodoList />
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>
