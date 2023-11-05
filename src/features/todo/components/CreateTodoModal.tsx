@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 
 import { FC, Fragment, useState } from 'react'
 import { useForm, SubmitHandler, set } from 'react-hook-form'
-import { addTodos } from '../api/addTodos'
+import { addTodo } from '../api/addTodo'
 import { getUserId } from '../api/getUserId'
 import { Todo } from '../api/types'
 import { PurpleCreateButton } from '@/components/ui/Button/CreatePurpleButton'
@@ -28,7 +28,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
     const user = session?.user
     if (user) {
       const userId = await getUserId({ uuid: user.id })
-      addTodos({ todo: data, userId: userId })
+      addTodo({ todo: data, userId: userId })
       window.location.reload()
     }
   }
