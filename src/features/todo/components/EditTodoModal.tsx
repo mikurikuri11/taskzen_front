@@ -25,9 +25,8 @@ export const EditTodoModal: FC<Props> = (props) => {
   } = useForm<Todo>()
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
-    console.log('data', data)
     await editTodo({ updatedTodo: data, id: todo?.id })
-    window.location.reload()
+    window.location.reload();
   }
 
   const handleDelete = async (id: number) => {

@@ -6,7 +6,6 @@ type Props = {
 
 export const deleteTodo = async (props: Props): Promise<Todo> => {
   const { id } = props;
-  console.log("id" + id);
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/todos/${id}`, {
     method: "DELETE",
   });

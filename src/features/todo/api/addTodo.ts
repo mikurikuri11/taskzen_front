@@ -2,14 +2,14 @@ import { Todo } from "./types/index";
 
 type Props = {
   todo: Todo;
-  userId: string;
+  id: string;
 }
 
 export const addTodo = async (props: Props): Promise<Todo> => {
-  const { todo, userId } = props;
+  const { todo, id } = props;
   const newTodo = {
     ...todo,
-    user_id: userId,
+    uid: id,
   };
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/todos`, {
     method: "POST",

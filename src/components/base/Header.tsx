@@ -11,7 +11,7 @@ import { BiLogIn, BiLogOut } from 'react-icons/bi'
 
 import { useRecoilState } from 'recoil'
 import { LoginModal } from '../ui/Modal/LoginModal'
-import { showFoodModalAtom } from '@/recoil/atoms/showLoginModalAtom';
+import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom';
 
 const navigation = [
   { name: 'ドキュメント', href: '/' },
@@ -21,11 +21,11 @@ const navigation = [
 
 export const Header: FC = () => {
   const [ mobileMenuOpen, setMobileMenuOpen ] = useState(false)
-  const [ showFoodModal, setShowFoodModal ] = useRecoilState(showFoodModalAtom);
+  const [ showLoginModal, setShowLoginModal ] = useRecoilState(showLoginModalAtom);
   const { data: session, status } = useSession();
 
   const openModal = () => {
-    setShowFoodModal(true);
+    setShowLoginModal(true);
   };
 
   return (
@@ -126,7 +126,7 @@ export const Header: FC = () => {
           </Dialog.Panel>
         </Dialog>
       </header>
-      <LoginModal open={showFoodModal} setOpen={setShowFoodModal} />
+      <LoginModal open={showLoginModal} setOpen={setShowLoginModal} />
     </>
 
   )
