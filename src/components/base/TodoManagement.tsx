@@ -36,6 +36,7 @@ export const TodoManagement: FC = () => {
       }
     }
     getTodosAsync()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, session])
 
   useEffect(() => {
@@ -44,6 +45,7 @@ export const TodoManagement: FC = () => {
 
     const completedTodos = todos.filter((todo) => todo.completed)
     setCompletedTodos(completedTodos)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [todos])
 
   const openSidebar = () => {
