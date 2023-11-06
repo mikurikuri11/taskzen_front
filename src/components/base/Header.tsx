@@ -16,7 +16,7 @@ import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom';
 const navigation = [
   { name: 'ドキュメント', href: '/' },
   { name: 'Todos', href: '/todos' },
-  { name: 'レポート', href: '/' },
+  { name: 'レポート', href: '/report' },
 ]
 
 export const Header: FC = () => {
