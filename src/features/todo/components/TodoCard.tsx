@@ -1,29 +1,28 @@
 import { Fragment, useState, FC } from 'react'
 
+import { editTodo } from '../api/editTodo';
 import { TodoCardProps } from "./types";
 
 export const TodoCard: FC<TodoCardProps> = (props) => {
-
-  // TODO: 日付のフォーマットを整えたいが、うまくいかない
-  // const getFormattedDate = (dateStr: Date) => {
-  //   // 日付文字列が無効な場合は "無効な日付です" を返す
-  //   if (!dateStr) {
-  //     return "無効な日付です";
-  //   }
-
-  //   const date = new Date(dateStr);
-
-  //   // 日付が有効な場合のみフォーマットして返す
-  //   if (!isNaN(date.getTime())) {
-  //     // 日付を指定のフォーマットに変換する例
-  //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  //     return date.toLocaleDateString('ja-JP');
-  //   } else {
-  //     return "無効な日付です";
-  //   }
-  // }
-
   const { todo, id, openModal } = props;
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxClick = async () => {
+    setIsChecked(!isChecked);
+
+    try {
+      const updatedTodoData = {
+        ...todo,
+        completed: !isChecked,
+      };
+
+      const updatedTodo = await editTodo({ updatedTodo: updatedTodoData, id });
+    } catch (error) {
+      console.error('Error updating todo:', error);
+    }
+  };
+
+  console.log('isChecked', isChecked);
 
   return (
     <li>
@@ -37,6 +36,8 @@ export const TodoCard: FC<TodoCardProps> = (props) => {
               name="area"
               autoComplete="area"
               className="mt-2 h-5 w-5 rounded border-0 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900"
+              checked={isChecked}
+              onClick={handleCheckboxClick}
             />
           </span>
           <div className="ml-4 truncate">
