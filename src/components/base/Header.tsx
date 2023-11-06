@@ -11,7 +11,7 @@ import { BiLogIn, BiLogOut } from 'react-icons/bi'
 
 import { useRecoilState } from 'recoil'
 import { LoginModal } from '../ui/Modal/LoginModal'
-import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom';
+import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
 const navigation = [
   { name: 'ドキュメント', href: '/' },
@@ -20,13 +20,13 @@ const navigation = [
 ]
 
 export const Header: FC = () => {
-  const [ mobileMenuOpen, setMobileMenuOpen ] = useState(false)
-  const [ showLoginModal, setShowLoginModal ] = useRecoilState(showLoginModalAtom);
-  const { data: session, status } = useSession();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useRecoilState(showLoginModalAtom)
+  const { data: session, status } = useSession()
 
   const openModal = () => {
-    setShowLoginModal(true);
-  };
+    setShowLoginModal(true)
+  }
 
   return (
     <>
@@ -62,21 +62,21 @@ export const Header: FC = () => {
             ))}
           </div>
           <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-              {status !== 'authenticated' ? (
-                <div
-                  className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
-                  onClick={openModal}
-                >
-                  ログイン <BiLogIn className='ml-2'/>
-                </div>
-                ) : (
-                <div
-                  className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
-                  onClick={() => signOut()}
-                >
-                  ログアウト <BiLogOut className='ml-2' />
-                </div>
-              )}
+            {status !== 'authenticated' ? (
+              <div
+                className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
+                onClick={openModal}
+              >
+                ログイン <BiLogIn className='ml-2' />
+              </div>
+            ) : (
+              <div
+                className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
+                onClick={() => signOut()}
+              >
+                ログアウト <BiLogOut className='ml-2' />
+              </div>
+            )}
           </div>
         </nav>
         <Dialog as='div' className='lg:hidden' open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -128,6 +128,5 @@ export const Header: FC = () => {
       </header>
       <LoginModal open={showLoginModal} setOpen={setShowLoginModal} />
     </>
-
   )
 }

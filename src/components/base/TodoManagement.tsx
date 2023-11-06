@@ -16,7 +16,6 @@ import { completedTodoAtom } from '@/recoil/atoms/completedTodoAtom'
 import { incompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
-
 export const TodoManagement: FC = () => {
   const [open, setOpen] = useState(false)
   const { selectedTodo, onSelectTodo } = useSelectTodo()
@@ -32,20 +31,22 @@ export const TodoManagement: FC = () => {
   useEffect(() => {
     const getTodosAsync = async () => {
       if (status === 'authenticated' && session) {
-        const todos = await getTodos({ id: session.user.id });
-        setTodos(todos);
+        const todos = await getTodos({ id: session.user.id })
+        setTodos(todos)
       }
-    };
-    getTodosAsync();
-  }, [status, session]);
+    }
+    getTodosAsync()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, session])
 
   useEffect(() => {
-    const incompletedTodos = todos.filter((todo) => !todo.completed);
-    setIncompletedTodos(incompletedTodos);
+    const incompletedTodos = todos.filter((todo) => !todo.completed)
+    setIncompletedTodos(incompletedTodos)
 
-    const completedTodos = todos.filter((todo) => todo.completed);
-    setCompletedTodos(completedTodos);
-  }, [todos]);
+    const completedTodos = todos.filter((todo) => todo.completed)
+    setCompletedTodos(completedTodos)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todos])
 
   const openSidebar = () => {
     setOpen(true)

@@ -1,14 +1,14 @@
-import { Todo } from "./types/index";
+import { Todo } from './types/index'
 
 type Props = {
-  id: number;
+  id: number
 }
 
 export const deleteTodo = async (props: Props): Promise<Todo> => {
-  const { id } = props;
+  const { id } = props
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/todos/${id}`, {
-    method: "DELETE",
-  });
-  const data = await response.json();
-  return data;
-};
+    method: 'DELETE',
+  })
+  const data = await response.json()
+  return data
+}
