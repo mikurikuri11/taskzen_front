@@ -1,19 +1,19 @@
-import { Todo } from "./types/index";
+import { Todo } from './types/index'
 
 type Props = {
-  updatedTodo: Todo;
-  id: number;
+  updatedTodo: Todo
+  id: number
 }
 
 export const editTodo = async (props: Props): Promise<Todo> => {
-  const { updatedTodo, id } = props;
+  const { updatedTodo, id } = props
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/todos/${id}`, {
-    method: "PUT",
+    method: 'PUT',
     body: JSON.stringify(updatedTodo),
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-  });
-  const data = await response.json();
-  return data;
-};
+  })
+  const data = await response.json()
+  return data
+}

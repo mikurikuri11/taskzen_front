@@ -27,7 +27,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (session?.user?.id) {
       addTodo({ todo: data, id: session.user.id })
-      window.location.reload();
+      window.location.reload()
     }
   }
 

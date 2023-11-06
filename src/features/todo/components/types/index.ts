@@ -1,4 +1,4 @@
-import { Todo } from "@/features/todo/api/types/index";
+import { Todo } from '@/features/todo/api/types/index'
 
 export interface TodoCardProps {
   id: number

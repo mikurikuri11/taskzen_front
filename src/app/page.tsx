@@ -1,21 +1,21 @@
-"use client";
+'use client'
 
 import Link from 'next/link'
-import { useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react'
 import { useRecoilState } from 'recoil'
 
-import { LogoutButton } from '@/components/ui/Button/LogoutButton';
+import { LogoutButton } from '@/components/ui/Button/LogoutButton'
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
 import { LoginModal } from '@/components/ui/Modal/LoginModal'
-import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom';
+import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
 export default function Home() {
-  const [ showLoginModal, setShowLoginModal ] = useRecoilState(showLoginModalAtom);
-  const { data: session, status } = useSession();
+  const [showLoginModal, setShowLoginModal] = useRecoilState(showLoginModalAtom)
+  const { data: session, status } = useSession()
 
   const openModal = () => {
-    setShowLoginModal(true);
-  };
+    setShowLoginModal(true)
+  }
 
   return (
     <div className='h-screen flex flex-col justify-center items-center'>
@@ -24,11 +24,7 @@ export default function Home() {
       </div>
       <div className='flex'>
         {status !== 'authenticated' ? (
-          <PurpleButton
-            onClick={openModal}
-          >
-            ログイン
-          </PurpleButton>
+          <PurpleButton onClick={openModal}>ログイン</PurpleButton>
         ) : (
           <LogoutButton />
         )}

@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 
 import { Footer } from '@/components/base/Footer'
 import { Header } from '@/components/base/Header'
-import NextAuthProvider from '@/providers/NextAuth';
+import NextAuthProvider from '@/providers/NextAuth'
 import { RecoilProvider } from '@/recoil/Provider'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NextAuthProvider>
           <RecoilProvider>
             <Header />
-              {children}
+            {children}
             <Footer />
           </RecoilProvider>
         </NextAuthProvider>
