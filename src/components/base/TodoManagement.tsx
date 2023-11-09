@@ -1,52 +1,19 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
-import { useState, FC, useEffect } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-
-import { useSelectTodo } from '../../features/todo/hooks/useSelectTodo'
+import { useState, FC } from 'react'
 
 import { Sidebar } from '@/components/base/Sidebar'
 import { PurpleButton } from '@/components/ui/Button/PurpleButton'
-import { getTodos } from '@/features/todo/api/getTodos'
-import { Todo, User } from '@/features/todo/api/types/index'
 
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
-import { completedTodoAtom } from '@/recoil/atoms/completedTodoAtom'
-import { incompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
-import { TodoAtom } from '@/recoil/atoms/todoAtom'
+import { useSetTodosForStatus } from '@/features/todo/hooks/useSetTodosForStatus'
+import { useSetTodos } from '@/hooks/useSetTodos'
 
 export const TodoManagement: FC = () => {
   const [open, setOpen] = useState(false)
-  const { selectedTodo, onSelectTodo } = useSelectTodo()
 
-  const [todos, setTodos] = useRecoilState(TodoAtom)
-  const [completedTodos, setCompletedTodos] = useRecoilState(completedTodoAtom)
-  const [incompletedTodos, setIncompletedTodos] = useRecoilState(incompletedTodoAtom)
-  // const setCompletedTodos = useSetRecoilState(TodoAtom)
-  // const setIncompletedTodos = useSetRecoilState(TodoAtom)
-
-  const { data: session, status } = useSession()
-
-  useEffect(() => {
-    const getTodosAsync = async () => {
-      if (status === 'authenticated' && session) {
-        const todos = await getTodos({ id: session.user.id })
-        setTodos(todos)
-      }
-    }
-    getTodosAsync()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, session])
-
-  useEffect(() => {
-    const incompletedTodos = todos.filter((todo) => !todo.completed)
-    setIncompletedTodos(incompletedTodos)
-
-    const completedTodos = todos.filter((todo) => todo.completed)
-    setCompletedTodos(completedTodos)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todos])
+  const todos = useSetTodos()
+  useSetTodosForStatus(todos)
 
   const openSidebar = () => {
     setOpen(true)
