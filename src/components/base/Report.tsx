@@ -12,7 +12,7 @@ export const Report = () => {
   const todoCompleteRate = useGetTodoCompleteRate()
 
   return (
-    <div className='h-screen flex flex-col justify-center items-center'>
+    <div className='h-full flex flex-col items-center justify-center mt-24 gap-4'>
       <div className='text-3xl font-semibold text-white mb-14'>週間レポート</div>
       <div>
         {todoCompleteRate && (
