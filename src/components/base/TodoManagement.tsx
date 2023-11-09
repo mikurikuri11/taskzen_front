@@ -12,8 +12,8 @@ import { useSetTodos } from '@/hooks/useSetTodos'
 export const TodoManagement: FC = () => {
   const [open, setOpen] = useState(false)
 
-  const todos = useSetTodos();
-  useSetTodosForStatus(todos);
+  const todos = useSetTodos()
+  useSetTodosForStatus(todos)
 
   const openSidebar = () => {
     setOpen(true)

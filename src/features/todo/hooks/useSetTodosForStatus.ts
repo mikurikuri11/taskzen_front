@@ -14,7 +14,7 @@ export function useSetTodosForStatus(todos: Todo[]) {
 
     const completedTodos = todos.filter((todo) => todo.completed)
     setCompletedTodos(completedTodos)
-  }, [todos])
+  }, [todos, setCompletedTodos, setIncompletedTodos])
 
   return {
     setCompletedTodos,
