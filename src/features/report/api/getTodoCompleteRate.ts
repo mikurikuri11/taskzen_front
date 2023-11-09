@@ -1,10 +1,8 @@
-import { TodoCompleteRate } from '@/features/todo/api/types/index'
-
 type Props = {
   id: string
 }
 
-export const getTodoCompleteRate = async (props: Props): Promise<TodoCompleteRate> => {
+export const getTodoCompleteRate = async (props: Props) => {
   const { id } = props
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/v1/todos/this_week_completion_rate/${id}`,

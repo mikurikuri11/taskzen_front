@@ -12,13 +12,13 @@ export const useGetTodoCompleteRate = () => {
       try {
         if (status === 'authenticated' && session) {
           const result = await getTodoCompleteRate({ id: session.user.id })
-          setTodoCompleteRate(Math.floor(result.completeRate))
+          console.log('RESULT' + result)
+          setTodoCompleteRate(Math.floor(result))
         }
       } catch (error) {
         console.error('Error fetching data:', error)
       }
     }
-
     fetchData()
   }, [status, session])
 

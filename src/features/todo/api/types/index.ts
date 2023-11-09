@@ -23,7 +23,3 @@ export type User = {
   updated_at: string
   active: boolean
 }
-
-export type TodoCompleteRate = {
-  completeRate: number;
-}
