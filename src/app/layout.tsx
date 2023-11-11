@@ -2,6 +2,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
+import { Suspense } from 'react'
+import Loading from './loading'
 import { Footer } from '@/components/base/Footer'
 import { Header } from '@/components/base/Header'
 import NextAuthProvider from '@/providers/NextAuth'
@@ -21,7 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NextAuthProvider>
           <RecoilProvider>
             <Header />
-            {children}
+              <Suspense fallback={<Loading />}>
+                {children}
+              </Suspense>
             <Footer />
           </RecoilProvider>
         </NextAuthProvider>
