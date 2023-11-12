@@ -2,14 +2,16 @@
 
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession, signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 import { FC, useState } from 'react'
-import { BiLogIn, BiLogOut } from 'react-icons/bi'
+import { BiLogIn } from 'react-icons/bi'
 
 import { useRecoilState } from 'recoil'
+import { FlyoutMenu } from '../ui/Modal/FlyoutMenu'
 import { LoginModal } from '../ui/Modal/LoginModal'
 import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
@@ -61,7 +63,7 @@ export const Header: FC = () => {
               </Link>
             ))}
           </div>
-          <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
+          <div className='hidden lg:flex lg:flex-1 lg:justify-end mr-6'>
             {status !== 'authenticated' ? (
               <div
                 className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
@@ -70,12 +72,7 @@ export const Header: FC = () => {
                 ログイン <BiLogIn className='ml-2' />
               </div>
             ) : (
-              <div
-                className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
-                onClick={() => signOut()}
-              >
-                ログアウト <BiLogOut className='ml-2' />
-              </div>
+              <FlyoutMenu />
             )}
           </div>
         </nav>

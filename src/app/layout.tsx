@@ -23,9 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NextAuthProvider>
           <RecoilProvider>
             <Header />
-              <Suspense fallback={<Loading />}>
-                {children}
-              </Suspense>
+            <Suspense fallback={<Loading />}>{children}</Suspense>
             <Footer />
           </RecoilProvider>
         </NextAuthProvider>
