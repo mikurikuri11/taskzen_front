@@ -7,8 +7,8 @@ import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { deleteTodo } from '../api/deleteTodo'
 import { editTodo } from '../api/editTodo'
 import { Todo } from '../api/types'
-import { PurpleCreateButton } from '@/components/ui/Button/PurpleCreateButton'
 import { RedDeleteButton } from '@/components/ui/Button/RedDeleteButton'
+import { SubmitButton } from '@/components/ui/Button/SubmitButton'
 
 type Props = {
   todo: Todo | null
@@ -153,7 +153,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         />
                       </div>
                       <div className='col-span-full flex gap-4'>
-                        <PurpleCreateButton onClick={() => setOpen(false)}>更新</PurpleCreateButton>
+                        <SubmitButton onClick={() => setOpen(false)}>更新</SubmitButton>
                         <RedDeleteButton onClick={() => todo && handleDelete(todo.id)}>
                           削除
                         </RedDeleteButton>

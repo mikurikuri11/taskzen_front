@@ -63,7 +63,7 @@ export const Header: FC = () => {
               </Link>
             ))}
           </div>
-          <div className='hidden lg:flex lg:flex-1 lg:justify-end mr-6'>
+          <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
             {status !== 'authenticated' ? (
               <div
                 className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'

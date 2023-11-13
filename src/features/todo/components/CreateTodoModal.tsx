@@ -4,10 +4,11 @@ import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react'
 
 import { FC, Fragment, useState } from 'react'
-import { useForm, SubmitHandler, set } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { addTodo } from '../api/addTodo'
 import { Todo } from '../api/types'
 import { PurpleCreateButton } from '@/components/ui/Button/PurpleCreateButton'
+import { SubmitButton } from '@/components/ui/Button/SubmitButton'
 
 type Props = {
   open: boolean
@@ -25,12 +26,9 @@ export const CreateTodoModal: FC<Props> = (props) => {
   const { data: session, status } = useSession()
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
-    console.log('before if')
-    console.log('session' + session?.user.id)
     if (session?.user?.id) {
       console.log('after if')
       addTodo({ todo: data, id: session.user.id })
-      // window.location.reload()
     }
   }
 
@@ -147,7 +145,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                           placeholder='詳細を入力してください'
                         />
                       </div>
-                      <PurpleCreateButton onClick={() => setOpen(false)}>作成</PurpleCreateButton>
+                      <SubmitButton onClick={() => setOpen(false)}>作成</SubmitButton>
                     </div>
                   </div>
                 </Dialog.Panel>
