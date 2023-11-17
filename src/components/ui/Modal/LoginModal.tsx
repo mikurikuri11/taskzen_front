@@ -51,11 +51,11 @@ export const LoginModal: FC<Props> = (props) => {
                   <div className='mt-3 text-center sm:mt-5'>
                     <div className='mt-2'>
                       <p className='text-sm text-gray-500'>
-                        <Link href='/todos' className='text-indigo-600 hover:text-indigo-500'>
+                        <Link href='/terms' className='text-indigo-600 hover:text-indigo-500'>
                           利用規約
                         </Link>
                         、
-                        <Link href='/todos' className='text-indigo-600 hover:text-indigo-500'>
+                        <Link href='/privacy-policy' className='text-indigo-600 hover:text-indigo-500'>
                           プライバシーポリシー
                         </Link>
                         に同意した上でログインしてください。
