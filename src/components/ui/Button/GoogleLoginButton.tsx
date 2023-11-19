@@ -1,6 +1,6 @@
 import { useSession, signIn } from 'next-auth/react'
 
-export const LoginButton = () => {
+export const GoogleLoginButton = () => {
   const { data: session } = useSession()
 
   return (
