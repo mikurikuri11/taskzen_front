@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 
 import { FC, Fragment, useState } from 'react'
-import { LoginButton } from '../Button/LoginButton'
+import { GoogleLoginButton } from '../Button/GoogleLoginButton'
+import { LineLoginButton } from '../Button/LineLoginButton'
 import { LogoutButton } from '../Button/LogoutButton'
 
 type Props = {
@@ -45,7 +46,22 @@ export const LoginModal: FC<Props> = (props) => {
             >
               <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6'>
                 <div className='mt-5 sm:mt-6'>
-                  {status !== 'authenticated' ? <LoginButton /> : <LogoutButton />}
+                  {status !== 'authenticated' ? (
+                    <>
+                      <GoogleLoginButton />
+                      <div className='mt-4'>
+                        <LineLoginButton />
+                      </div>
+                      <div className='mt-3 text-center sm:mt-5'>
+                        <div className='mt-2'>
+                          <p className='text-sm text-red-500'>
+                            ※通知機能を利用するには、LINEアカウントでログインしてください。
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  )
+                  : <LogoutButton />}
                 </div>
                 <div>
                   <div className='mt-3 text-center sm:mt-5'>
