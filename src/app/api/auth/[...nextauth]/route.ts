@@ -19,6 +19,7 @@ const handler = NextAuth({
   ],
   callbacks: {
     async signIn({ user, account }) {
+      console.log('Sign in:', user);
       const provider = account?.provider;
       const uid = user?.id;
       const name = user?.name;
