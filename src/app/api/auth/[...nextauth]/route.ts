@@ -26,6 +26,7 @@ const handler = NextAuth({
       const name = user?.name;
       const email = user?.email;
       try {
+        console.log('apiUrl:', apiUrl);
         const response = await axios.post(`${apiUrl}/auth/${provider}/callback`, {
           provider,
           uid,
