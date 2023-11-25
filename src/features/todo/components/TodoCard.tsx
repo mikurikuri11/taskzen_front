@@ -1,11 +1,17 @@
+import { useSession } from 'next-auth/react'
 import { Fragment, useState, FC } from 'react'
 
+import { useRecoilState } from 'recoil'
 import { editTodo } from '../api/editTodo'
+import { getTodos } from '../api/getTodos'
 import { TodoCardProps } from './types'
+import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 export const TodoCard: FC<TodoCardProps> = (props) => {
   const { todo, id, openModal } = props
   const [isChecked, setIsChecked] = useState(false)
+  const [todos, setTodos] = useRecoilState(TodoAtom)
+  const { data: session, status } = useSession()
 
   const handleCheckboxClick = async () => {
     setIsChecked(!isChecked)
@@ -17,17 +23,17 @@ export const TodoCard: FC<TodoCardProps> = (props) => {
       }
 
       const updatedTodo = await editTodo({ updatedTodo: updatedTodoData, id })
+      const newTodos = await getTodos({ id: session?.user?.id ?? '' });
+      setTodos(newTodos);
     } catch (error) {
       console.error('Error updating todo:', error)
     }
   }
 
-  console.log('isChecked', isChecked)
-
   return (
     <li>
       <div className='group relative flex items-center px-5 py-6'>
-        <div className='absolute inset-0 group-hover:bg-gray-50' aria-hidden='true' />
+      <div className={`absolute inset-0 ${isChecked ? 'bg-gray-200' : ''}`} aria-hidden='true' />
         <div className='relative flex min-w-0 flex-1 items-center'>
           <span className='relative inline-block flex-shrink-0'>
             <input
