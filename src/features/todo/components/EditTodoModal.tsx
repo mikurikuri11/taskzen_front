@@ -2,13 +2,17 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 
+import { useSession } from 'next-auth/react'
 import { FC, Fragment, useState } from 'react'
 import { useForm, SubmitHandler, set } from 'react-hook-form'
+import { useRecoilState } from 'recoil'
 import { deleteTodo } from '../api/deleteTodo'
 import { editTodo } from '../api/editTodo'
 import { Todo } from '../api/types'
 import { RedDeleteButton } from '@/components/ui/Button/RedDeleteButton'
 import { SubmitButton } from '@/components/ui/Button/SubmitButton'
+import { getTodos } from '@/features/todo/api/getTodos'
+import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 type Props = {
   todo: Todo | null
@@ -22,12 +26,19 @@ export const EditTodoModal: FC<Props> = (props) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<Todo>()
+
+  const { data: session, status } = useSession()
+  const [todos, setTodos] = useRecoilState(TodoAtom)
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (todo?.id) {
       await editTodo({ updatedTodo: data, id: todo?.id })
-      window.location.reload()
+      const updatedTodos = await getTodos({ id: session?.user?.id ?? '' });
+      setTodos(updatedTodos);
+      setOpen(false);
+      reset();
     }
   }
 

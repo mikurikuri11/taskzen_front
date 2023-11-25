@@ -5,10 +5,12 @@ import { useSession } from 'next-auth/react'
 
 import { FC, Fragment, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { Todo } from '../api/types'
-import { PurpleCreateButton } from '@/components/ui/Button/PurpleCreateButton'
 import { SubmitButton } from '@/components/ui/Button/SubmitButton'
+import { getTodos } from '@/features/todo/api/getTodos'
+import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 type Props = {
   open: boolean
@@ -21,14 +23,20 @@ export const CreateTodoModal: FC<Props> = (props) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<Todo>()
 
   const { data: session, status } = useSession()
 
+  const [todos, setTodos] = useRecoilState(TodoAtom)
+
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (session?.user?.id) {
-      console.log('after if')
       addTodo({ todo: data, id: session.user.id })
+      const updatedTodos = await getTodos({ id: session.user.id });
+      setTodos(updatedTodos);
+      setOpen(false);
+      reset();
     }
   }
 

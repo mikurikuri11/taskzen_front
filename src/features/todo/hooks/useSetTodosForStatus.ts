@@ -16,8 +16,8 @@ export function useSetTodosForStatus(todos: Todo[]) {
     setCompletedTodos(completedTodos)
   }, [todos, setCompletedTodos, setIncompletedTodos])
 
-  return {
+  return [
     setCompletedTodos,
     setIncompletedTodos,
-  }
+  ]
 }
