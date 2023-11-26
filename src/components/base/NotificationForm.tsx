@@ -2,6 +2,7 @@
 
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 import { SubmitButton } from '../ui/Button/SubmitButton';
 import ToggleButton from '@/components/ui/Button/ToggleButton'
 import { addNotification } from '@/features/notification/api/addNotification'
@@ -18,11 +19,21 @@ export const NotificationForm = () => {
       active: enabled,
       notification_time: time
     }
-    console.log(data)
     if (session?.user?.id) {
       await addNotification({ notification: data, id: session.user.id })
     }
   }
+
+  const notify = () =>
+    toast.success('通知設定を保存しました', {
+      duration: 1000,
+      style: {
+        borderRadius: '10px',
+        background: '#1bbc31',
+        color: '#fff',
+      },
+    },)
+
 
   return (
       <form onSubmit={onSubmit} className='flex flex-col justify-center items-center gap-7 mb-6'>
@@ -55,7 +66,11 @@ export const NotificationForm = () => {
           </select>
         </div>
 
-        <SubmitButton>保存</SubmitButton>
+        <SubmitButton  onClick={notify}>保存</SubmitButton>
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+        />
       </form>
   )
 }
