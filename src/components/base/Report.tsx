@@ -15,11 +15,9 @@ export const Report = () => {
     <div className='h-screen flex flex-col justify-center items-center'>
       <div className='text-3xl font-semibold text-white mb-14'>週間レポート</div>
       <div>
-        {todoCompleteRate && (
-          <div className='text-2xl font-semibold text-white mb-10'>
-            今週の達成率 {todoCompleteRate} %
-          </div>
-        )}
+        <div className='text-2xl font-semibold text-white mb-10'>
+          今週の達成率 {todoCompleteRate} %
+        </div>
       </div>
       <div>
         <p className='text-1xl font-semibold text-white mb-10'>
@@ -33,8 +31,6 @@ export const Report = () => {
                 todoCompleteRate <= 80 &&
                 'とてもいい感じです。これからも頑張りましょう。'}
               {todoCompleteRate > 80 && '完璧です。新しいことに挑戦してみましょう。'}
-              <br />
-              この調子で頑張りましょう！
             </>
           )}
         </p>
