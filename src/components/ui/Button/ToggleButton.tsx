@@ -10,7 +10,7 @@ type Props = {
 }
 
 export default function ToggleButton(props: Props) {
-  const { enabled, setEnabled } = props;
+  const { enabled, setEnabled } = props
 
   return (
     <Switch

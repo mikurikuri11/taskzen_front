@@ -3,12 +3,12 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react'
 
-import { FC, Fragment, useState } from 'react'
+import { FC, Fragment } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { Todo } from '../api/types'
-import { SubmitButton } from '@/components/ui/Button/SubmitButton'
+import { StyledSubmitButton } from '@/components/ui/Button/StyledSubmitButton'
 import { getTodos } from '@/features/todo/api/getTodos'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
@@ -33,10 +33,11 @@ export const CreateTodoModal: FC<Props> = (props) => {
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (session?.user?.id) {
       addTodo({ todo: data, id: session.user.id })
-      const updatedTodos = await getTodos({ id: session.user.id });
-      setTodos(updatedTodos);
-      setOpen(false);
-      reset();
+      const updatedTodos = await getTodos({ id: session.user.id })
+      console.log(updatedTodos)
+      setTodos(updatedTodos)
+      setOpen(false)
+      reset()
     }
   }
 
@@ -153,7 +154,12 @@ export const CreateTodoModal: FC<Props> = (props) => {
                           placeholder='詳細を入力してください'
                         />
                       </div>
-                      <SubmitButton onClick={() => setOpen(false)}>作成</SubmitButton>
+                      <StyledSubmitButton
+                        className='bg-indigo-500 text-lg'
+                        onClick={handleSubmit(onSubmit)}
+                      >
+                        作成
+                      </StyledSubmitButton>
                     </div>
                   </div>
                 </Dialog.Panel>

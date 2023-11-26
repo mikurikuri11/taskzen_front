@@ -23,8 +23,8 @@ export const TodoCard: FC<TodoCardProps> = (props) => {
       }
 
       const updatedTodo = await editTodo({ updatedTodo: updatedTodoData, id })
-      const newTodos = await getTodos({ id: session?.user?.id ?? '' });
-      setTodos(newTodos);
+      const newTodos = await getTodos({ id: session?.user?.id ?? '' })
+      setTodos(newTodos)
     } catch (error) {
       console.error('Error updating todo:', error)
     }
@@ -33,7 +33,7 @@ export const TodoCard: FC<TodoCardProps> = (props) => {
   return (
     <li>
       <div className='group relative flex items-center px-5 py-6'>
-      <div className={`absolute inset-0 ${isChecked ? 'bg-gray-200' : ''}`} aria-hidden='true' />
+        <div className={`absolute inset-0 ${isChecked ? 'bg-gray-200' : ''}`} aria-hidden='true' />
         <div className='relative flex min-w-0 flex-1 items-center'>
           <span className='relative inline-block flex-shrink-0'>
             <input

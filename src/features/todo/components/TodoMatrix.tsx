@@ -10,7 +10,7 @@ type Props = {
 }
 
 export const TodoMatrix = (props: Props) => {
-  const { todosByOne, todosByTwo, todosByThree, todosByFour } = props;
+  const { todosByOne, todosByTwo, todosByThree, todosByFour } = props
 
   return (
     <div className='mt-4 divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0'>
