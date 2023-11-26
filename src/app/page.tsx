@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useRecoilState } from 'recoil'
 
 import { LogoutButton } from '@/components/ui/Button/LogoutButton'
-import { PurpleButton } from '@/components/ui/Button/PurpleButton'
+import { StyledButton } from '@/components/ui/Button/StyledButton'
 import { LoginModal } from '@/components/ui/Modal/LoginModal'
 import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
@@ -24,7 +24,9 @@ export default function Home() {
       </div>
       <div className='flex'>
         {status !== 'authenticated' ? (
-          <PurpleButton onClick={openModal}>ログイン</PurpleButton>
+          <StyledButton buttonStyle='bg-indigo-500' onClick={openModal}>
+            ログイン
+          </StyledButton>
         ) : (
           <LogoutButton />
         )}

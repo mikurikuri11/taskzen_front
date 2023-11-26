@@ -3,7 +3,7 @@
 import { useState, useEffect, FC } from 'react'
 import { useRecoilState } from 'recoil'
 import { Sidebar } from '@/components/base/Sidebar'
-import { PurpleButton } from '@/components/ui/Button/PurpleButton'
+import { StyledButton } from '@/components/ui/Button/StyledButton'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useSetTodosForStatus } from '@/features/todo/hooks/useSetTodosForStatus'
 import { useSetTodos } from '@/hooks/useSetTodos'
@@ -39,7 +39,9 @@ export const TodoManagement: FC = () => {
     <>
       <div className='mx-auto max-w-screen-md flex justify-between my-10'>
         <h1 className='text-white text-2xl font-bold mt-4'>Todo Matrix</h1>
-        <PurpleButton onClick={openSidebar}>Open Sidebar</PurpleButton>
+        <StyledButton buttonStyle='bg-indigo-500' onClick={openSidebar}>
+          Open Sidebar
+        </StyledButton>
       </div>
       <div className='mx-auto max-w-screen-md flex justify-evenly'>
         <div className='text-white'>緊急</div>

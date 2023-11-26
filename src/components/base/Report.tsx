@@ -1,7 +1,6 @@
 'use client'
 
-import { BlueButton } from '@/components/ui/Button/BlueButton'
-import { PurpleButton } from '@/components/ui/Button/PurpleButton'
+import { StyledButton } from '@/components/ui/Button/StyledButton'
 import { useGetTodoCompleteRate } from '@/features/report/hooks/useGetTodoCompleteRate'
 
 export const Report = () => {
@@ -37,8 +36,12 @@ export const Report = () => {
       </div>
 
       <div className='flex gap-5'>
-        <PurpleButton onClick={() => hello()}>もっと見る</PurpleButton>
-        <BlueButton onClick={() => hello()}>共有する</BlueButton>
+        <StyledButton buttonStyle='bg-indigo-500' onClick={hello}>
+          もっと見る
+        </StyledButton>
+        <StyledButton buttonStyle='bg-cyan-500' onClick={hello}>
+          共有する
+        </StyledButton>
       </div>
     </div>
   )
