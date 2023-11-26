@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
-import { SubmitButton } from '../ui/Button/SubmitButton';
+import { StyledSubmitButton } from '../ui/Button/StyledSubmitButton';
 import ToggleButton from '@/components/ui/Button/ToggleButton'
 import { addNotification } from '@/features/notification/api/addNotification'
 import { Notification } from '@/features/notification/api/types'
@@ -66,7 +66,9 @@ export const NotificationForm = () => {
           </select>
         </div>
 
-        <SubmitButton  onClick={notify}>保存</SubmitButton>
+        <StyledSubmitButton className='bg-indigo-500 text-lg' onClick={notify}>
+          保存
+        </StyledSubmitButton>
         <Toaster
           position="top-center"
           reverseOrder={false}

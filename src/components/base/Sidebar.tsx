@@ -3,7 +3,7 @@
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
-import { SmallPurpleButton } from '../ui/Button/SmallPurpleButton'
+import { StyledButton } from '../ui/Button/StyledButton'
 import { TodoList } from '@/features/todo/components/TodoList'
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
 
@@ -46,7 +46,9 @@ export const Sidebar = (props: SidebarProps) => {
                             Todo List
                           </Dialog.Title>
                           <div className='ml-3 flex h-7 items-center'>
-                            <SmallPurpleButton onClick={openModal}>Add Todo</SmallPurpleButton>
+                            <StyledButton buttonStyle='bg-indigo-500 text-sm' onClick={openModal}>
+                              Add Todo
+                            </StyledButton>
                           </div>
                         </div>
                       </div>
