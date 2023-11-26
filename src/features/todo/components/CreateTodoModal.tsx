@@ -33,11 +33,11 @@ export const CreateTodoModal: FC<Props> = (props) => {
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (session?.user?.id) {
       addTodo({ todo: data, id: session.user.id })
-      const updatedTodos = await getTodos({ id: session.user.id });
+      const updatedTodos = await getTodos({ id: session.user.id })
       console.log(updatedTodos)
-      setTodos(updatedTodos);
-      setOpen(false);
-      reset();
+      setTodos(updatedTodos)
+      setOpen(false)
+      reset()
     }
   }
 
@@ -154,7 +154,10 @@ export const CreateTodoModal: FC<Props> = (props) => {
                           placeholder='詳細を入力してください'
                         />
                       </div>
-                      <StyledSubmitButton className='bg-indigo-500 text-lg' onClick={handleSubmit(onSubmit)}>
+                      <StyledSubmitButton
+                        className='bg-indigo-500 text-lg'
+                        onClick={handleSubmit(onSubmit)}
+                      >
                         作成
                       </StyledSubmitButton>
                     </div>

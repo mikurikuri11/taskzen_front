@@ -1,9 +1,9 @@
-import axios from 'axios';
-import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import LineProvider from 'next-auth/providers/line';
+import axios from 'axios'
+import NextAuth from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
+import LineProvider from 'next-auth/providers/line'
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -19,28 +19,28 @@ const handler = NextAuth({
   ],
   callbacks: {
     async signIn({ user, account }) {
-      console.log('Sign in:', user);
-      const provider = account?.provider;
-      console.log('provider:', provider);
-      const uid = user?.id;
-      const name = user?.name;
-      const email = user?.email;
+      console.log('Sign in:', user)
+      const provider = account?.provider
+      console.log('provider:', provider)
+      const uid = user?.id
+      const name = user?.name
+      const email = user?.email
       try {
-        console.log('apiUrl:', apiUrl);
+        console.log('apiUrl:', apiUrl)
         const response = await axios.post(`${apiUrl}/auth/${provider}/callback`, {
           provider,
           uid,
           name,
           email,
-        });
+        })
         if (response.status === 200) {
-          return true;
+          return true
         } else {
-          return false;
+          return false
         }
       } catch (error) {
-        console.log('エラー', error);
-        return false;
+        console.log('エラー', error)
+        return false
       }
     },
     session: ({ session, token }) => ({
@@ -54,6 +54,6 @@ const handler = NextAuth({
       },
     }),
   },
-});
+})
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }

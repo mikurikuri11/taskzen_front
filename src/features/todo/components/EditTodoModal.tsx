@@ -25,7 +25,7 @@ export const EditTodoModal: FC<Props> = (props) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<Todo>()
 
   const { data: session, status } = useSession()
@@ -34,10 +34,10 @@ export const EditTodoModal: FC<Props> = (props) => {
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (todo?.id) {
       await editTodo({ updatedTodo: data, id: todo?.id })
-      const updatedTodos = await getTodos({ id: session?.user?.id ?? '' });
-      setTodos(updatedTodos);
-      setOpen(false);
-      reset();
+      const updatedTodos = await getTodos({ id: session?.user?.id ?? '' })
+      setTodos(updatedTodos)
+      setOpen(false)
+      reset()
     }
   }
 
@@ -163,10 +163,16 @@ export const EditTodoModal: FC<Props> = (props) => {
                         />
                       </div>
                       <div className='col-span-full flex gap-4'>
-                        <StyledSubmitButton className='bg-indigo-500 text-lg' onClick={handleSubmit(onSubmit)}>
+                        <StyledSubmitButton
+                          className='bg-indigo-500 text-lg'
+                          onClick={handleSubmit(onSubmit)}
+                        >
                           更新
                         </StyledSubmitButton>
-                        <StyledSubmitButton className='bg-red-500' onClick={() => todo && handleDelete(todo.id)}>
+                        <StyledSubmitButton
+                          className='bg-red-500'
+                          onClick={() => todo && handleDelete(todo.id)}
+                        >
                           削除
                         </StyledSubmitButton>
                       </div>

@@ -8,7 +8,7 @@ export const Report = () => {
     console.log('hello')
   }
 
-  const todoCompleteRate = useGetTodoCompleteRate();
+  const todoCompleteRate = useGetTodoCompleteRate()
 
   return (
     <div className='h-screen flex flex-col justify-center items-center'>

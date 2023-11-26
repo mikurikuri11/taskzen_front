@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { useState, useEffect, FC } from 'react'
 import { useRecoilState } from 'recoil'
@@ -17,19 +17,19 @@ export const TodoManagement: FC = () => {
 
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(incompletedTodoAtom)
 
-  const filterTodosByZone = (zone: number) => incompletedTodos.filter((todo) => todo.zone === zone);
+  const filterTodosByZone = (zone: number) => incompletedTodos.filter((todo) => todo.zone === zone)
 
-  const [todosByOne, setTodosByOne] = useState(filterTodosByZone(1));
-  const [todosByTwo, setTodosByTwo] = useState(filterTodosByZone(2));
-  const [todosByThree, setTodosByThree] = useState(filterTodosByZone(3));
-  const [todosByFour, setTodosByFour] = useState(filterTodosByZone(4));
+  const [todosByOne, setTodosByOne] = useState(filterTodosByZone(1))
+  const [todosByTwo, setTodosByTwo] = useState(filterTodosByZone(2))
+  const [todosByThree, setTodosByThree] = useState(filterTodosByZone(3))
+  const [todosByFour, setTodosByFour] = useState(filterTodosByZone(4))
 
   useEffect(() => {
-    setTodosByOne(filterTodosByZone(1));
-    setTodosByTwo(filterTodosByZone(2));
-    setTodosByThree(filterTodosByZone(3));
-    setTodosByFour(filterTodosByZone(4));
-  }, [incompletedTodos]);
+    setTodosByOne(filterTodosByZone(1))
+    setTodosByTwo(filterTodosByZone(2))
+    setTodosByThree(filterTodosByZone(3))
+    setTodosByFour(filterTodosByZone(4))
+  }, [incompletedTodos])
 
   const openSidebar = () => {
     setOpen(true)
@@ -49,14 +49,25 @@ export const TodoManagement: FC = () => {
       </div>
       <div className='mx-auto max-w-screen-md flex justify-between'>
         <div className='mx-auto max-w-screen-md flex flex-col justify-evenly my-8'>
-          <div className='text-white mx-6' style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}>
-          重要
+          <div
+            className='text-white mx-6'
+            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+          >
+            重要
+          </div>
+          <div
+            className='text-white mx-6'
+            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+          >
+            重要でない
+          </div>
         </div>
-        <div className='text-white mx-6' style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}>
-          重要でない
-        </div>
-        </div>
-        <TodoMatrix todosByOne={todosByOne} todosByTwo={todosByTwo} todosByThree={todosByThree} todosByFour={todosByFour} />
+        <TodoMatrix
+          todosByOne={todosByOne}
+          todosByTwo={todosByTwo}
+          todosByThree={todosByThree}
+          todosByFour={todosByFour}
+        />
       </div>
       <Sidebar open={open} setOpen={setOpen} />
     </>

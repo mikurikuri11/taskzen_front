@@ -23,7 +23,6 @@ export default async function Home() {
       <div>
         <Image src='/line-bot.png' width={200} height={200} alt={''} />
       </div>
-
     </div>
   )
 }

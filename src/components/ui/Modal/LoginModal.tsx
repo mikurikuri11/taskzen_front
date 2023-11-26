@@ -60,8 +60,9 @@ export const LoginModal: FC<Props> = (props) => {
                         </div>
                       </div>
                     </>
-                  )
-                  : <LogoutButton />}
+                  ) : (
+                    <LogoutButton />
+                  )}
                 </div>
                 <div>
                   <div className='mt-3 text-center sm:mt-5'>
@@ -71,7 +72,10 @@ export const LoginModal: FC<Props> = (props) => {
                           利用規約
                         </Link>
                         、
-                        <Link href='/privacy-policy' className='text-indigo-600 hover:text-indigo-500'>
+                        <Link
+                          href='/privacy-policy'
+                          className='text-indigo-600 hover:text-indigo-500'
+                        >
                           プライバシーポリシー
                         </Link>
                         に同意した上でログインしてください。
