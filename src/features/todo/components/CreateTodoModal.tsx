@@ -153,7 +153,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                           placeholder='詳細を入力してください'
                         />
                       </div>
-                      <SubmitButton onClick={() => setOpen(false)}>作成</SubmitButton>
+                      <SubmitButton>作成</SubmitButton>
                     </div>
                   </div>
                 </Dialog.Panel>

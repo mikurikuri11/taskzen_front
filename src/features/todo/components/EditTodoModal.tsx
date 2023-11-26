@@ -164,7 +164,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         />
                       </div>
                       <div className='col-span-full flex gap-4'>
-                        <SubmitButton onClick={() => setOpen(false)}>更新</SubmitButton>
+                        <SubmitButton>更新</SubmitButton>
                         <RedDeleteButton onClick={() => todo && handleDelete(todo.id)}>
                           削除
                         </RedDeleteButton>
