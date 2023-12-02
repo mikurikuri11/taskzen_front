@@ -12,7 +12,7 @@ export const CategoryFlyoutMenu: FC = () => {
   const { data: session, status } = useSession()
   const [categories, setCategories] = useRecoilState(CategoryAtom)
   const [inputCategory, setInputCategory] = useState<string>("");
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  // const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const fetchCategories = async () => {
     const categories = await getCategories({ id: session?.user?.id ?? '' })
@@ -28,13 +28,13 @@ export const CategoryFlyoutMenu: FC = () => {
     setInputCategory("");
   }
 
-  const handleEdit = async () => {
-    setIsEditing(true);
-  }
+  // const handleEdit = async () => {
+  //   setIsEditing(true);
+  // }
 
-  const handleSave = async () => {
-    setIsEditing(false);
-  }
+  // const handleSave = async () => {
+  //   setIsEditing(false);
+  // }
 
   useEffect(() => {
     fetchCategories();
@@ -66,12 +66,8 @@ export const CategoryFlyoutMenu: FC = () => {
               <legend className="sr-only">Notifications</legend>
               <CategoryList
                 categories={categories}
-                isEditing={isEditing}
-                onEdit={handleEdit}
-                onSave={handleSave}
               />
             </fieldset>
-            {/* ... (existing code) */}
           </div>
         </Popover.Panel>
       </Transition>

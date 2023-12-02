@@ -7,13 +7,19 @@ import { Category } from '../api/types';
 
 interface CategoryCardProps {
   category: Category
-  isEditing: boolean;
-  onEdit: () => void;
-  onSave: () => void;
 }
 
-export const CategoryCard: React.FC<CategoryCardProps> = ({ category, isEditing, onEdit, onSave }) => {
+export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
   const [editedName, setEditedName] = useState(category.name);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const handleEdit = async () => {
+    setIsEditing(true);
+  }
+
+  const handleSave = async () => {
+    setIsEditing(false);
+  }
 
   return (
     <div key={category.id} className="relative flex items-start">
@@ -44,9 +50,9 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, isEditing,
       <div className="flex-grow" />
       <div className='text-xl cursor-pointer'>
         {isEditing ? (
-          <MdSaveAlt onClick={onSave} />
+          <MdSaveAlt onClick={handleSave} />
         ) : (
-          <CiEdit onClick={onEdit} />
+          <CiEdit onClick={handleEdit} />
         )}
       </div>
     </div>

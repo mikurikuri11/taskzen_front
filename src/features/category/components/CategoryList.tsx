@@ -5,12 +5,9 @@ import { CategoryCard } from './CategoryCard';
 
 interface CategoryListProps {
   categories: Category[];
-  isEditing: boolean;
-  onEdit: () => void;
-  onSave: () => void;
 }
 
-export const CategoryList: React.FC<CategoryListProps> = ({ categories, isEditing, onEdit, onSave }) => {
+export const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
   return (
     <div className="space-y-5">
       {categories.length === 0 && (
@@ -22,9 +19,6 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, isEditin
         <CategoryCard
           key={category.id}
           category={category}
-          isEditing={isEditing}
-          onEdit={onEdit}
-          onSave={onSave}
         />
       ))}
     </div>
