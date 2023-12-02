@@ -1,8 +1,8 @@
 import { Category } from './types/index'
 
 type Props = {
-  updatedCategory: Category
   id: number
+  updatedCategory: Category
 }
 
 export const editCategory = async (props: Props): Promise<Category> => {
