@@ -1,4 +1,4 @@
-import { Category } from '../components/CategoryCard'
+import { Category } from './types/index'
 
 type Props = {
   category: Category
