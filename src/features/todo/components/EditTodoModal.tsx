@@ -3,14 +3,16 @@
 import { Dialog, Transition } from '@headlessui/react'
 
 import { useSession } from 'next-auth/react'
-import { FC, Fragment } from 'react'
+import { useEffect, FC, Fragment } from 'react'
 import { useForm, SubmitHandler, set } from 'react-hook-form'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { deleteTodo } from '../api/deleteTodo'
 import { editTodo } from '../api/editTodo'
 import { Todo } from '../api/types'
 import { StyledSubmitButton } from '@/components/ui/Button/StyledSubmitButton'
+import { getCategories } from '@/features/category/api/getCategories'
 import { getTodos } from '@/features/todo/api/getTodos'
+import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 type Props = {
@@ -29,7 +31,8 @@ export const EditTodoModal: FC<Props> = (props) => {
   } = useForm<Todo>()
 
   const { data: session, status } = useSession()
-  const [todos, setTodos] = useRecoilState(TodoAtom)
+  const setTodos = useSetRecoilState(TodoAtom)
+  const [categories, setCategories] = useRecoilState(CategoryAtom)
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (todo?.id) {
@@ -44,6 +47,15 @@ export const EditTodoModal: FC<Props> = (props) => {
   const handleDelete = async (id: number) => {
     await deleteTodo({ id })
   }
+
+  const fetchCategories = async () => {
+    const categories = await getCategories({ id: session?.user?.id ?? '' })
+    setCategories(categories);
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -95,6 +107,31 @@ export const EditTodoModal: FC<Props> = (props) => {
                         />
                         {errors.title && <span className='text-red-500'>タイトルは必須です</span>}
                       </div>
+                    </div>
+
+                    <div className='sm:col-span-6'>
+                      <label
+                        htmlFor='zone'
+                        className='block text-sm font-medium leading-6 text-gray-900'
+                      >
+                        カテゴリ
+                      </label>
+                      {categories.map((category) => (
+                        <span
+                          key={category.id}
+                          className="ml-1 mt-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
+                        >
+                          <span>{category.name}</span>
+                          <button
+                            type="button"
+                            className="inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
+                          >
+                            <svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                              <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
+                            </svg>
+                          </button>
+                        </span>
+                      ))}
                     </div>
 
                     <div className='sm:col-span-4'>
