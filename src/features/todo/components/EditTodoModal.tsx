@@ -10,8 +10,10 @@ import { deleteTodo } from '../api/deleteTodo'
 import { editTodo } from '../api/editTodo'
 import { Todo } from '../api/types'
 import { StyledSubmitButton } from '@/components/ui/Button/StyledSubmitButton'
+import { addCategory } from '@/features/category/api/addCategory'
 import { deleteCategory } from '@/features/category/api/deleteCategory'
 import { getCategories } from '@/features/category/api/getCategories'
+import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
 import { getTodos } from '@/features/todo/api/getTodos'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
@@ -54,9 +56,14 @@ export const EditTodoModal: FC<Props> = (props) => {
     setCategories(categories);
   }
 
+  // const onClickAdd = async (data) => {
+  //   await addCategory({ category: data, id: session?.user?.id ?? '' });
+    // setCategories(categories);
+  // }
+
   const onClickDelete = async(id: number) => {
     await deleteCategory({ id });
-    setCategories(categories);
+    // setCategories(categories);
   }
 
   useEffect(() => {
@@ -116,16 +123,19 @@ export const EditTodoModal: FC<Props> = (props) => {
                     </div>
 
                     <div className='sm:col-span-6'>
-                      <label
-                        htmlFor='zone'
-                        className='block text-sm font-medium leading-6 text-gray-900'
-                      >
-                        カテゴリ
-                      </label>
+                      <div className='flex '>
+                        <label
+                          htmlFor='zone'
+                          className='block text-sm font-medium leading-6 text-gray-900'
+                        >
+                          カテゴリー
+                        </label>
+                        <CategoryFlyoutMenu />
+                      </div>
                       {categories.map((category) => (
                         <span
                           key={category.id}
-                          className="ml-1 mt-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
+                          className="ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
                         >
                           <span>{category.name}</span>
                           <button
