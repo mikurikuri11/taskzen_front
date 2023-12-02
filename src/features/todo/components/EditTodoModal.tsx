@@ -10,6 +10,7 @@ import { deleteTodo } from '../api/deleteTodo'
 import { editTodo } from '../api/editTodo'
 import { Todo } from '../api/types'
 import { StyledSubmitButton } from '@/components/ui/Button/StyledSubmitButton'
+import { deleteCategory } from '@/features/category/api/deleteCategory'
 import { getCategories } from '@/features/category/api/getCategories'
 import { getTodos } from '@/features/todo/api/getTodos'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
@@ -50,6 +51,11 @@ export const EditTodoModal: FC<Props> = (props) => {
 
   const fetchCategories = async () => {
     const categories = await getCategories({ id: session?.user?.id ?? '' })
+    setCategories(categories);
+  }
+
+  const onClickDelete = async(id: number) => {
+    await deleteCategory({ id });
     setCategories(categories);
   }
 
@@ -123,6 +129,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         >
                           <span>{category.name}</span>
                           <button
+                            onClick={() => onClickDelete(category.id)}
                             type="button"
                             className="inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
                           >
