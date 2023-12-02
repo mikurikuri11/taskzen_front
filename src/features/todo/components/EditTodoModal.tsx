@@ -139,7 +139,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         >
                           <span>{category.name}</span>
                           <button
-                            onClick={() => onClickDelete(category.id)}
+                            onClick={() => category.id && onClickDelete(category.id)}
                             type="button"
                             className="inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
                           >
