@@ -53,22 +53,22 @@ export const EditTodoModal: FC<Props> = (props) => {
 
   const fetchCategories = async () => {
     const categories = await getCategories({ id: session?.user?.id ?? '' })
-    setCategories(categories);
+    setCategories(categories)
   }
 
   // const onClickAdd = async (data) => {
   //   await addCategory({ category: data, id: session?.user?.id ?? '' });
-    // setCategories(categories);
+  // setCategories(categories);
   // }
 
-  const onClickDelete = async(id: number) => {
-    await deleteCategory({ id });
+  const onClickDelete = async (id: number) => {
+    await deleteCategory({ id })
     // setCategories(categories);
   }
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    fetchCategories()
+  }, [])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -135,16 +135,21 @@ export const EditTodoModal: FC<Props> = (props) => {
                       {categories.map((category) => (
                         <span
                           key={category.id}
-                          className="ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
+                          className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900'
                         >
                           <span>{category.name}</span>
                           <button
                             onClick={() => category.id && onClickDelete(category.id)}
-                            type="button"
-                            className="inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
+                            type='button'
+                            className='inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500'
                           >
-                            <svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
-                              <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
+                            <svg
+                              className='h-2 w-2'
+                              stroke='currentColor'
+                              fill='none'
+                              viewBox='0 0 8 8'
+                            >
+                              <path strokeLinecap='round' strokeWidth='1.5' d='M1 1l6 6m0-6L1 7' />
                             </svg>
                           </button>
                         </span>
