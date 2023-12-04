@@ -4,12 +4,14 @@ import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
 import { MdSaveAlt, MdDeleteOutline } from 'react-icons/md'
-import { useSetRecoilState } from 'recoil'
-import { deleteCategory } from '../api/deleteCategory'
-import { editCategory } from '../api/editCategory'
-import { getCategories } from '../api/getCategories'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { deleteCategory } from '../api/category/deleteCategory'
+import { editCategory } from '../api/category/editCategory'
+import { getCategories } from '../api/category/getCategories'
 import { Category } from '../api/types'
+import { editTodo } from '@/features/todo/api/editTodo'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
+import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
 
 interface CategoryCardProps {
   category: Category
@@ -20,7 +22,9 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
   const [editedName, setEditedName] = useState(category.name)
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [editedCategory, setEditedCategory] = useState<string>(category.name)
+  // const [isChecked, setIsChecked] = useState<boolean>(false)
   const setCategories = useSetRecoilState(CategoryAtom)
+  const [modalTodo, setModalTodo] = useRecoilState(ModalTodoAtom);
 
   const handleEdit = async () => {
     setIsEditing(true)
@@ -42,6 +46,22 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
     setCategories(categories)
   }
 
+  const updateTodoCategory = async () => {
+    if (!modalTodo || !category.id) {
+      return;
+    }
+
+    const updatedTodo = {
+      ...modalTodo,
+      category_ids: [category.id]
+    };
+
+    await editTodo({
+      id: updatedTodo.id,
+      updatedTodo
+    });
+  };
+
   return (
     <div key={category.id} className='relative flex items-start'>
       <div className='flex h-6 items-center'>
@@ -52,7 +72,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
           type='checkbox'
           className='h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
           value={editedCategory}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditedCategory(e.target.value)}
+          onChange={updateTodoCategory}
         />
       </div>
       <div className='ml-3 text-sm leading-6'>
