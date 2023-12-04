@@ -3,19 +3,18 @@
 import { Dialog, Transition } from '@headlessui/react'
 
 import { useSession } from 'next-auth/react'
-import { useEffect, FC, Fragment } from 'react'
+import { useState, useEffect, FC, Fragment } from 'react'
 import { useForm, SubmitHandler, set } from 'react-hook-form'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { deleteTodo } from '../api/deleteTodo'
 import { editTodo } from '../api/editTodo'
 import { Todo } from '../api/types'
 import { StyledSubmitButton } from '@/components/ui/Button/StyledSubmitButton'
-import { addCategory } from '@/features/category/api/addCategory'
 import { deleteCategory } from '@/features/category/api/deleteCategory'
-import { getCategories } from '@/features/category/api/getCategories'
+import { getTodoCategories } from '@/features/category/api/getTodoCategories'
+import { Category } from '@/features/category/api/types'
 import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
 import { getTodos } from '@/features/todo/api/getTodos'
-import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 type Props = {
@@ -35,40 +34,42 @@ export const EditTodoModal: FC<Props> = (props) => {
 
   const { data: session, status } = useSession()
   const setTodos = useSetRecoilState(TodoAtom)
-  const [categories, setCategories] = useRecoilState(CategoryAtom)
+  const [todoCategories, setTodoCategories] = useState<Category[]>();
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (todo?.id) {
       await editTodo({ updatedTodo: data, id: todo?.id })
       const updatedTodos = await getTodos({ id: session?.user?.id ?? '' })
-      setTodos(updatedTodos)
+      if (updatedTodos) {
+        setTodos(updatedTodos)
+      } else {
+        setTodos([]);
+      }
       setOpen(false)
       reset()
     }
   }
 
-  const handleDelete = async (id: number) => {
-    await deleteTodo({ id })
+  const fetchTodoCategories = async () => {
+    if (todo) {
+      const todoCategories = await getTodoCategories({ id: todo.id })
+      console.log(todoCategories);
+      setTodoCategories(todoCategories)
+      console.log(todoCategories);
+    }
   }
-
-  const fetchCategories = async () => {
-    const categories = await getCategories({ id: session?.user?.id ?? '' })
-    setCategories(categories)
-  }
-
-  // const onClickAdd = async (data) => {
-  //   await addCategory({ category: data, id: session?.user?.id ?? '' });
-  // setCategories(categories);
-  // }
 
   const onClickDelete = async (id: number) => {
     await deleteCategory({ id })
-    // setCategories(categories);
+
+    if (!todo) {
+      return null;
+    }
   }
 
   useEffect(() => {
-    fetchCategories()
-  }, [])
+    fetchTodoCategories()
+  }, [todo])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -129,10 +130,11 @@ export const EditTodoModal: FC<Props> = (props) => {
                           className='block text-sm font-medium leading-6 text-gray-900'
                         >
                           カテゴリー
+                          {todo?.category_ids}
                         </label>
                         <CategoryFlyoutMenu />
                       </div>
-                      {categories.map((category) => (
+                      {todoCategories && todoCategories.map((category) => (
                         <span
                           key={category.id}
                           className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900'
@@ -230,7 +232,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         </StyledSubmitButton>
                         <StyledSubmitButton
                           className='bg-red-500'
-                          onClick={() => todo && handleDelete(todo.id)}
+                          onClick={() => todo && onClickDelete(todo.id)}
                         >
                           削除
                         </StyledSubmitButton>
