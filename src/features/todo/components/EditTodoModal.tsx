@@ -40,7 +40,11 @@ export const EditTodoModal: FC<Props> = (props) => {
 
   useEffect(() => {
     if (todo) {
-      setModalTodo(todo)
+      const updateTodos = {
+        ...todo,
+        category_ids: []
+      }
+      setModalTodo(updateTodos)
     }
   }, [todo])
 

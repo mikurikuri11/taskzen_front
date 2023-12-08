@@ -51,15 +51,19 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
       return
     }
 
+    const newCategoryId = category.id;
+
     const updatedTodo = {
       ...modalTodo,
-      category_ids: [category.id],
-    }
+      category_ids: [...modalTodo.category_ids, newCategoryId],
+    };
 
     await editTodo({
       id: updatedTodo.id,
       updatedTodo,
     })
+
+    setModalTodo(updatedTodo);
   }
 
   return (
