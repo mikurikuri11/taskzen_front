@@ -43,7 +43,7 @@ export const TodoCard: FC<TodoCardProps> = (props) => {
               autoComplete='area'
               className='mt-2 h-5 w-5 rounded border-0 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900'
               checked={isChecked}
-              onClick={handleCheckboxClick}
+              onChange={handleCheckboxClick}
             />
           </span>
           <div className='ml-4 truncate'>

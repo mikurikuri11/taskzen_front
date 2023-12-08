@@ -24,7 +24,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
   const [editedCategory, setEditedCategory] = useState<string>(category.name)
   // const [isChecked, setIsChecked] = useState<boolean>(false)
   const setCategories = useSetRecoilState(CategoryAtom)
-  const [modalTodo, setModalTodo] = useRecoilState(ModalTodoAtom);
+  const [modalTodo, setModalTodo] = useRecoilState(ModalTodoAtom)
 
   const handleEdit = async () => {
     setIsEditing(true)
@@ -48,19 +48,19 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
 
   const updateTodoCategory = async () => {
     if (!modalTodo || !category.id) {
-      return;
+      return
     }
 
     const updatedTodo = {
       ...modalTodo,
-      category_ids: [category.id]
-    };
+      category_ids: [category.id],
+    }
 
     await editTodo({
       id: updatedTodo.id,
-      updatedTodo
-    });
-  };
+      updatedTodo,
+    })
+  }
 
   return (
     <div key={category.id} className='relative flex items-start'>

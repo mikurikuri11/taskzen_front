@@ -36,13 +36,13 @@ export const EditTodoModal: FC<Props> = (props) => {
   const { data: session, status } = useSession()
   const setTodos = useSetRecoilState(TodoAtom)
   const [todoCategories, setTodoCategories] = useState<Category[] | null>(null)
-  const setModalTodo = useSetRecoilState(ModalTodoAtom);
+  const setModalTodo = useSetRecoilState(ModalTodoAtom)
 
   useEffect(() => {
     if (todo) {
       setModalTodo(todo)
     }
-  }, [todo]);
+  }, [todo])
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (todo?.id) {
