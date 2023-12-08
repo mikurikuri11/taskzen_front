@@ -35,7 +35,7 @@ export const CategoryFlyoutMenu: FC = () => {
     <Popover className='relative'>
       <Popover.Button className='inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 focus: outline-none cursor-pointer'>
         <PlusIcon
-          className='ml-2 rounded-full bg-gray-600 p-1 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 h-3 w-4'
+          className='ml-2 rounded-full bg-gray-600 p-1 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 h-5 w-5 mt-0.5'
           aria-hidden='true'
         />
       </Popover.Button>
