@@ -3,9 +3,9 @@
 import { Dialog, Transition } from '@headlessui/react'
 
 import { useSession } from 'next-auth/react'
-import { useEffect, FC, Fragment, useState } from 'react'
+import { useEffect, FC, Fragment, useState, use } from 'react'
 import { useForm, SubmitHandler, set } from 'react-hook-form'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { deleteTodo } from '../api/deleteTodo'
 import { editTodo } from '../api/editTodo'
 import { Todo } from '../api/types'
@@ -17,6 +17,7 @@ import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyou
 import { getTodos } from '@/features/todo/api/getTodos'
 import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
+import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
 
 type Props = {
   todo: Todo | null
@@ -35,18 +36,22 @@ export const EditTodoModal: FC<Props> = (props) => {
 
   const { data: session, status } = useSession()
   const setTodos = useSetRecoilState(TodoAtom)
-  const [todoCategories, setTodoCategories] = useState<Category[] | null>(null)
+  const [todoCategories, setTodoCategories] = useRecoilState(TodoCategoryAtom);
   const setModalTodo = useSetRecoilState(ModalTodoAtom)
 
   useEffect(() => {
+    const categoryIds = todoCategories.map(category => category.id);
+
     if (todo) {
       const updateTodos = {
         ...todo,
-        category_ids: []
-      }
-      setModalTodo(updateTodos)
+        category_ids: categoryIds
+      };
+
+      console.log(updateTodos);
+      setModalTodo(updateTodos);
     }
-  }, [todo])
+  }, [todo, todoCategories]);
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (todo?.id) {
@@ -72,8 +77,9 @@ export const EditTodoModal: FC<Props> = (props) => {
 
   const fetchTodoCategories = async () => {
     if (todo) {
-      const todoCategories = await getTodoCategories({ id: todo.id })
-      setTodoCategories(todoCategories)
+      const todoCategory = await getTodoCategories({ id: todo.id })
+      console.log(todoCategory);
+      setTodoCategories(todoCategory)
     }
   }
 
@@ -147,10 +153,10 @@ export const EditTodoModal: FC<Props> = (props) => {
                         todoCategories.map((category) => (
                           <span
                             key={category.id}
-                            className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900'
+                            className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 px-2 text-sm font-medium text-gray-900'
                           >
                             <span>{category.name}</span>
-                            <button
+                            {/* <button
                               onClick={() => category.id && onClickDelete(category.id)}
                               type='button'
                               className='inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500'
@@ -167,7 +173,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                                   d='M1 1l6 6m0-6L1 7'
                                 />
                               </svg>
-                            </button>
+                            </button> */}
                           </span>
                         ))}
                     </div>
