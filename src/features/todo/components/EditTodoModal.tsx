@@ -6,13 +6,11 @@ import { useSession } from 'next-auth/react'
 import { useEffect, FC, Fragment, useState, use } from 'react'
 import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { deleteTodo } from '../api/deleteTodo'
 import { editTodo } from '../api/editTodo'
 import { Todo } from '../api/types'
 import { StyledSubmitButton } from '@/components/ui/Button/StyledSubmitButton'
 import { deleteCategory } from '@/features/category/api/category/deleteCategory'
 import { getTodoCategories } from '@/features/category/api/todoCategory/getTodoCategories'
-import { Category } from '@/features/category/api/types'
 import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
 import { getTodos } from '@/features/todo/api/getTodos'
 import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
@@ -36,22 +34,21 @@ export const EditTodoModal: FC<Props> = (props) => {
 
   const { data: session, status } = useSession()
   const setTodos = useSetRecoilState(TodoAtom)
-  const [todoCategories, setTodoCategories] = useRecoilState(TodoCategoryAtom);
+  const [todoCategories, setTodoCategories] = useRecoilState(TodoCategoryAtom)
   const setModalTodo = useSetRecoilState(ModalTodoAtom)
 
   useEffect(() => {
-    const categoryIds = todoCategories.map(category => category.id);
+    const categoryIds = todoCategories.map(category => category.id).filter(id => id !== undefined);
 
     if (todo) {
       const updateTodos = {
         ...todo,
-        category_ids: categoryIds
-      };
+        category_ids: categoryIds,
+      }
 
-      console.log(updateTodos);
       setModalTodo(updateTodos);
     }
-  }, [todo, todoCategories]);
+  }, [todo, todoCategories])
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (todo?.id) {
@@ -78,7 +75,7 @@ export const EditTodoModal: FC<Props> = (props) => {
   const fetchTodoCategories = async () => {
     if (todo) {
       const todoCategory = await getTodoCategories({ id: todo.id })
-      console.log(todoCategory);
+      console.log(todoCategory)
       setTodoCategories(todoCategory)
     }
   }

@@ -25,7 +25,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
   const setCategories = useSetRecoilState(CategoryAtom)
   const [modalTodo, setModalTodo] = useRecoilState(ModalTodoAtom)
   const [todoCategory, setTodoCategory] = useRecoilState(TodoCategoryAtom)
-  const [checked, setChecked] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(false)
 
   const handleEdit = async () => {
     setIsEditing(true)
@@ -52,23 +52,21 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
       return
     }
 
-    console.log('modalTodo', modalTodo);
+    console.log('modalTodo', modalTodo)
 
-    const newCategoryId = category.id;
+    const newCategoryId = category.id
 
     const updatedTodo = {
       ...modalTodo,
       category_ids: [...modalTodo.category_ids, newCategoryId],
-    };
-
-    console.log('updatedTodo', updatedTodo);
+    }
 
     await editTodo({
       id: updatedTodo.id,
       updatedTodo,
     })
 
-    setModalTodo(updatedTodo);
+    setModalTodo(updatedTodo)
   }
 
   const updateTodoCategoryRemove = async () => {
@@ -76,38 +74,37 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
       return
     }
 
-    const newCategoryId = category.id;
+    const newCategoryId = category.id
 
     const updatedTodo = {
       ...modalTodo,
       category_ids: [...modalTodo.category_ids.filter((catId) => catId !== newCategoryId)],
-    };
-
+    }
 
     await editTodo({
       id: updatedTodo.id,
       updatedTodo,
     })
 
-    setModalTodo(updatedTodo);
+    setModalTodo(updatedTodo)
   }
 
   useEffect(() => {
-    const isCategoryChecked = todoCategory.some((todoCat) => todoCat.id === category.id);
-    setChecked(isCategoryChecked);
-  }, [todoCategory, category]);
+    const isCategoryChecked = todoCategory.some((todoCat) => todoCat.id === category.id)
+    setChecked(isCategoryChecked)
+  }, [todoCategory, category])
 
   const setCheckedCategory = () => {
-  setChecked(!checked);
-  if (checked) {
-    const filteredTodoCategory = todoCategory.filter((todoCat) => todoCat.id !== category.id);
-    setTodoCategory(filteredTodoCategory);
-    updateTodoCategoryRemove();
-  } else {
-    setTodoCategory([...todoCategory, category]);
-    updateTodoCategory();
+    setChecked(!checked)
+    if (checked) {
+      const filteredTodoCategory = todoCategory.filter((todoCat) => todoCat.id !== category.id)
+      setTodoCategory(filteredTodoCategory)
+      updateTodoCategoryRemove()
+    } else {
+      setTodoCategory([...todoCategory, category])
+      updateTodoCategory()
+    }
   }
-}
 
   return (
     <div key={category.id} className='relative flex items-start'>
