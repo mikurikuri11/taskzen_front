@@ -40,7 +40,7 @@ export const TodoManagement: FC = () => {
       <div className='mx-auto max-w-screen-md flex justify-between my-10'>
         <h1 className='text-white text-2xl font-bold mt-4'>Todo Matrix</h1>
         <StyledButton buttonStyle='bg-indigo-500' onClick={openSidebar}>
-          Open Sidebar
+          Todoを作成する
         </StyledButton>
       </div>
       <div className='mx-auto max-w-screen-md flex justify-evenly'>
