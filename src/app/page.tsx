@@ -31,7 +31,7 @@ export default function Home() {
           <LogoutButton />
         )}
         <Link
-          href='/'
+          href='/tutorial'
           passHref
           className='rounded-md px-3 text-lg font-semibold text-white hover:text-gray-300 pt-3 ml-4'
         >
