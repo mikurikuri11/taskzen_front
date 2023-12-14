@@ -46,7 +46,7 @@ export const Tutorial = () => {
         <Step onClick={() => setActiveStep(3)}>4</Step>
       </Stepper>
       <div className="mt-12 text-white">
-        {/* {stepsContent[activeStep]} */}
+        {stepsContent[activeStep]}
       </div>
       <div className="mt-16 flex justify-between">
         <Button onClick={handlePrev} disabled={isFirstStep}>
