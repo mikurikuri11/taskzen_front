@@ -1,5 +1,5 @@
 import { Tutorial } from '@/components/base/Tutorial'
 
-export default async function Home() {
+export default function Home() {
   return <Tutorial />
 }
