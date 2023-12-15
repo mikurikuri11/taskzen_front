@@ -1,13 +1,19 @@
 "use client";
 
-import { Stepper, Step, Button } from "@material-tailwind/react";
-import React, { useState } from "react";
-import { StepPage } from "@/features/tutorial/components/StepPage";
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import MobileStepper from '@mui/material/MobileStepper';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import * as React from 'react';
 
 const steps = [
   {
-    title: "Taskzenとは？",
-    content: (
+    label: 'Taskzenとは？',
+    description: (
       <p>
         Taskzenは、7つの習慣の第3の習慣を実践するためのタスク管理アプリです。<br />
         簡単に言えば、自分にとって今最も重要なことが何かを認識し、それに集中できるアプリです。<br />
@@ -16,8 +22,8 @@ const steps = [
     ),
   },
   {
-    title: "7つの習慣とは？",
-    content: (
+    label: '7つの習慣とは？',
+    description: (
       <p>
         「7つの習慣」は、スティーブン・コヴィーによる自己啓発の名著で、個人と組織の効果的なリーダーシップを提唱しています。<br />
         主要な概念は、自己成長と成功に焦点を当てた7つの習慣に基づいています。初めの3つは「自己主導性」であり、個人の責任感、目標の明確化、優先順位付けを強調します。残りの4つは「相互依存性」で、協力、コミュニケーション、効果的なチームワークに焦点を当てています。<br />
@@ -27,8 +33,8 @@ const steps = [
     ),
   },
   {
-    title: "第3の習慣とは？",
-    content: (
+    label: '第3の習慣とは？',
+    description: (
       <p>
         第3の習慣は、「最優先事項を優先する」ことです。<br />
         ここでいう「最優先事項」とは、なんでしょうか？<br />
@@ -39,8 +45,8 @@ const steps = [
     ),
   },
   {
-    title: "実際にTaskzenを使ってみよう",
-    content: (
+    label: '実際にTaskzenを使ってみよう',
+    description: (
       <p>
         それでは実際にアプリを使ってみましょう。<br />
         アプリを使う前に、ログインする必要があります。<br />
@@ -54,33 +60,83 @@ const steps = [
   },
 ];
 
-export default function Tutorial() {
-  const [activeStep, setActiveStep] = useState(0);
+export default function TextMobileStepper() {
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const maxSteps = steps.length;
 
-  const handleStepChange = (step: number) => {
-    setActiveStep(step);
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   return (
-    <div className="mx-auto max-w-screen-md my-10">
-      <Stepper activeStep={activeStep}>
-        {steps.map((step, index) => (
-          <Step key={index} onClick={() => handleStepChange(index)}>
-            {index + 1}
-          </Step>
-        ))}
-      </Stepper>
-      <div className="mt-12 text-white">
-        <StepPage title={steps[activeStep].title} content={steps[activeStep].content} />
-      </div>
-      <div className="mt-16 flex justify-between">
-        <Button onClick={() => handleStepChange(activeStep - 1)} disabled={activeStep === 0}>
-          前へ
-        </Button>
-        <Button onClick={() => handleStepChange(activeStep + 1)} disabled={activeStep === steps.length - 1}>
-          次へ
-        </Button>
-      </div>
-    </div>
+    <Box
+      sx={{
+        maxWidth: 800,
+        flexGrow: 1,
+        margin: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        my: 6,
+      }}
+    >
+      <Paper
+        square
+        elevation={0}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          height: 50,
+          pl: 2,
+          bgcolor: 'background.default',
+        }}
+      >
+        <Typography variant='h5' fontWeight="bold" mt={3}>{steps[activeStep].label}</Typography>
+      </Paper>
+      <Box
+        sx={{
+          height: 300,
+          width: '100%',
+          p: 2,
+          bgcolor: 'background.default',
+        }}
+      >
+        {steps[activeStep].description}
+      </Box>
+      <MobileStepper
+        variant="text"
+        steps={maxSteps}
+        position="static"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
+            次へ
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowLeft />
+            ) : (
+              <KeyboardArrowRight />
+            )}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowRight />
+            ) : (
+              <KeyboardArrowLeft />
+            )}
+            前へ
+          </Button>
+        }
+      />
+    </Box>
   );
-};
+}
