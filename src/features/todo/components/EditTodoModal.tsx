@@ -38,7 +38,7 @@ export const EditTodoModal: FC<Props> = (props) => {
   const setModalTodo = useSetRecoilState(ModalTodoAtom)
 
   useEffect(() => {
-    const categoryIds = todoCategories.map(category => category.id).filter(id => id !== undefined);
+    const categoryIds = todoCategories.map(category => category.id).filter(id => id !== undefined) as number[];
 
     if (todo) {
       const updateTodos = {
@@ -46,7 +46,11 @@ export const EditTodoModal: FC<Props> = (props) => {
         category_ids: categoryIds,
       }
 
-      setModalTodo(updateTodos);
+      if (todo.category_ids) {
+        setModalTodo(updateTodos)
+      }
+
+
     }
   }, [todo, todoCategories])
 

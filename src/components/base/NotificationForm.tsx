@@ -65,7 +65,7 @@ export const NotificationForm = () => {
         </select>
       </div>
 
-      <StyledSubmitButton className='bg-indigo-500 text-lg' onClick={notify}>
+      <StyledSubmitButton className='bg-indigo-500 text-lg hover:bg-indigo-300' onClick={notify}>
         保存
       </StyledSubmitButton>
       <Toaster position='top-center' reverseOrder={false} />

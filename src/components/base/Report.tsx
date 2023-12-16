@@ -39,7 +39,7 @@ export const Report = () => {
         <StyledButton buttonStyle='bg-indigo-500' onClick={hello}>
           もっと見る
         </StyledButton>
-        <StyledButton buttonStyle='bg-cyan-500' onClick={hello}>
+        <StyledButton buttonStyle='bg-cyan-500 hover:bg-cyan-300' onClick={hello}>
           共有する
         </StyledButton>
       </div>
