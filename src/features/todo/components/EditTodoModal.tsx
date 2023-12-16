@@ -38,7 +38,7 @@ export const EditTodoModal: FC<Props> = (props) => {
   const setModalTodo = useSetRecoilState(ModalTodoAtom)
 
   useEffect(() => {
-    const categoryIds = todoCategories.map(category => category.id).filter(id => id !== undefined);
+    const categoryIds = todoCategories.map(category => category.id).filter(id => id !== undefined).map(id => id as number)
 
     if (todo) {
       const updateTodos = {
@@ -75,7 +75,6 @@ export const EditTodoModal: FC<Props> = (props) => {
   const fetchTodoCategories = async () => {
     if (todo) {
       const todoCategory = await getTodoCategories({ id: todo.id })
-      console.log(todoCategory)
       setTodoCategories(todoCategory)
     }
   }
@@ -153,24 +152,6 @@ export const EditTodoModal: FC<Props> = (props) => {
                             className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 px-2 text-sm font-medium text-gray-900'
                           >
                             <span>{category.name}</span>
-                            {/* <button
-                              onClick={() => category.id && onClickDelete(category.id)}
-                              type='button'
-                              className='inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500'
-                            >
-                              <svg
-                                className='h-2 w-2'
-                                stroke='currentColor'
-                                fill='none'
-                                viewBox='0 0 8 8'
-                              >
-                                <path
-                                  strokeLinecap='round'
-                                  strokeWidth='1.5'
-                                  d='M1 1l6 6m0-6L1 7'
-                                />
-                              </svg>
-                            </button> */}
                           </span>
                         ))}
                     </div>

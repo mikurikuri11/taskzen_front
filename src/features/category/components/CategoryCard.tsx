@@ -52,8 +52,6 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
       return
     }
 
-    console.log('modalTodo', modalTodo)
-
     const newCategoryId = category.id
 
     const updatedTodo = {
