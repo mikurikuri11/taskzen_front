@@ -12,7 +12,6 @@ export const useGetTodoCompleteRate = () => {
       try {
         if (status === 'authenticated' && session) {
           const result = await getTodoCompleteRate({ id: session.user.id })
-          console.log('RESULT' + result)
           setTodoCompleteRate(Math.floor(result))
         }
       } catch (error) {

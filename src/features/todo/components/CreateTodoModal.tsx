@@ -34,7 +34,6 @@ export const CreateTodoModal: FC<Props> = (props) => {
     if (session?.user?.id) {
       addTodo({ todo: data, id: session.user.id })
       const updatedTodos = await getTodos({ id: session.user.id })
-      console.log(updatedTodos)
       setTodos(updatedTodos)
       setOpen(false)
       reset()
