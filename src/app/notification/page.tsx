@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import { NotificationForm } from '@/components/base/NotificationForm'
+import { NotificationForm } from '@/features/notification/components/NotificationForm'
 
 import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
 

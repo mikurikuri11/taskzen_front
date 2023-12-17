@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { TodoManagement } from '@/components/base/TodoManagement'
+import { TodoManagement } from '@/features/todo/components/TodoManagement'
 
 import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
 

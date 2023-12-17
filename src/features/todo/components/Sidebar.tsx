@@ -3,7 +3,7 @@
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
-import { StyledButton } from '../ui/Button/StyledButton'
+import { StyledButton } from '../../../components/ui-elements/Button/StyledButton'
 import { TodoList } from '@/features/todo/components/TodoList'
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
 

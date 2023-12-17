@@ -3,8 +3,8 @@
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
-import { StyledSubmitButton } from '../ui/Button/StyledSubmitButton'
-import ToggleButton from '@/components/ui/Button/ToggleButton'
+import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
+import ToggleButton from '@/components/ui-elements/Button/ToggleButton'
 import { addNotification } from '@/features/notification/api/addNotification'
 import { Notification } from '@/features/notification/api/types'
 
