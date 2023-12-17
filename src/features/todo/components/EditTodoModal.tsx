@@ -8,7 +8,7 @@ import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { editTodo } from '../api/editTodo'
 import { Todo } from '../api/types'
-import { StyledSubmitButton } from '@/components/ui/Button/StyledSubmitButton'
+import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
 import { deleteCategory } from '@/features/category/api/category/deleteCategory'
 import { getTodoCategories } from '@/features/category/api/todoCategory/getTodoCategories'
 import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
@@ -38,7 +38,10 @@ export const EditTodoModal: FC<Props> = (props) => {
   const setModalTodo = useSetRecoilState(ModalTodoAtom)
 
   useEffect(() => {
-    const categoryIds = todoCategories.map(category => category.id).filter(id => id !== undefined).map(id => id as number)
+    const categoryIds = todoCategories
+      .map((category) => category.id)
+      .filter((id) => id !== undefined)
+      .map((id) => id as number)
 
     if (todo) {
       const updateTodos = {
@@ -46,7 +49,7 @@ export const EditTodoModal: FC<Props> = (props) => {
         category_ids: categoryIds,
       }
 
-      setModalTodo(updateTodos);
+      setModalTodo(updateTodos)
     }
   }, [todo, todoCategories])
 

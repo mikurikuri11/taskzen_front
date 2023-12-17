@@ -11,8 +11,8 @@ import { FC, useState } from 'react'
 import { BiLogIn } from 'react-icons/bi'
 
 import { useRecoilState } from 'recoil'
-import { FlyoutMenu } from '../ui/Modal/FlyoutMenu'
-import { LoginModal } from '../ui/Modal/LoginModal'
+import { FlyoutMenu } from '../ui-elements/Modal/FlyoutMenu'
+import { LoginModal } from '../ui-elements/Modal/LoginModal'
 import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
 const navigation = [

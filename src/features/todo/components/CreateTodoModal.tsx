@@ -8,7 +8,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { Todo } from '../api/types'
-import { StyledSubmitButton } from '@/components/ui/Button/StyledSubmitButton'
+import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
 import { getTodos } from '@/features/todo/api/getTodos'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 

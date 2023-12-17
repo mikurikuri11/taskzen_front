@@ -2,8 +2,8 @@
 
 import { useState, useEffect, FC } from 'react'
 import { useRecoilState } from 'recoil'
-import { Sidebar } from '@/components/base/Sidebar'
-import { StyledButton } from '@/components/ui/Button/StyledButton'
+import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
+import { Sidebar } from '@/features/todo/components/Sidebar'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useSetTodosForStatus } from '@/features/todo/hooks/useSetTodosForStatus'
 import { useSetTodos } from '@/hooks/useSetTodos'

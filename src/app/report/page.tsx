@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { Report } from '@/components/base/Report'
+import { Report } from '@/features/report/components/Report'
 
 import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
 

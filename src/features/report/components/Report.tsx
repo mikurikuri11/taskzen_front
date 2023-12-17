@@ -1,6 +1,6 @@
 'use client'
 
-import { StyledButton } from '@/components/ui/Button/StyledButton'
+import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { useGetTodoCompleteRate } from '@/features/report/hooks/useGetTodoCompleteRate'
 
 export const Report = () => {

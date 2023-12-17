@@ -4,8 +4,8 @@ import { Inter } from 'next/font/google'
 
 import { Suspense } from 'react'
 import Loading from './loading'
-import { Footer } from '@/components/base/Footer'
-import { Header } from '@/components/base/Header'
+import { Footer } from '@/components/layouts/Footer'
+import { Header } from '@/components/layouts/Header'
 import NextAuthProvider from '@/providers/NextAuth'
 import { RecoilProvider } from '@/recoil/Provider'
 
