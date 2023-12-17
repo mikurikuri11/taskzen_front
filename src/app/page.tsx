@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRecoilState } from 'recoil'
 
-import { LoginModal } from '@/components/ui-elements/Modal/LoginModal'
 import { LogoutButton } from '@/components/ui-elements/Button/LogoutButton'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
+import { LoginModal } from '@/components/ui-elements/Modal/LoginModal'
 import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
 export default function Home() {
