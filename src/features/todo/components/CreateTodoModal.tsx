@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 
 import { FC, Fragment } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { Todo } from '../api/types'
 import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
@@ -28,7 +28,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
 
   const { data: session, status } = useSession()
 
-  const [todos, setTodos] = useRecoilState(TodoAtom)
+  const setTodos = useSetRecoilState(TodoAtom)
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (session?.user?.id) {

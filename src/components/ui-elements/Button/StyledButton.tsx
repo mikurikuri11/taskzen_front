@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { ButtonProps } from './types'
 
 interface StyledButtonProps extends ButtonProps {
-  buttonStyle: string // ボタンのスタイルを指定するクラス名
+  buttonStyle: string
 }
 
 export const StyledButton: FC<StyledButtonProps> = ({ children, onClick, buttonStyle }) => {

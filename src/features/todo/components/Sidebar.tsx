@@ -1,7 +1,7 @@
 'use client'
 
-import { Dialog, Menu, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { StyledButton } from '../../../components/ui-elements/Button/StyledButton'
 import { TodoList } from '@/features/todo/components/TodoList'
