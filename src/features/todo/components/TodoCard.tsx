@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react'
 import { Fragment, useState, FC } from 'react'
 
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { editTodo } from '../api/editTodo'
 import { getTodos } from '../api/getTodos'
 import { TodoCardProps } from './types'
@@ -10,7 +10,7 @@ import { TodoAtom } from '@/recoil/atoms/todoAtom'
 export const TodoCard: FC<TodoCardProps> = (props) => {
   const { todo, id, openModal } = props
   const [isChecked, setIsChecked] = useState(false)
-  const [todos, setTodos] = useRecoilState(TodoAtom)
+  const setTodos = useSetRecoilState(TodoAtom)
   const { data: session, status } = useSession()
 
   const handleCheckboxClick = async () => {
