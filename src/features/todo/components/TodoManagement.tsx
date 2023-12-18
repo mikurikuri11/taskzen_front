@@ -2,7 +2,7 @@
 
 import { FC } from 'react'
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
-import { useMount, useSetState } from 'react-use';
+import { useSetState } from 'react-use';
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { Sidebar } from '@/features/todo/components/Sidebar'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
@@ -99,7 +99,7 @@ export const TodoManagement: FC = () => {
   };
 
   const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status, type } = data;
+    const { status } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
 
     if (finishedStatuses.includes(status)) {
@@ -108,7 +108,7 @@ export const TodoManagement: FC = () => {
   };
 
   return (
-    <div className='mb-10'>
+    <div className='mt-12 mb-24'>
       <Joyride
         callback={handleJoyrideCallback}
         continuous
@@ -126,14 +126,16 @@ export const TodoManagement: FC = () => {
       />
       <div className='mx-auto max-w-screen-md flex justify-between my-10'>
         <h1 className='text-white text-2xl font-bold mt-4'>Todo Matrix</h1>
-        <StyledButton buttonStyle='bg-indigo-500' onClick={openSidebar}>
-          Todoを作成する
-        </StyledButton>
-        <button className='bg-pink-500 p-3' onClick={handleClickStart}>
+        <div>
+          <StyledButton buttonStyle='bg-indigo-500' onClick={openSidebar}>
+            Todoを作成する
+          </StyledButton>
+        </div>
+        {/* <button className='bg-pink-500 p-3' onClick={handleClickStart}>
           使い方を見る
-        </button>
+        </button> */}
       </div>
-      <div className='mx-auto max-w-screen-md flex justify-evenly'>
+      <div className='mx-auto max-w-screen-md flex justify-evenly mt-16'>
         <div className='text-white star-burst'>緊急</div>
         <div className='text-white'>緊急でない</div>
       </div>
