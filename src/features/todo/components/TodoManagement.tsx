@@ -118,9 +118,9 @@ export const TodoManagement: FC = () => {
       <div className='mx-auto max-w-screen-md flex justify-between my-10'>
         <h1 className='text-white text-2xl font-bold mt-4'>Todo Matrix</h1>
         <div>
-          <StyledButton buttonStyle='bg-cyan-500 mr-4' onClick={handleClickStart}>
+          {/* <StyledButton buttonStyle='bg-cyan-500 mr-4' onClick={handleClickStart}>
             使い方を見る
-          </StyledButton>
+          </StyledButton> */}
           <StyledButton buttonStyle='bg-indigo-500' onClick={openSidebar}>
             Todoを作成する
           </StyledButton>
