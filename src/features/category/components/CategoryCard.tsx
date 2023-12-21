@@ -55,6 +55,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
     const newCategoryId = category.id
 
     const updatedTodo = {
+      // TODO: modalTodoが原因
       ...modalTodo,
       category_ids: [...modalTodo.category_ids, newCategoryId],
     }

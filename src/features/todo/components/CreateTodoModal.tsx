@@ -9,6 +9,7 @@ import { useSetRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { Todo } from '../api/types'
 import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
+import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
 import { getTodos } from '@/features/todo/api/getTodos'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
@@ -89,6 +90,28 @@ export const CreateTodoModal: FC<Props> = (props) => {
                         />
                         {errors.title && <span className='text-red-500'>タイトルは必須です</span>}
                       </div>
+                    </div>
+
+                    <div className='sm:col-span-6'>
+                      <div className='flex '>
+                        <label
+                          htmlFor='zone'
+                          className='block text-sm font-medium leading-6 text-gray-900'
+                        >
+                          カテゴリー
+                        </label>
+                        <CategoryFlyoutMenu />
+                      </div>
+                       {/* TODO: 入力したcategoriesをstateで管理する */}
+                      {/* {todoCategories &&
+                        todoCategories.map((category) => (
+                          <span
+                            key={category.id}
+                            className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 px-2 text-sm font-medium text-gray-900'
+                          >
+                            <span>{category.name}</span>
+                          </span>
+                        ))} */}
                     </div>
 
                     <div className='sm:col-span-4'>
