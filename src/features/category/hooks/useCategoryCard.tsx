@@ -10,7 +10,7 @@ import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
 import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
 
-// todoのカテゴリーを編集するためのカスタムフック
+// カテゴリの編集に関するカスタムフック
 export const useCategoryCard = (category: Category) => {
   const { data: session } = useSession()
   const [editedName, setEditedName] = useState(category.name)
@@ -20,32 +20,27 @@ export const useCategoryCard = (category: Category) => {
   const [todoCategory, setTodoCategory] = useRecoilState(TodoCategoryAtom)
   const [checked, setChecked] = useState(false)
 
-  const handleEdit = async () => {
+  const handleEdit = () => {
     setIsEditing(true)
   }
 
   const handleSave = async () => {
-    const updatedCategory = {
-      name: editedName,
-    }
+    const updatedCategory = { name: editedName }
     await editCategory({ updatedCategory, id: category.id as number })
     setIsEditing(false)
     const categories = await getCategories({ id: session?.user?.id ?? '' })
     setCategories(categories)
   }
 
-  const handleDelete = async (id: number) => {
-    await deleteCategory({ id })
+  const handleDelete = async () => {
+    if (!category.id) return;
+    await deleteCategory({ id: category.id })
     const categories = await getCategories({ id: session?.user?.id ?? '' })
     setCategories(categories)
   }
 
-  const updateTodoCategory = async () => {
-    if (!modalTodo || !category.id) {
-      return
-    }
-
-    const newCategoryId = category.id
+  const updateTodoCategory = async (newCategoryId: number) => {
+    if (!modalTodo || !category.id) return
 
     const updatedTodo = {
       ...modalTodo,
@@ -60,12 +55,8 @@ export const useCategoryCard = (category: Category) => {
     setModalTodo(updatedTodo)
   }
 
-  const updateTodoCategoryRemove = async () => {
-    if (!modalTodo || !category.id) {
-      return
-    }
-
-    const newCategoryId = category.id
+  const updateTodoCategoryRemove = async (newCategoryId: number) => {
+    if (!modalTodo || !category.id) return
 
     const updatedTodo = {
       ...modalTodo,
@@ -87,13 +78,15 @@ export const useCategoryCard = (category: Category) => {
 
   const setCheckedCategory = () => {
     setChecked(!checked)
+    const newCategoryId = category.id as number
+
     if (checked) {
-      const filteredTodoCategory = todoCategory.filter((todoCat) => todoCat.id !== category.id)
+      const filteredTodoCategory = todoCategory.filter((todoCat) => todoCat.id !== newCategoryId)
       setTodoCategory(filteredTodoCategory)
-      updateTodoCategoryRemove()
+      updateTodoCategoryRemove(newCategoryId)
     } else {
       setTodoCategory([...todoCategory, category])
-      updateTodoCategory()
+      updateTodoCategory(newCategoryId)
     }
   }
 

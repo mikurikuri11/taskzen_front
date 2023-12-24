@@ -56,7 +56,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
         ) : (
           <div className='flex gap-1'>
             <CiEdit onClick={handleEdit} />
-            <MdDeleteOutline onClick={() => category && category.id && handleDelete(category.id)} />
+            <MdDeleteOutline onClick={() => category && category.id && handleDelete()} />
           </div>
         )}
       </div>
