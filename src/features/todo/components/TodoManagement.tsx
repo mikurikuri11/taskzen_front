@@ -1,23 +1,31 @@
 'use client'
 
-import { FC } from 'react'
+import { useSession } from 'next-auth/react'
+import { FC, useEffect } from 'react'
 // import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride'
 // import { useSetState } from 'react-use'
 import { useRecoilState } from 'recoil'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
+import { getCategories } from '@/features/category/api/category/getCategories'
 import { CreateTodoModal } from '@/features/todo/components/CreateTodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useTodoManagement } from '@/features/todo/hooks/useTodoManagement'
+import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
 
 export const TodoManagement: FC = () => {
+  const { data: session, status } = useSession()
   const { open, setOpen, todosByOne, todosByTwo, todosByThree, todosByFour, openSidebar } =
     useTodoManagement()
 
+  const [categories, setCategories] = useRecoilState(CategoryAtom)
+
   const [showCreateTodoModal,  setShowCreateTodoModal ] = useRecoilState(showCreateTodoModalAtom);
 
-  const openModal = () => {
+  const openModal = async () => {
     setShowCreateTodoModal(true)
+    const categories = await getCategories({ id: session?.user?.id ?? '' })
+    setCategories(categories)
   }
 
   // interface State {

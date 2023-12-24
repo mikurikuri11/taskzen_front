@@ -8,12 +8,13 @@ interface CategoryListProps {
 }
 
 export const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
+  console.log('render CategoryList' + categories.length)
   return (
     <div className='space-y-5'>
       {categories.length === 0 && <div>カテゴリーがありません</div>}
-      {/* {categories.map((category) => (
+      {categories.map((category) => (
         <CategoryCard key={category.id} category={category} />
-      ))} */}
+      ))}
     </div>
   )
 }
