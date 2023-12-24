@@ -33,7 +33,7 @@ export const useCategoryCard = (category: Category) => {
   }
 
   const handleDelete = async () => {
-    if (!category.id) return;
+    if (!category.id) return
     await deleteCategory({ id: category.id })
     const categories = await getCategories({ id: session?.user?.id ?? '' })
     setCategories(categories)

@@ -20,7 +20,7 @@ export const TodoManagement: FC = () => {
 
   const [categories, setCategories] = useRecoilState(CategoryAtom)
 
-  const [showCreateTodoModal,  setShowCreateTodoModal ] = useRecoilState(showCreateTodoModalAtom);
+  const [showCreateTodoModal, setShowCreateTodoModal] = useRecoilState(showCreateTodoModalAtom)
 
   const openModal = async () => {
     setShowCreateTodoModal(true)

@@ -102,7 +102,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                         </label>
                         <CategoryFlyoutMenu />
                       </div>
-                       {/* TODO: 入力したcategoriesをstateで管理する */}
+                      {/* TODO: 入力したcategoriesをstateで管理する */}
                       {/* {todoCategories &&
                         todoCategories.map((category) => (
                           <span
