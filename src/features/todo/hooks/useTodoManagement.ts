@@ -6,14 +6,14 @@ import { useSetTodos } from '@/hooks/useSetTodos'
 import { incompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 
 type UseTodoManagementResult = {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  todosByOne: Todo[];
-  todosByTwo: Todo[];
-  todosByThree: Todo[];
-  todosByFour: Todo[];
-  openSidebar: () => void;
-};
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  todosByOne: Todo[]
+  todosByTwo: Todo[]
+  todosByThree: Todo[]
+  todosByFour: Todo[]
+  openSidebar: () => void
+}
 
 export const useTodoManagement = (): UseTodoManagementResult => {
   const [open, setOpen] = useState(false)
