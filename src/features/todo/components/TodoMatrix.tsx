@@ -112,20 +112,20 @@ export const TodoMatrix = memo((props: Props) => {
   const todosNameByFour = todosByFour.map((todo) => todo.title);
 
   const initialItems = {
-    container1: todosNameByOne,
-    container2: todosNameByTwo,
-    container3: todosNameByThree,
-    container4: todosNameByFour,
+    第1の領域: todosNameByOne,
+    第2の領域: todosNameByTwo,
+    第3の領域: todosNameByThree,
+    第4の領域: todosNameByFour,
   };
 
-  console.log(initialItems);
+  // console.log(initialItems);
 
   const { items, activeId, sensors, handleDragStart, handleDragOver, handleDragEnd } =
     // TODO: Todoの型のまま、itemsを渡した方がいいかも
     useDragAndDrop(initialItems);
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div className="grid gap-4 sm:grid sm:grid-cols-2 w-full">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}

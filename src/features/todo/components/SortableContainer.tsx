@@ -15,12 +15,12 @@ const SortableContainer = ({
     id,
   });
   return (
-    <div className="bg-slate-200 rounded-md relative hover:cursor-pointer p-4">
+    <div className="bg-white rounded-md relative hover:cursor-pointer p-4">
       <h3 className="text-xl font-bold text-center">{label}</h3>
       <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
         <div
           ref={setNodeRef}
-          className="w-full border-2 p-5 mt-2 rounded-md"
+          className="w-full p-5 mt-2 rounded-md"
         >
           {items.map((id: string) => (
             <SortableItem key={id} id={id} />

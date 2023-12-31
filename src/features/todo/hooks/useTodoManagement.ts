@@ -12,7 +12,6 @@ type UseTodoManagementResult = {
   todosByTwo: Todo[]
   todosByThree: Todo[]
   todosByFour: Todo[]
-  openSidebar: () => void
 }
 
 export const useTodoManagement = (): UseTodoManagementResult => {
@@ -37,10 +36,6 @@ export const useTodoManagement = (): UseTodoManagementResult => {
     setTodosByFour(filterTodosByZone(4))
   }, [incompletedTodos])
 
-  const openSidebar = () => {
-    setOpen(true)
-  }
-
   return {
     open,
     setOpen,
@@ -48,6 +43,5 @@ export const useTodoManagement = (): UseTodoManagementResult => {
     todosByTwo,
     todosByThree,
     todosByFour,
-    openSidebar,
   }
 }
