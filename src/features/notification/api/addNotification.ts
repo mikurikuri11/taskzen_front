@@ -1,4 +1,4 @@
-import { Notification } from './types/index'
+import { Notification } from '../types/index'
 
 type Props = {
   notification: Notification

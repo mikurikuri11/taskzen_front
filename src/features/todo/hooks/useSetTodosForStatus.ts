@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
-import { Todo } from '@/features/todo/api/types/index'
+import { Todo } from '@/features/todo/types/index'
 import { completedTodoAtom } from '@/recoil/atoms/completedTodoAtom'
 import { incompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 

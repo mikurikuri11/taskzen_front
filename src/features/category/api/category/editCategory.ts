@@ -1,4 +1,4 @@
-import { Category } from '../types/index'
+import { Category } from '../../types/index'
 
 type Props = {
   id: number

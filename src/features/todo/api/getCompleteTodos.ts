@@ -1,4 +1,4 @@
-import { Todo } from './types/index'
+import { Todo } from '../types/index'
 
 type Props = {
   id: string

@@ -2,7 +2,7 @@
 
 import { CiEdit } from 'react-icons/ci'
 import { MdSaveAlt, MdDeleteOutline } from 'react-icons/md'
-import { Category } from '../api/types'
+import { Category } from '../types'
 import { useCategoryCard } from '@/features/category/hooks/useCategoryCard'
 
 interface CategoryCardProps {

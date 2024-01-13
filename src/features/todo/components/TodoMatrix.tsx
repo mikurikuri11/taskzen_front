@@ -1,12 +1,12 @@
 'use client'
 
-import { DndContext, DragOverlay, closestCorners } from "@dnd-kit/core";
-import { memo } from "react";
-import { Todo } from '../api/types'
+import { DndContext, DragOverlay, closestCorners } from '@dnd-kit/core'
+import { memo } from 'react'
+import { Todo } from '../types'
 
-import Item from "./Item";
-import SortableContainer from "./SortableContainer";
-import useDragAndDrop from '@/features/todo/hooks/useDragAndDrop';
+import Item from './Item'
+import SortableContainer from './SortableContainer'
+import useDragAndDrop from '@/features/todo/hooks/useDragAndDrop'
 
 type Props = {
   todosByOne: Todo[]
@@ -106,26 +106,26 @@ type Props = {
 export const TodoMatrix = memo((props: Props) => {
   const { todosByOne, todosByTwo, todosByThree, todosByFour } = props
 
-  const todosNameByOne = todosByOne.map((todo) => todo.title);
-  const todosNameByTwo = todosByTwo.map((todo) => todo.title);
-  const todosNameByThree = todosByThree.map((todo) => todo.title);
-  const todosNameByFour = todosByFour.map((todo) => todo.title);
+  const todosNameByOne = todosByOne.map((todo) => todo.title)
+  const todosNameByTwo = todosByTwo.map((todo) => todo.title)
+  const todosNameByThree = todosByThree.map((todo) => todo.title)
+  const todosNameByFour = todosByFour.map((todo) => todo.title)
 
   const initialItems = {
     第1の領域: todosNameByOne,
     第2の領域: todosNameByTwo,
     第3の領域: todosNameByThree,
     第4の領域: todosNameByFour,
-  };
+  }
 
   // console.log(initialItems);
 
   const { items, activeId, sensors, handleDragStart, handleDragOver, handleDragEnd } =
     // TODO: Todoの型のまま、itemsを渡した方がいいかも
-    useDragAndDrop(initialItems);
+    useDragAndDrop(initialItems)
 
   return (
-    <div className="grid gap-4 sm:grid sm:grid-cols-2 w-full">
+    <div className='grid gap-4 sm:grid sm:grid-cols-2 w-full'>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}
@@ -142,6 +142,6 @@ export const TodoMatrix = memo((props: Props) => {
       </DndContext>
     </div>
   )
-});
+})
 
 TodoMatrix.displayName = 'TodoMatrix'
