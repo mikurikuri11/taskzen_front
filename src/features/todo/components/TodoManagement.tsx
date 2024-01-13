@@ -15,10 +15,9 @@ import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 export const TodoManagement: FC = () => {
   const { data: session, status } = useSession()
-  const { open, setOpen, todosByOne, todosByTwo, todosByThree, todosByFour } =
-    useTodoManagement()
+  const { open, setOpen, todosByOne, todosByTwo, todosByThree, todosByFour } = useTodoManagement()
 
-  const [todos, setTodos] = useRecoilState(TodoAtom);
+  const [todos, setTodos] = useRecoilState(TodoAtom)
 
   useEffect(() => {
     const getTodosAsync = async () => {
@@ -32,7 +31,7 @@ export const TodoManagement: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log("todosだよ〜〜" + todos)
+  console.log('todosだよ〜〜' + todos)
 
   const [categories, setCategories] = useRecoilState(CategoryAtom)
 
