@@ -23,7 +23,7 @@ export const TodoMatrix = memo((props: Props) => {
               .filter((todo) => todo.zone === 1)
               .map((todo) => (
                 <li key={todo.id}>
-                  <span>{todo.title}</span>
+                  {todo.title}
                 </li>
               ))}
           </ul>
@@ -44,7 +44,7 @@ export const TodoMatrix = memo((props: Props) => {
               .filter((todo) => todo.zone === 2)
               .map((todo) => (
                 <li key={todo.id}>
-                  <span>{todo.title}</span>
+                  {todo.title}
                 </li>
               ))}
           </ul>
@@ -65,7 +65,7 @@ export const TodoMatrix = memo((props: Props) => {
               .filter((todo) => todo.zone === 3)
               .map((todo) => (
                 <li key={todo.id}>
-                  <span>{todo.title}</span>
+                  {todo.title}
                 </li>
               ))}
           </ul>
@@ -86,7 +86,7 @@ export const TodoMatrix = memo((props: Props) => {
               .filter((todo) => todo.zone === 4)
               .map((todo) => (
                 <li key={todo.id}>
-                  <span>{todo.title}</span>
+                  {todo.title}
                 </li>
               ))}
           </ul>
