@@ -8,8 +8,8 @@ const { persistAtom } = recoilPersist({
   storage: typeof window === 'undefined' ? undefined : window.sessionStorage,
 })
 
-export const incompletedTodoAtom: RecoilState<Todo[]> = atom<Todo[]>({
-  key: 'incompletedTodo',
+export const IncompletedTodoAtom: RecoilState<Todo[]> = atom<Todo[]>({
+  key: 'IncompletedTodo',
   default: [],
   effects_UNSTABLE: [persistAtom],
 })

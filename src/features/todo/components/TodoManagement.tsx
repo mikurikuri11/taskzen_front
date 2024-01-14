@@ -3,35 +3,31 @@
 import { useSession } from 'next-auth/react'
 import { FC, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
+import { getIncompleteTodos } from '../api/getIncompleteTodos'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { getCategories } from '@/features/category/api/category/getCategories'
-import { getTodos } from '@/features/todo/api/getTodos'
 import { CreateTodoModal } from '@/features/todo/components/CreateTodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
-import { useTodoManagement } from '@/features/todo/hooks/useTodoManagement'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
+import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
-import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 export const TodoManagement: FC = () => {
   const { data: session, status } = useSession()
-  const { open, setOpen, todosByOne, todosByTwo, todosByThree, todosByFour } = useTodoManagement()
 
-  const [todos, setTodos] = useRecoilState(TodoAtom)
+  const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   useEffect(() => {
     const getTodosAsync = async () => {
       if (status === 'authenticated' && session) {
-        const todosData = await getTodos({ id: session.user.id })
-        setTodos(todosData)
+        const data = await getIncompleteTodos({ id: session.user.id })
+        setIncompletedTodos(data)
       }
     }
 
     getTodosAsync()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  console.log('todosだよ〜〜', todos)
 
   const [categories, setCategories] = useRecoilState(CategoryAtom)
 
@@ -72,12 +68,7 @@ export const TodoManagement: FC = () => {
             重要でない
           </div>
         </div>
-        <TodoMatrix
-          todosByOne={todosByOne}
-          todosByTwo={todosByTwo}
-          todosByThree={todosByThree}
-          todosByFour={todosByFour}
-        />
+        <TodoMatrix todos={incompletedTodos} />
       </div>
       <CreateTodoModal open={showCreateTodoModal} setOpen={setShowCreateTodoModal} />
     </div>
