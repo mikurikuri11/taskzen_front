@@ -10,7 +10,9 @@ export const TodoCard = (props: Props) => {
   return (
     <li
       className='
-      hover:bg-slate-200
+      hover:ring-2
+      hover:ring-insert
+      hover:ring-gray-500
       cursor-grab
       bg-slate-300
       w-48
