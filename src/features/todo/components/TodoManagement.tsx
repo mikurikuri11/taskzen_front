@@ -8,14 +8,12 @@ import { getCategories } from '@/features/category/api/category/getCategories'
 import { getTodos } from '@/features/todo/api/getTodos'
 import { CreateTodoModal } from '@/features/todo/components/CreateTodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
-import { useTodoManagement } from '@/features/todo/hooks/useTodoManagement'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 export const TodoManagement: FC = () => {
   const { data: session, status } = useSession()
-  const { open, setOpen, todosByOne, todosByTwo, todosByThree, todosByFour } = useTodoManagement()
 
   const [todos, setTodos] = useRecoilState(TodoAtom)
 
@@ -72,12 +70,7 @@ export const TodoManagement: FC = () => {
             重要でない
           </div>
         </div>
-        <TodoMatrix
-          todosByOne={todosByOne}
-          todosByTwo={todosByTwo}
-          todosByThree={todosByThree}
-          todosByFour={todosByFour}
-        />
+        <TodoMatrix todos={todos} />
       </div>
       <CreateTodoModal open={showCreateTodoModal} setOpen={setShowCreateTodoModal} />
     </div>
