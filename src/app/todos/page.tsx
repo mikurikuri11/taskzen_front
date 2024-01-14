@@ -8,7 +8,6 @@ export default async function Home() {
 
   if (!sessionInfo) {
     redirect('/')
-    return null
   }
   return <TodoManagement />
 }
