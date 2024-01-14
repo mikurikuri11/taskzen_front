@@ -1,22 +1,36 @@
-import { memo } from 'react';
+import { memo } from 'react'
 
-import { Todo } from '../types';
-import { TodoZone } from './TodoZone';
+import { Todo } from '../types'
+import { TodoZone } from './TodoZone'
 
-type Props = {
-  todos: Todo[];
-};
+interface Props {
+  todos: Todo[]
+}
 
 export const TodoMatrix = memo((props: Props) => {
-  const { todos } = props;
+  const { todos } = props
 
   return (
-    <div className='mt-4 divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0'>
+    <div
+      className='
+      mt-4
+      divide-y
+      divide-gray-200
+      overflow-hidden
+      rounded-lg
+      bg-gray-200
+      shadow
+      sm:grid
+      sm:grid-cols-2
+      sm:gap-px
+      sm:divide-y-0
+      '
+    >
       {[1, 2, 3, 4].map((zone) => (
         <TodoZone key={zone} zone={zone} todos={todos} />
       ))}
     </div>
-  );
-});
+  )
+})
 
-TodoMatrix.displayName = 'TodoMatrix';
+TodoMatrix.displayName = 'TodoMatrix'
