@@ -31,7 +31,7 @@ export const TodoManagement: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log('todosだよ〜〜' + todos)
+  console.log('todosだよ〜〜', todos)
 
   const [categories, setCategories] = useRecoilState(CategoryAtom)
 
