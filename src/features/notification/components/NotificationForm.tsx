@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
 import ToggleButton from '@/components/ui-elements/Button/ToggleButton'
 import { addNotification } from '@/features/notification/api/addNotification'
-import { Notification } from '@/features/notification/api/types'
+import { Notification } from '@/features/notification/types'
 
 export const NotificationForm = () => {
   const { data: session, status } = useSession()

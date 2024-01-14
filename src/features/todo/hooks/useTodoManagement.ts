@@ -1,7 +1,7 @@
 import { useState, useEffect, FC } from 'react'
 import { useRecoilValue } from 'recoil'
-import { Todo } from '@/features/todo/api/types/index'
 import { useSetTodosForStatus } from '@/features/todo/hooks/useSetTodosForStatus'
+import { Todo } from '@/features/todo/types/index'
 import { useSetTodos } from '@/hooks/useSetTodos'
 import { incompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { Category } from '../api/types'
+import { Category } from '../types'
 import { CategoryCard } from './CategoryCard'
 
 interface CategoryListProps {

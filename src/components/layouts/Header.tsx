@@ -16,7 +16,7 @@ import { LoginModal } from '../ui-elements/Modal/LoginModal'
 import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
 const navigation = [
-  { name: 'ドキュメント', href: '/' },
+  { name: 'ドキュメント', href: '/tutorial' },
   { name: 'Todos', href: '/todos' },
   { name: 'レポート', href: '/report' },
 ]

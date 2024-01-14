@@ -4,7 +4,7 @@ import { Fragment, useState, FC } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { editTodo } from '../api/editTodo'
 import { getTodos } from '../api/getTodos'
-import { TodoCardProps } from './types'
+import { TodoCardProps } from '../types'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 export const TodoCard: FC<TodoCardProps> = (props) => {

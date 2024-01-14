@@ -24,3 +24,9 @@ export type User = {
   updated_at: string
   active: boolean
 }
+
+export interface TodoCardProps {
+  id: number
+  todo: Todo
+  openModal: (id: number) => void
+}
