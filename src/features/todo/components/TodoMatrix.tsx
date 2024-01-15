@@ -1,14 +1,19 @@
-import { memo } from 'react'
+import type { DragStartEvent } from '@dnd-kit/core';
+import { memo } from 'react';
 
-import { Todo } from '../types'
-import { TodoZone } from './TodoZone'
+import { Todo } from '../types';
+import { TodoZone } from './TodoZone';
 
 interface Props {
-  todos: Todo[]
+  todos: Todo[];
 }
 
 export const TodoMatrix = memo((props: Props) => {
-  const { todos } = props
+  const { todos } = props;
+
+  const onDragStart = (event: DragStartEvent) => {
+    console.log('event', event);
+  };
 
   return (
     <div
@@ -27,10 +32,10 @@ export const TodoMatrix = memo((props: Props) => {
       '
     >
       {[1, 2, 3, 4].map((zone) => (
-        <TodoZone key={zone} zone={zone} todos={todos} />
+        <TodoZone key={zone} zone={zone} filterTodos={todos.filter((todo) => todo.zone === zone)} />
       ))}
     </div>
-  )
-})
+  );
+});
 
-TodoMatrix.displayName = 'TodoMatrix'
+TodoMatrix.displayName = 'TodoMatrix';
