@@ -39,7 +39,7 @@ export const TodoCard = (props: Props) => {
         rounded-md
         p-2
         text-center
-        opacity-50
+        opacity-30
         '
       >
       </div>
