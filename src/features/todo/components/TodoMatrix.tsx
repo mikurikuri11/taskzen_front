@@ -1,4 +1,3 @@
-import type { DragStartEvent } from '@dnd-kit/core';
 import { memo } from 'react';
 
 import { Todo } from '../types';
@@ -10,10 +9,6 @@ interface Props {
 
 export const TodoMatrix = memo((props: Props) => {
   const { todos } = props;
-
-  const onDragStart = (event: DragStartEvent) => {
-    console.log('event', event);
-  };
 
   return (
     <div
