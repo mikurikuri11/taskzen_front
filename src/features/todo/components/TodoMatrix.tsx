@@ -1,14 +1,14 @@
-import { memo } from 'react';
+import { memo } from 'react'
 
-import { Todo } from '../types';
-import { TodoZone } from './TodoZone';
+import { Todo } from '../types'
+import { TodoZone } from './TodoZone'
 
 interface Props {
-  todos: Todo[];
+  todos: Todo[]
 }
 
 export const TodoMatrix = memo((props: Props) => {
-  const { todos } = props;
+  const { todos } = props
 
   return (
     <div
@@ -30,7 +30,7 @@ export const TodoMatrix = memo((props: Props) => {
         <TodoZone key={zone} zone={zone} filterTodos={todos.filter((todo) => todo.zone === zone)} />
       ))}
     </div>
-  );
-});
+  )
+})
 
-TodoMatrix.displayName = 'TodoMatrix';
+TodoMatrix.displayName = 'TodoMatrix'

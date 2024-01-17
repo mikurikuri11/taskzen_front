@@ -1,8 +1,8 @@
-import { Todo } from '../types/index'
+import { Id, Todo } from '../types/index'
 
-type Props = {
+interface Props {
   todo: Todo
-  id: string
+  id: Id
 }
 
 export const addTodo = async (props: Props): Promise<Todo> => {
