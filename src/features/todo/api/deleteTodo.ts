@@ -4,11 +4,15 @@ interface Props {
   id: Id
 }
 
-export const deleteTodo = async (props: Props): Promise<Todo> => {
+export const deleteTodo = async (props: Props) => {
   const { id } = props
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/todos/${id}`, {
     method: 'DELETE',
   })
-  const data = await response.json()
-  return data
+  try {
+    const data = await response.json()
+    return data;
+  } catch (e) {
+    console.error('Invalid JSON:', e);
+  }
 }
