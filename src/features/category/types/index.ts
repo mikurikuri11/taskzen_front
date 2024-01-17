@@ -1,4 +1,6 @@
+import { Id } from "@/features/todo/types"
+
 export type Category = {
-  id?: number
+  id?: Id
   name: string
 }

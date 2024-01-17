@@ -1,7 +1,8 @@
-import { Category } from '../../types'
+import { Category } from '@/features/category/types'
+import { Id } from '@/features/todo/types'
 
 type Props = {
-  id: number
+  id: Id
 }
 
 export const deleteCategory = async (props: Props): Promise<Category> => {
