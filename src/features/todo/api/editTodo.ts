@@ -1,8 +1,8 @@
-import { Todo } from '../types/index'
+import { Todo, Id } from '../types/index'
 
-type Props = {
+interface Props {
   updatedTodo: Todo
-  id: number
+  id: Id
 }
 
 export const editTodo = async (props: Props): Promise<Todo> => {

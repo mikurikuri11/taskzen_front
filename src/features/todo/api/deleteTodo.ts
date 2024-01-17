@@ -1,7 +1,7 @@
-import { Todo } from '../types/index'
+import { Todo, Id } from '../types/index'
 
-type Props = {
-  id: number
+interface Props {
+  id: Id
 }
 
 export const deleteTodo = async (props: Props): Promise<Todo> => {
