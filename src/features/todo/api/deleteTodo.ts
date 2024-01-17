@@ -11,8 +11,8 @@ export const deleteTodo = async (props: Props) => {
   })
   try {
     const data = await response.json()
-    return data;
+    return data
   } catch (e) {
-    console.error('Invalid JSON:', e);
+    console.error('Invalid JSON:', e)
   }
 }

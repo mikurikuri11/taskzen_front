@@ -1,4 +1,4 @@
-export type Id = string | number;
+export type Id = string | number
 
 export type Todo = {
   id: Id

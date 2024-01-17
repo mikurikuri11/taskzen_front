@@ -25,26 +25,25 @@ export const TodoZone = ({ zone, filterTodos }: TodoZoneProps) => {
 
   const [activeTodo, setActiveTodo] = useState<Todo | null>(null)
 
-  const [incopleteTodos, setIncompletedTodos ] = useRecoilState(IncompletedTodoAtom)
+  const [incopleteTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   async function handleDeleteTodo(id: Id) {
     if (session?.user?.id) {
-      await deleteTodo({ id });
+      await deleteTodo({ id })
       const updatedTodos = await getIncompleteTodos({ id: session.user.id })
       setIncompletedTodos(updatedTodos)
     }
   }
 
-
   const onDragStart = (event: DragStartEvent) => {
     if (event.active.data.current?.type === 'Todo') {
       setActiveTodo(event.active.data.current.todo)
-      return;
+      return
     }
   }
 
   const onDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+    const { active, over } = event
 
     if (!over || active.id === over.id) {
       return
@@ -59,7 +58,6 @@ export const TodoZone = ({ zone, filterTodos }: TodoZoneProps) => {
 
       return arrayMove(filterTodos, activeTodoIndex, overTodoIndex)
     })
-
   }
 
   return (
@@ -69,45 +67,37 @@ export const TodoZone = ({ zone, filterTodos }: TodoZoneProps) => {
       }`}
     >
       {/* <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}> */}
-        <div className='mt-1'>
-          <h3 className='text-base font-semibold leading-6 text-gray-900'>
-            {zone === 2 ? (
-              <span className='bg-blue-200 rounded-lg p-1'>第{zone}の領域</span>
-            ) : (
-              <span>第{zone}の領域</span>
-            )}
-          </h3>
-          <div
-            className='
+      <div className='mt-1'>
+        <h3 className='text-base font-semibold leading-6 text-gray-900'>
+          {zone === 2 ? (
+            <span className='bg-blue-200 rounded-lg p-1'>第{zone}の領域</span>
+          ) : (
+            <span>第{zone}の領域</span>
+          )}
+        </h3>
+        <div
+          className='
             mt-3
             list-none
             flex
             flex-col
             gap-3
             '
-          >
-            <SortableContext items={todosId}>
-              {filterTodos
-                .filter((todo) => todo.zone === zone)
-                .map((todo) => (
-                  <TodoCard
-                    key={todo.id}
-                    todo={todo}
-                    handleDeleteTodo={handleDeleteTodo}
-                    />
-                ))}
-            </SortableContext>
-          </div>
+        >
+          <SortableContext items={todosId}>
+            {filterTodos
+              .filter((todo) => todo.zone === zone)
+              .map((todo) => (
+                <TodoCard key={todo.id} todo={todo} handleDeleteTodo={handleDeleteTodo} />
+              ))}
+          </SortableContext>
         </div>
-        {/* {createPortal( */}
-          <DragOverlay>
-            {activeTodo &&
-              <TodoCard
-                todo={activeTodo}
-                handleDeleteTodo={handleDeleteTodo}
-                />}
-          </DragOverlay>
-          {/* ,document.body
+      </div>
+      {/* {createPortal( */}
+      <DragOverlay>
+        {activeTodo && <TodoCard todo={activeTodo} handleDeleteTodo={handleDeleteTodo} />}
+      </DragOverlay>
+      {/* ,document.body
         )} */}
       {/* </DndContext> */}
     </div>

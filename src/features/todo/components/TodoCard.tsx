@@ -80,7 +80,7 @@ export const TodoCard = (props: Props) => {
       {mouseIsOver && (
         <button
           onClick={() => {
-            handleDeleteTodo(todo.id);
+            handleDeleteTodo(todo.id)
           }}
           className='
             stroke-white
