@@ -1,8 +1,8 @@
-import { Category } from '../../types/index'
+import { Category } from '@/features/category/types'
+import { Id } from '@/features/todo/types'
 
 type Props = {
-  id: number
-}
+  id: Id}
 
 export const getTodoCategories = async (props: Props): Promise<Category[]> => {
   const { id } = props
