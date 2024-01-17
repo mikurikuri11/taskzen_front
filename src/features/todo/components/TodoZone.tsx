@@ -2,12 +2,15 @@ import { DndContext, DragOverlay } from '@dnd-kit/core'
 import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core'
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
 
+import { useSession } from 'next-auth/react'
 import { useState, useMemo } from 'react'
 import { createPortal } from 'react-dom'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 
-import { Todo } from '../types'
+import { Todo, Id } from '../types'
 import { TodoCard } from './TodoCard'
+import { deleteTodo } from '@/features/todo/api/deleteTodo'
+import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 
 type TodoZoneProps = {
@@ -16,10 +19,22 @@ type TodoZoneProps = {
 }
 
 export const TodoZone = ({ zone, filterTodos }: TodoZoneProps) => {
+  const { data: session, status } = useSession()
+
   const todosId = useMemo(() => filterTodos.map((todo) => todo.id), [filterTodos])
 
   const [activeTodo, setActiveTodo] = useState<Todo | null>(null)
-  const setIncompletedTodos = useSetRecoilState(IncompletedTodoAtom)
+
+  const [incopleteTodos, setIncompletedTodos ] = useRecoilState(IncompletedTodoAtom)
+
+  async function handleDeleteTodo(id: Id) {
+    if (session?.user?.id) {
+      await deleteTodo({ id });
+      const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+      setIncompletedTodos(updatedTodos)
+    }
+  }
+
 
   const onDragStart = (event: DragStartEvent) => {
     if (event.active.data.current?.type === 'Todo') {
@@ -53,7 +68,7 @@ export const TodoZone = ({ zone, filterTodos }: TodoZoneProps) => {
         zone > 1 ? 'divide-y divide-gray-200' : ''
       }`}
     >
-      <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+      {/* <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}> */}
         <div className='mt-1'>
           <h3 className='text-base font-semibold leading-6 text-gray-900'>
             {zone === 2 ? (
@@ -75,18 +90,26 @@ export const TodoZone = ({ zone, filterTodos }: TodoZoneProps) => {
               {filterTodos
                 .filter((todo) => todo.zone === zone)
                 .map((todo) => (
-                  <TodoCard key={todo.id} todo={todo} />
+                  <TodoCard
+                    key={todo.id}
+                    todo={todo}
+                    handleDeleteTodo={handleDeleteTodo}
+                    />
                 ))}
             </SortableContext>
           </div>
         </div>
         {/* {createPortal( */}
           <DragOverlay>
-            {activeTodo && <TodoCard todo={activeTodo} />}
+            {activeTodo &&
+              <TodoCard
+                todo={activeTodo}
+                handleDeleteTodo={handleDeleteTodo}
+                />}
           </DragOverlay>
           {/* ,document.body
         )} */}
-      </DndContext>
+      {/* </DndContext> */}
     </div>
   )
 }
