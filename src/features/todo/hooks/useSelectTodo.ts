@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Todo } from '@/features/todo/types/index'
+import { Id, Todo } from '@/features/todo/types/index'
 
 type Props = {
-  id: number
-  todos: Array<Todo>
+  id: Id
+  incompletedTodos: Array<Todo>
   setShowEditTodoModal: (show: boolean) => void
 }
 
@@ -12,8 +12,8 @@ export const useSelectTodo = () => {
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null)
 
   const onSelectTodo = (props: Props) => {
-    const { id, todos, setShowEditTodoModal } = props
-    const selectedTodo = todos.find((todo) => todo.id === id)
+    const { id, incompletedTodos, setShowEditTodoModal } = props
+    const selectedTodo = incompletedTodos.find((todo) => todo.id === id)
     setSelectedTodo(selectedTodo || null)
     setShowEditTodoModal(true)
   }
