@@ -2,8 +2,8 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react'
-import { useEffect, FC, Fragment, useState, use } from 'react'
-import { useForm, SubmitHandler, set } from 'react-hook-form'
+import { useEffect, FC, Fragment, useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { editTodo } from '../api/editTodo'
@@ -16,10 +16,8 @@ import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { getTodos } from '@/features/todo/api/getTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
-import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
-
 
 type Props = {
   todo: Todo | null
@@ -69,24 +67,29 @@ export const EditTodoModal: FC<Props> = (props) => {
   // }, [todo, todoCategories])
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
-    if (todo?.id) {
-      await editTodo({ updatedTodo: data, id: todo?.id })
-      const updatedTodos = await getTodos({ id: session?.user?.id ?? '' })
-      if (updatedTodos) {
-        setTodos(updatedTodos)
-      } else {
-        setTodos([])
+    if (session?.user?.id) {
+      try {
+        if (!todo) return
+        await editTodo({ updatedTodo: data, id: todo?.id })
+        const updatedTodos = await getIncompleteTodos({ id: session.user.id });
+        setIncompletedTodos(updatedTodos);
+        setOpen(false);
+        reset();
+      } catch (error) {
+        console.log(error)
       }
-      setOpen(false)
-      reset()
     }
   }
 
   async function handleDeleteTodo(id: Id) {
     if (session?.user?.id) {
-      await deleteTodo({ id })
-      const updatedTodos = await getIncompleteTodos({ id: session.user.id })
-      setIncompletedTodos(updatedTodos)
+      try {
+        await deleteTodo({ id })
+        const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+        setIncompletedTodos(updatedTodos)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -243,7 +246,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         <StyledSubmitButton
                           className='bg-indigo-500 text-lg'
                           disabled={!isDirty || !isValid}
-                          onClick={handleSubmit(onSubmit)}
+                          // onClick={handleSubmit(onSubmit)}
                         >
                           更新
                         </StyledSubmitButton>

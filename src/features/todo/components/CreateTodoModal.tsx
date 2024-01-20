@@ -5,12 +5,13 @@ import { useSession } from 'next-auth/react'
 
 import { FC, Fragment } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useSetRecoilState } from 'recoil'
+import { useSetRecoilState, useRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { Todo } from '../types'
 import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
 import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
-import { getTodos } from '@/features/todo/api/getTodos'
+import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
+import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 type Props = {
@@ -30,16 +31,21 @@ export const CreateTodoModal: FC<Props> = (props) => {
   const { data: session, status } = useSession()
 
   const setTodos = useSetRecoilState(TodoAtom)
+  const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (session?.user?.id) {
-      addTodo({ todo: data, id: session.user.id })
-      const updatedTodos = await getTodos({ id: session.user.id })
-      setTodos(updatedTodos)
-      setOpen(false)
-      reset()
+      try {
+        await addTodo({ todo: data, id: session.user.id });
+        const updatedTodos = await getIncompleteTodos({ id: session.user.id });
+        setIncompletedTodos(updatedTodos);
+        setOpen(false);
+        reset();
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
