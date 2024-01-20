@@ -1,14 +1,15 @@
 import { memo } from 'react'
 
-import { Todo } from '../types'
+import { Id, Todo } from '../types'
 import { TodoZone } from './TodoZone'
 
 interface Props {
   todos: Todo[]
+  openEditModal: (id: Id) => void
 }
 
 export const TodoMatrix = memo((props: Props) => {
-  const { todos } = props
+  const { todos, openEditModal } = props
 
   return (
     <div
@@ -27,7 +28,12 @@ export const TodoMatrix = memo((props: Props) => {
       '
     >
       {[1, 2, 3, 4].map((zone) => (
-        <TodoZone key={zone} zone={zone} filterTodos={todos.filter((todo) => todo.zone === zone)} />
+        <TodoZone
+          key={zone}
+          zone={zone}
+          filterTodos={todos.filter((todo) => todo.zone === zone)}
+          openEditModal={openEditModal}
+          />
       ))}
     </div>
   )
