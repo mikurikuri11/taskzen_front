@@ -4,13 +4,17 @@ import { useSession } from 'next-auth/react'
 import { FC, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { getIncompleteTodos } from '../api/getIncompleteTodos'
+import { Id } from '../types'
+import { EditTodoModal } from './EditTodoModal'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { getCategories } from '@/features/category/api/category/getCategories'
 import { CreateTodoModal } from '@/features/todo/components/CreateTodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
+import { useSelectTodo } from '@/features/todo/hooks/useSelectTodo'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
+import { showEditTodoModalAtom } from '@/recoil/atoms/showEditTodoModalAtom'
 
 export const TodoManagement: FC = () => {
   const { data: session, status } = useSession()
@@ -30,13 +34,19 @@ export const TodoManagement: FC = () => {
   }, [])
 
   const [categories, setCategories] = useRecoilState(CategoryAtom)
+  const { selectedTodo, onSelectTodo } = useSelectTodo()
 
   const [showCreateTodoModal, setShowCreateTodoModal] = useRecoilState(showCreateTodoModalAtom)
+  const [showEditTodoModal, setShowEditTodoModal] = useRecoilState(showEditTodoModalAtom)
 
   const openModal = async () => {
     setShowCreateTodoModal(true)
     const categories = await getCategories({ id: session?.user?.id ?? '' })
     setCategories(categories)
+  }
+
+  const openEditModal = (id: Id) => {
+    onSelectTodo({ id, incompletedTodos, setShowEditTodoModal })
   }
 
   return (
@@ -68,9 +78,10 @@ export const TodoManagement: FC = () => {
             重要でない
           </div>
         </div> */}
-        <TodoMatrix todos={incompletedTodos} />
+        <TodoMatrix todos={incompletedTodos} openEditModal={openEditModal} />
       </div>
       <CreateTodoModal open={showCreateTodoModal} setOpen={setShowCreateTodoModal} />
+      <EditTodoModal todo={selectedTodo} open={showEditTodoModal} setOpen={setShowEditTodoModal} />
     </div>
   )
 }

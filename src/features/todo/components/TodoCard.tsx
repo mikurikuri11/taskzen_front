@@ -1,17 +1,18 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useState } from 'react'
-import { FaRegTrashAlt } from 'react-icons/fa'
+import { FaEdit, FaRegTrashAlt } from 'react-icons/fa'
 
 import { Id, Todo } from '../types'
 
 interface Props {
   todo: Todo
   handleDeleteTodo: (id: Id) => void
+  openEditModal: (id: Id) => void
 }
 
 export const TodoCard = (props: Props) => {
-  const { todo, handleDeleteTodo } = props
+  const { todo, handleDeleteTodo, openEditModal } = props
 
   const [mouseIsOver, setMouseIsOver] = useState(false)
   const [editMode, setEditMode] = useState(false)
@@ -62,7 +63,10 @@ export const TodoCard = (props: Props) => {
       style={style}
       {...attributes}
       {...listeners}
-      className='flex justify-between hover:ring-2
+      className='
+      flex
+      justify-between
+      hover:ring-2
       hover:ring-insert
       hover:ring-gray-500
       cursor-grab
@@ -72,16 +76,16 @@ export const TodoCard = (props: Props) => {
       p-2
       text-center
     '
-      onClick={toggleEditMode}
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
     >
       <p>{todo.title}</p>
       {mouseIsOver && (
         <button
-          onClick={() => {
-            handleDeleteTodo(todo.id)
-          }}
+          // onClick={() => {
+          //   handleDeleteTodo(todo.id)
+          // }}
+          onClick={() => openEditModal(todo.id)}
           className='
             stroke-white
             top-1/2
@@ -92,9 +96,12 @@ export const TodoCard = (props: Props) => {
             mr-2
             rounded-full
             cursor-pointer
+            flex
+            gap-2
             '
         >
-          <FaRegTrashAlt />
+          <FaEdit />
+          {/* <FaRegTrashAlt /> */}
         </button>
       )}
     </div>

@@ -13,12 +13,15 @@ import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 
-type TodoZoneProps = {
+interface Props {
   zone: number
   filterTodos: Todo[]
+  openEditModal: (id: Id) => void
 }
 
-export const TodoZone = ({ zone, filterTodos }: TodoZoneProps) => {
+export const TodoZone = (props: Props) => {
+  const { zone, filterTodos, openEditModal } = props
+
   const { data: session, status } = useSession()
 
   const todosId = useMemo(() => filterTodos.map((todo) => todo.id), [filterTodos])
@@ -35,30 +38,30 @@ export const TodoZone = ({ zone, filterTodos }: TodoZoneProps) => {
     }
   }
 
-  const onDragStart = (event: DragStartEvent) => {
-    if (event.active.data.current?.type === 'Todo') {
-      setActiveTodo(event.active.data.current.todo)
-      return
-    }
-  }
+  // const onDragStart = (event: DragStartEvent) => {
+  //   if (event.active.data.current?.type === 'Todo') {
+  //     setActiveTodo(event.active.data.current.todo)
+  //     return
+  //   }
+  // }
 
-  const onDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event
+  // const onDragEnd = (event: DragEndEvent) => {
+  //   const { active, over } = event
 
-    if (!over || active.id === over.id) {
-      return
-    }
+  //   if (!over || active.id === over.id) {
+  //     return
+  //   }
 
-    const activeTaskId = active.id
-    const overTaskId = over.id
+  //   const activeTaskId = active.id
+  //   const overTaskId = over.id
 
-    setIncompletedTodos((filterTodos) => {
-      const activeTodoIndex = filterTodos?.findIndex((todo) => todo.id === activeTaskId)
-      const overTodoIndex = filterTodos?.findIndex((todo) => todo.id === overTaskId)
+  //   setIncompletedTodos((filterTodos) => {
+  //     const activeTodoIndex = filterTodos?.findIndex((todo) => todo.id === activeTaskId)
+  //     const overTodoIndex = filterTodos?.findIndex((todo) => todo.id === overTaskId)
 
-      return arrayMove(filterTodos, activeTodoIndex, overTodoIndex)
-    })
-  }
+  //     return arrayMove(filterTodos, activeTodoIndex, overTodoIndex)
+  //   })
+  // }
 
   return (
     <div
@@ -88,14 +91,24 @@ export const TodoZone = ({ zone, filterTodos }: TodoZoneProps) => {
             {filterTodos
               .filter((todo) => todo.zone === zone)
               .map((todo) => (
-                <TodoCard key={todo.id} todo={todo} handleDeleteTodo={handleDeleteTodo} />
+                <TodoCard
+                  key={todo.id}
+                  todo={todo}
+                  handleDeleteTodo={handleDeleteTodo}
+                  openEditModal={openEditModal}
+                  />
               ))}
           </SortableContext>
         </div>
       </div>
       {/* {createPortal( */}
       <DragOverlay>
-        {activeTodo && <TodoCard todo={activeTodo} handleDeleteTodo={handleDeleteTodo} />}
+        {activeTodo &&
+          <TodoCard
+            todo={activeTodo}
+            handleDeleteTodo={handleDeleteTodo}
+            openEditModal={openEditModal}
+            />}
       </DragOverlay>
       {/* ,document.body
         )} */}
