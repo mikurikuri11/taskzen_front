@@ -7,12 +7,11 @@ import { Id, Todo } from '../types'
 
 interface Props {
   todo: Todo
-  handleDeleteTodo: (id: Id) => void
   openEditModal: (id: Id) => void
 }
 
 export const TodoCard = (props: Props) => {
-  const { todo, handleDeleteTodo, openEditModal } = props
+  const { todo, openEditModal } = props
 
   const [mouseIsOver, setMouseIsOver] = useState(false)
   const [editMode, setEditMode] = useState(false)
@@ -82,9 +81,6 @@ export const TodoCard = (props: Props) => {
       <p>{todo.title}</p>
       {mouseIsOver && (
         <button
-          // onClick={() => {
-          //   handleDeleteTodo(todo.id)
-          // }}
           onClick={() => openEditModal(todo.id)}
           className='
             stroke-white

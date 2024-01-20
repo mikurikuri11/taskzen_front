@@ -12,10 +12,14 @@ import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmit
 import { deleteCategory } from '@/features/category/api/category/deleteCategory'
 import { getTodoCategories } from '@/features/category/api/todoCategory/getTodoCategories'
 import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
+import { deleteTodo } from '@/features/todo/api/deleteTodo'
+import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { getTodos } from '@/features/todo/api/getTodos'
+import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
+
 
 type Props = {
   todo: Todo | null
@@ -46,6 +50,7 @@ export const EditTodoModal: FC<Props> = (props) => {
   const { data: session, status } = useSession()
   const setTodos = useSetRecoilState(TodoAtom)
   const [todoCategories, setTodoCategories] = useRecoilState(TodoCategoryAtom)
+  const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   // useEffect(() => {
   //   const categoryIds = todoCategories
@@ -77,11 +82,11 @@ export const EditTodoModal: FC<Props> = (props) => {
     }
   }
 
-  const onClickDelete = async (id: Id) => {
-    await deleteCategory({ id })
-
-    if (!todo) {
-      return null
+  async function handleDeleteTodo(id: Id) {
+    if (session?.user?.id) {
+      await deleteTodo({ id })
+      const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+      setIncompletedTodos(updatedTodos)
     }
   }
 
@@ -244,7 +249,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         </StyledSubmitButton>
                         <StyledSubmitButton
                           className='bg-red-500'
-                          onClick={() => todo && onClickDelete(todo.id)}
+                          onClick={() => todo && handleDeleteTodo(todo.id)}
                         >
                           削除
                         </StyledSubmitButton>
