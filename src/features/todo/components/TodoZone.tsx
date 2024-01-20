@@ -30,14 +30,6 @@ export const TodoZone = (props: Props) => {
 
   const [incopleteTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
-  async function handleDeleteTodo(id: Id) {
-    if (session?.user?.id) {
-      await deleteTodo({ id })
-      const updatedTodos = await getIncompleteTodos({ id: session.user.id })
-      setIncompletedTodos(updatedTodos)
-    }
-  }
-
   // const onDragStart = (event: DragStartEvent) => {
   //   if (event.active.data.current?.type === 'Todo') {
   //     setActiveTodo(event.active.data.current.todo)
@@ -94,7 +86,6 @@ export const TodoZone = (props: Props) => {
                 <TodoCard
                   key={todo.id}
                   todo={todo}
-                  handleDeleteTodo={handleDeleteTodo}
                   openEditModal={openEditModal}
                   />
               ))}
@@ -106,7 +97,6 @@ export const TodoZone = (props: Props) => {
         {activeTodo &&
           <TodoCard
             todo={activeTodo}
-            handleDeleteTodo={handleDeleteTodo}
             openEditModal={openEditModal}
             />}
       </DragOverlay>

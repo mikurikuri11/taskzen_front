@@ -2,8 +2,8 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react'
-import { useEffect, FC, Fragment, useState, use } from 'react'
-import { useForm, SubmitHandler, set } from 'react-hook-form'
+import { useEffect, FC, Fragment, useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { editTodo } from '../api/editTodo'
@@ -12,8 +12,10 @@ import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmit
 import { deleteCategory } from '@/features/category/api/category/deleteCategory'
 import { getTodoCategories } from '@/features/category/api/todoCategory/getTodoCategories'
 import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
+import { deleteTodo } from '@/features/todo/api/deleteTodo'
+import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { getTodos } from '@/features/todo/api/getTodos'
-import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
+import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
 
@@ -46,6 +48,7 @@ export const EditTodoModal: FC<Props> = (props) => {
   const { data: session, status } = useSession()
   const setTodos = useSetRecoilState(TodoAtom)
   const [todoCategories, setTodoCategories] = useRecoilState(TodoCategoryAtom)
+  const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   // useEffect(() => {
   //   const categoryIds = todoCategories
@@ -64,24 +67,29 @@ export const EditTodoModal: FC<Props> = (props) => {
   // }, [todo, todoCategories])
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
-    if (todo?.id) {
-      await editTodo({ updatedTodo: data, id: todo?.id })
-      const updatedTodos = await getTodos({ id: session?.user?.id ?? '' })
-      if (updatedTodos) {
-        setTodos(updatedTodos)
-      } else {
-        setTodos([])
+    if (session?.user?.id) {
+      try {
+        if (!todo) return
+        await editTodo({ updatedTodo: data, id: todo?.id })
+        const updatedTodos = await getIncompleteTodos({ id: session.user.id });
+        setIncompletedTodos(updatedTodos);
+        setOpen(false);
+        reset();
+      } catch (error) {
+        console.log(error)
       }
-      setOpen(false)
-      reset()
     }
   }
 
-  const onClickDelete = async (id: Id) => {
-    await deleteCategory({ id })
-
-    if (!todo) {
-      return null
+  async function handleDeleteTodo(id: Id) {
+    if (session?.user?.id) {
+      try {
+        await deleteTodo({ id })
+        const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+        setIncompletedTodos(updatedTodos)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -238,13 +246,13 @@ export const EditTodoModal: FC<Props> = (props) => {
                         <StyledSubmitButton
                           className='bg-indigo-500 text-lg'
                           disabled={!isDirty || !isValid}
-                          onClick={handleSubmit(onSubmit)}
+                          // onClick={handleSubmit(onSubmit)}
                         >
                           更新
                         </StyledSubmitButton>
                         <StyledSubmitButton
                           className='bg-red-500'
-                          onClick={() => todo && onClickDelete(todo.id)}
+                          onClick={() => todo && handleDeleteTodo(todo.id)}
                         >
                           削除
                         </StyledSubmitButton>
