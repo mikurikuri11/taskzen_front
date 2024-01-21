@@ -69,8 +69,8 @@ export default function Home() {
         <div className='mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32'>
           <div className='max-w-3xl flex-none sm:max-w-5xl lg:max-w-none'>
             <Image
-              width={700}
-              height={700}
+              width={1000}
+              height={1000}
               src='/taskzenn_matrix_diagram.png'
               alt='App screenshot'
               className='w-[50rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10'
