@@ -28,6 +28,15 @@ type Props = {
 export const EditTodoModal: FC<Props> = (props) => {
   const { todo, open, setOpen } = props
 
+  useEffect(() => {
+    reset({
+      title: todo?.title,
+      zone: todo?.zone,
+      due_date: todo?.due_date,
+      description: todo?.description,
+    });
+  }, [todo]);
+
   const defaultValues = {
     title: todo?.title,
     zone: todo?.zone,
@@ -244,7 +253,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                       </div>
                       <div className='col-span-full flex gap-4'>
                         <StyledSubmitButton
-                          className='bg-indigo-500 text-lg'
+                          className='bg-indigo-500'
                           disabled={!isDirty || !isValid}
                           // onClick={handleSubmit(onSubmit)}
                         >
