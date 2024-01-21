@@ -34,8 +34,8 @@ export const EditTodoModal: FC<Props> = (props) => {
       zone: todo?.zone,
       due_date: todo?.due_date,
       description: todo?.description,
-    });
-  }, [todo]);
+    })
+  }, [todo])
 
   const defaultValues = {
     title: todo?.title,
@@ -80,10 +80,10 @@ export const EditTodoModal: FC<Props> = (props) => {
       try {
         if (!todo) return
         await editTodo({ updatedTodo: data, id: todo?.id })
-        const updatedTodos = await getIncompleteTodos({ id: session.user.id });
-        setIncompletedTodos(updatedTodos);
-        setOpen(false);
-        reset();
+        const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+        setIncompletedTodos(updatedTodos)
+        setOpen(false)
+        reset()
       } catch (error) {
         console.log(error)
       }

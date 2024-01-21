@@ -83,22 +83,14 @@ export const TodoZone = (props: Props) => {
             {filterTodos
               .filter((todo) => todo.zone === zone)
               .map((todo) => (
-                <TodoCard
-                  key={todo.id}
-                  todo={todo}
-                  openEditModal={openEditModal}
-                  />
+                <TodoCard key={todo.id} todo={todo} openEditModal={openEditModal} />
               ))}
           </SortableContext>
         </div>
       </div>
       {/* {createPortal( */}
       <DragOverlay>
-        {activeTodo &&
-          <TodoCard
-            todo={activeTodo}
-            openEditModal={openEditModal}
-            />}
+        {activeTodo && <TodoCard todo={activeTodo} openEditModal={openEditModal} />}
       </DragOverlay>
       {/* ,document.body
         )} */}
