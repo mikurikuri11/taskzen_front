@@ -36,16 +36,16 @@ export const CreateTodoModal: FC<Props> = (props) => {
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (session?.user?.id) {
       try {
-        await addTodo({ todo: data, id: session.user.id });
-        const updatedTodos = await getIncompleteTodos({ id: session.user.id });
-        setIncompletedTodos(updatedTodos);
-        setOpen(false);
-        reset();
+        await addTodo({ todo: data, id: session.user.id })
+        const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+        setIncompletedTodos(updatedTodos)
+        setOpen(false)
+        reset()
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     }
-  };
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>

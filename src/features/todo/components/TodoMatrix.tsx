@@ -33,7 +33,7 @@ export const TodoMatrix = memo((props: Props) => {
           zone={zone}
           filterTodos={todos.filter((todo) => todo.zone === zone)}
           openEditModal={openEditModal}
-          />
+        />
       ))}
     </div>
   )
