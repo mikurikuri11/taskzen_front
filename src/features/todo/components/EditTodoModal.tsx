@@ -14,7 +14,6 @@ import { getTodoCategories } from '@/features/category/api/todoCategory/getTodoC
 import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
 import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
-import { getTodos } from '@/features/todo/api/getTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
@@ -28,6 +27,8 @@ type Props = {
 export const EditTodoModal: FC<Props> = (props) => {
   const { todo, open, setOpen } = props
 
+  const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
+
   useEffect(() => {
     reset({
       title: todo?.title,
@@ -35,6 +36,8 @@ export const EditTodoModal: FC<Props> = (props) => {
       due_date: todo?.due_date,
       description: todo?.description,
     })
+
+    setIsCompleted(todo?.completed || false)
   }, [todo])
 
   const defaultValues = {
@@ -79,7 +82,7 @@ export const EditTodoModal: FC<Props> = (props) => {
     if (session?.user?.id) {
       try {
         if (!todo) return
-        await editTodo({ updatedTodo: data, id: todo?.id })
+        await editTodo({ updatedTodo: { ...data, completed: isCompleted }, id: todo?.id })
         const updatedTodos = await getIncompleteTodos({ id: session.user.id })
         setIncompletedTodos(updatedTodos)
         setOpen(false)
@@ -162,6 +165,25 @@ export const EditTodoModal: FC<Props> = (props) => {
                           className='p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                         />
                         {errors.title && <span className='text-red-500'>タイトルは必須です</span>}
+                      </div>
+                    </div>
+
+                    <div className='sm:col-span-6'>
+                      <label
+                        htmlFor='title'
+                        className='block text-sm font-medium leading-6 text-gray-900'
+                      >
+                        完了
+                      </label>
+                      <div className='mt-2'>
+                        <input
+                          type='checkbox'
+                          id='is_completed'
+                          name='is_completed'
+                          checked={isCompleted}
+                          onChange={(e) => setIsCompleted(e.target.checked)}
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                        />
                       </div>
                     </div>
 
@@ -255,7 +277,6 @@ export const EditTodoModal: FC<Props> = (props) => {
                         <StyledSubmitButton
                           className='bg-indigo-500'
                           disabled={!isDirty || !isValid}
-                          // onClick={handleSubmit(onSubmit)}
                         >
                           更新
                         </StyledSubmitButton>
