@@ -1,50 +1,9 @@
 'use client'
 
-// import {
-//   ArrowPathIcon,
-//   CloudArrowUpIcon,
-//   Cog6ToothIcon,
-//   FingerPrintIcon,
-//   LockClosedIcon,
-//   ServerIcon,
-// } from '@heroicons/react/20/solid'
-
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/splide/css'
 import Image from 'next/image'
-
-// const features = [
-//   {
-//     name: 'Push to deploy.',
-//     description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit aute id magna.',
-//     icon: CloudArrowUpIcon,
-//   },
-//   {
-//     name: 'SSL certificates.',
-//     description: 'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.',
-//     icon: LockClosedIcon,
-//   },
-//   {
-//     name: 'Simple queues.',
-//     description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.',
-//     icon: ArrowPathIcon,
-//   },
-//   {
-//     name: 'Advanced security.',
-//     description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit aute id magna.',
-//     icon: FingerPrintIcon,
-//   },
-//   {
-//     name: 'Powerful API.',
-//     description: 'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.',
-//     icon: Cog6ToothIcon,
-//   },
-//   {
-//     name: 'Database backups.',
-//     description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. ',
-//     icon: ServerIcon,
-//   },
-// ]
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -61,13 +20,13 @@ export default function Home() {
             <Splide
               aria-label='私のお気に入りの画像集'
               options={{
-                // autoplay: true,
-                // interval: 3000,
+                autoplay: true,
+                interval: 3000,
               }}
             >
               <SplideSlide>
                 <h2 className='text-2xl font-bold mt-10 mb-5 text-center'>TaskZennとは</h2>
-                <p className='mb-5 text-center mx-auto max-w-2xl lg:text-left'>
+                <p className='mb-10 text-center mx-auto max-w-2xl lg:text-left'>
                   自分にとって今最も重要なことだけを管理するToDoアプリです。
                   <br />
                   自分にとって今最も重要なこととは、何でしょうか。
@@ -84,20 +43,20 @@ export default function Home() {
                   width={600}
                   height={600}
                   src='/matrix_diagram.png'
-                  className='mx-auto text-center justify-center'
+                  className='mx-auto text-center justify-center border-2 border-gray-200'
                   alt='ToDoの作成方法の画像'
                   style={{ width: '100%', height: '500px', maxWidth: '600px' }}
                 />
                 <p className='text-center mx-auto max-w-2xl lg:text-left mt-4 mb-10 text-gray-400'>
                   参考：
-                  <a href='https://www.franklincovey.co.jp/habit-3' className='text-blue-500'>
+                  <Link href='https://www.franklincovey.co.jp/habit-3' target="_blank" className='text-blue-500'>
                     7つの習慣®「第3の習慣：最優先事項を優先する」
-                  </a>
+                  </Link>
                 </p>
               </SplideSlide>
               <SplideSlide>
                 <h2 className='text-2xl font-bold mt-10 mb-5 text-center'>ToDoの作成方法</h2>
-                <p className='mb-5 text-center mx-auto max-w-2xl lg:text-left'>
+                <p className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
                   ログイン後、画面右上の「ToDoを作成する」ボタンを押して、ToDoを作成します。
                   <br />
                   この際、ToDoのタイトルと領域を入力します。
@@ -111,14 +70,14 @@ export default function Home() {
                   width={600}
                   height={600}
                   src='/taskzenn_matrix_diagram.png'
-                  className='mx-auto text-center justify-center'
+                  className='mx-auto text-center justify-center border-2 border-gray-200'
                   alt='ToDoの作成方法の画像'
                   style={{ width: '100%', height: '500px', maxWidth: '600px' }}
                 />
               </SplideSlide>
               <SplideSlide>
                 <h2 className='text-2xl font-bold mt-10 mb-5 text-center'>その後の機能</h2>
-                <p className='mb-5 text-center mx-auto max-w-2xl lg:text-left'>
+                <p className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
                   ToDoを作成して、TaskZennの使い方に慣れてきたら、
                   <br />
                   レポート機能や通知機能を使ってみましょう。
@@ -132,12 +91,17 @@ export default function Home() {
                     「ログイン」を押して、ログインしてみてください。
                   </span>
                   <br />
+                  ※ログイン済みの方は、以下よりToDo作成画面に移動してください。
+                  <br />
+                  <Link href='/todos' className='font-bold text-blue-500 hover:text-blue-600'>
+                    ToDoを作成する
+                  </Link>
                 </p>
                 <Image
                   width={600}
                   height={600}
                   src='/report.png'
-                  className='mx-auto text-center justify-center'
+                  className='mx-auto text-center justify-center border-2 border-gray-200'
                   alt='ToDoの作成方法の画像'
                   style={{ width: '100%', height: '500px', maxWidth: '600px' }}
                 />
@@ -145,19 +109,6 @@ export default function Home() {
             </Splide>
           </div>
         </div>
-        {/* <div className="mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8">
-          <dl className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base leading-7 text-gray-300 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
-            {features.map((feature) => (
-              <div key={feature.name} className="relative pl-9">
-                <dt className="inline font-semibold text-white">
-                  <feature.icon className="absolute left-1 top-1 h-5 w-5 text-indigo-500" aria-hidden="true" />
-                  {feature.name}
-                </dt>{' '}
-                <dd className="inline">{feature.description}</dd>
-              </div>
-            ))}
-          </dl>
-        </div> */}
       </div>
     </>
   )
