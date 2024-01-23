@@ -4,8 +4,20 @@ import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/splide/css'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { useRecoilState } from 'recoil'
+
+import { LoginModal } from '@/components/ui-elements/Modal/LoginModal'
+import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
 export default function Home() {
+  const { data: session, status } = useSession()
+  const [showLoginModal, setShowLoginModal] = useRecoilState(showLoginModalAtom)
+
+  const openModal = () => {
+    setShowLoginModal(true)
+  }
+
   return (
     <>
       <style>{`
@@ -49,7 +61,11 @@ export default function Home() {
                 />
                 <p className='text-center mx-auto max-w-2xl lg:text-left mt-4 mb-10 text-gray-400'>
                   参考：
-                  <Link href='https://www.franklincovey.co.jp/habit-3' target="_blank" className='text-blue-500'>
+                  <Link
+                    href='https://www.franklincovey.co.jp/habit-3'
+                    target='_blank'
+                    className='text-blue-500'
+                  >
                     7つの習慣®「第3の習慣：最優先事項を優先する」
                   </Link>
                 </p>
@@ -57,7 +73,8 @@ export default function Home() {
               <SplideSlide>
                 <h2 className='text-2xl font-bold mt-10 mb-5 text-center'>ToDoの作成方法</h2>
                 <p className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
-                  ログイン後、画面右上の「ToDoを作成する」ボタンを押して、ToDoを作成します。
+                  画面右上の<span className='font-bold'>「ToDoを作成する」</span>
+                  ボタンを押して、ToDoを作成します。
                   <br />
                   この際、ToDoのタイトルと領域を入力します。
                   <br />
@@ -77,26 +94,36 @@ export default function Home() {
               </SplideSlide>
               <SplideSlide>
                 <h2 className='text-2xl font-bold mt-10 mb-5 text-center'>その後の機能</h2>
-                <p className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
+                <div className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
                   ToDoを作成して、TaskZennの使い方に慣れてきたら、
                   <br />
-                  レポート機能や通知機能を使ってみましょう。
+                  <span className='font-bold'>レポート機能</span>や<span className='font-bold'>通知機能</span>を使ってみましょう。
                   <br />
                   振り返りをすることで、7つの習慣をより効果的に取り入れることができます。
                   <br />
                   TaskZennについて理解できたら、実際に使ってみましょう！
                   <br />
-                  画面右上の
-                  <span className='font-bold'>
-                    「ログイン」を押して、ログインしてみてください。
-                  </span>
-                  <br />
-                  ※ログイン済みの方は、以下よりToDo作成画面に移動してください。
-                  <br />
-                  <Link href='/todos' className='font-bold text-blue-500 hover:text-blue-600'>
-                    ToDoを作成する
-                  </Link>
-                </p>
+                  {status === 'authenticated' ? (
+                    <button>
+                      <Link
+                        href='/todos'
+                        className='font-bold text-indigo-500 hover:text-indigo-700'
+                      >
+                        ToDoを作成する
+                      </Link>
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        onClick={openModal}
+                        className='font-bold text-indigo-500 hover:text-indigo-700'
+                      >
+                        使ってみる
+                      </button>
+                      <div className='text-gray-500 text-sm'>※ログインが必要です</div>
+                    </>
+                  )}
+                </div>
                 <Image
                   width={600}
                   height={600}
@@ -110,6 +137,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <LoginModal open={showLoginModal} setOpen={setShowLoginModal} />
     </>
   )
 }
