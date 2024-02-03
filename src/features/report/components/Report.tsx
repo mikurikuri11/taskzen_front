@@ -1,13 +1,10 @@
 'use client'
 
+import Link from 'next/link'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { useGetTodoCompleteRate } from '@/features/report/hooks/useGetTodoCompleteRate'
 
 export const Report = () => {
-  const hello = () => {
-    console.log('hello')
-  }
-
   const todoCompleteRate = useGetTodoCompleteRate()
 
   return (
@@ -36,11 +33,11 @@ export const Report = () => {
       </div>
 
       <div className='flex gap-5'>
-        <StyledButton buttonStyle='bg-indigo-500' onClick={hello}>
-          もっと見る
+        <StyledButton buttonStyle='bg-indigo-500'>
+          <Link href='/chart'>もっと見る</Link>
         </StyledButton>
-        <StyledButton buttonStyle='bg-cyan-500 hover:bg-cyan-300' onClick={hello}>
-          共有する
+        <StyledButton buttonStyle='bg-cyan-500 hover:bg-cyan-300'>
+          <Link href='/chart'>共有する</Link>
         </StyledButton>
       </div>
     </div>
