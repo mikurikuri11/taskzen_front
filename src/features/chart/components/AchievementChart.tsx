@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useAchievement } from "../../../hooks/useAchievement";
+import { useAchievement } from "../hooks/useAchievement";
 
 type StudyData = {
   date: string;
