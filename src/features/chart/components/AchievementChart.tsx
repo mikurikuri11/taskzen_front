@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import useSWR from "swr";
+import { useAchievement } from "../../../hooks/useAchievement";
 
 type StudyData = {
   date: string;
@@ -67,17 +67,9 @@ const divStyle = {
   border: 'solid 2px blue',
 };
 
-async function fetcher(url: string) {
-  const res = await fetch(url);
-  return res.json();
-}
-
 export const AchievementChart = () => {
   const { data: session, status } = useSession()
-  const { data, error, isLoading } = useSWR(
-    session ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1/achievements/achievements_by_uid/${session.user.id}` : null,
-    fetcher
-  );
+  const { data, error, isLoading } = useAchievement(session ? session.user.id : null);
 
   if (session === null) return <div>loading...</div>
   console.log(data);

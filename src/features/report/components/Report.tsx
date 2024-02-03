@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
-import { useGetTodoCompleteRate } from '@/features/report/hooks/useGetTodoCompleteRate'
+import { useGetTodoCompleteRate } from '@/features/report/hooks/useAhievementToday'
 
 export const Report = () => {
   const todoCompleteRate = useGetTodoCompleteRate()
