@@ -3,10 +3,10 @@
 import { Popover, Transition } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { useSession } from 'next-auth/react'
-import { useEffect, FC, Fragment, useState, ChangeEvent } from 'react'
+import { FC, Fragment, useState, ChangeEvent } from 'react'
 import { useRecoilState } from 'recoil'
 import { addCategory } from '../api/category/addCategory'
-import { getCategories } from '../api/category/getCategories'
+import { useCategory } from '../hooks/useCategory'
 import { CategoryList } from '@/features/category/components/CategoryList'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 
@@ -15,10 +15,9 @@ export const CategoryFlyoutMenu: FC = () => {
   const [categories, setCategories] = useRecoilState(CategoryAtom)
   const [inputCategory, setInputCategory] = useState<string>('')
 
-  // const fetchCategories = async () => {
-  //   const categories = await getCategories({ id: session?.user?.id ?? '' })
-  //   setCategories(categories)
-  // }
+  const { data, error, isLoading } = useCategory(session ? session.user.id : null);
+
+  setCategories(data);
 
   const onClickAdd = async () => {
     const category = {
@@ -28,10 +27,6 @@ export const CategoryFlyoutMenu: FC = () => {
     setCategories((prevCategories) => [...prevCategories, newCategory])
     setInputCategory('')
   }
-
-  // useEffect(() => {
-  //   fetchCategories()
-  // }, [])
 
   return (
     <Popover className='relative'>
@@ -56,7 +51,7 @@ export const CategoryFlyoutMenu: FC = () => {
             <fieldset>
               <legend className='sr-only'>Category</legend>
               {/* TODO: CategoryListコンポーネントを表示する新規作成画面で表示されなくなる */}
-              {/* <CategoryList categories={categories} /> */}
+              <CategoryList categories={categories} />
               <div className='relative mt-2'>
                 <input
                   value={inputCategory}
