@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react'
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { useAchievement } from '../hooks/useAchievement'
+import { useFilteredAchievements } from '../hooks/useFilteredAchievement';
 
 const pStyle = {
   color:'#cac8f3',
@@ -15,6 +16,7 @@ const divStyle = {
 export const AchievementChart = () => {
   const { data: session, status } = useSession()
   const { data, error, isLoading } = useAchievement(session ? session.user.id : null)
+  const { filteredData } = useFilteredAchievements(session ? session.user.id : null);
 
   if (session === null) return <div>loading...</div>
   console.log(data)
@@ -24,7 +26,7 @@ export const AchievementChart = () => {
     <LineChart
       width={1000}
       height={600}
-      data={data}
+      data={filteredData}
       margin={{
         top: 10,
         right: 40,
