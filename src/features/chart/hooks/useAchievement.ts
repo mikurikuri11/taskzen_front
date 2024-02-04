@@ -1,6 +1,8 @@
 import useSWR from "swr";
+// TODO: 型を付けるとエラーが出るので一旦コメントアウト
+// import { Achievement } from "../types";
 
-async function fetchAchievement(url: string) {
+async function fetchAchievement(url: string){
   const res = await fetch(url);
   return res.json();
 }
