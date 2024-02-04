@@ -10,7 +10,6 @@ interface CategoryCardProps {
 }
 
 export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
-  console.log('render CategoryCard' + category.name)
   const {
     editedName,
     setEditedName,
