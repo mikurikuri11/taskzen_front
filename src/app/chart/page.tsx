@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
-import { Report } from '@/features/report/components/Report'
 
+import { AchievementManagement } from '@/features/chart/components/AchievementManagement'
 import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
 
 export default async function Home() {
@@ -9,5 +9,5 @@ export default async function Home() {
   if (!sessionInfo) {
     redirect('/')
   }
-  return <Report />
+  return <AchievementManagement />
 }
