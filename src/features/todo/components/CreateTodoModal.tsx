@@ -12,7 +12,6 @@ import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmit
 import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
-import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 type Props = {
   open: boolean
@@ -30,7 +29,6 @@ export const CreateTodoModal: FC<Props> = (props) => {
 
   const { data: session, status } = useSession()
 
-  const setTodos = useSetRecoilState(TodoAtom)
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
