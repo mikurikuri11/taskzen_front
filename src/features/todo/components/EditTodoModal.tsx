@@ -15,7 +15,6 @@ import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyou
 import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
-import { TodoAtom } from '@/recoil/atoms/todoAtom'
 import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
 
 type Props = {
@@ -58,7 +57,6 @@ export const EditTodoModal: FC<Props> = (props) => {
   })
 
   const { data: session, status } = useSession()
-  const setTodos = useSetRecoilState(TodoAtom)
   const [todoCategories, setTodoCategories] = useRecoilState(TodoCategoryAtom)
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
