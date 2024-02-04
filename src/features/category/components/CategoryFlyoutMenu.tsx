@@ -51,11 +51,12 @@ export const CategoryFlyoutMenu: FC = () => {
         leaveFrom='opacity-100 translate-y-0'
         leaveTo='opacity-0 translate-y-1'
       >
-        <Popover.Panel className='absolute left-1/2 z-10 mt-5 flex max-h-screen overflow-y-auto -translate-x-1/2 px-4 w-auto'>
+        <Popover.Panel className='absolute left-1/2 transform -translate-x-1/2 z-10 flex max-h-screen overflow-y-auto px-4 w-auto'>
           <div className='w-64 shrink rounded-xl bg-slate-300 p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5'>
             <fieldset>
               <legend className='sr-only'>Category</legend>
-              <CategoryList categories={categories} />
+              {/* TODO: CategoryListコンポーネントを表示する新規作成画面で表示されなくなる */}
+              {/* <CategoryList categories={categories} /> */}
               <div className='relative mt-2'>
                 <input
                   value={inputCategory}
