@@ -167,25 +167,6 @@ export const EditTodoModal: FC<Props> = (props) => {
                     </div>
 
                     <div className='sm:col-span-6'>
-                      <label
-                        htmlFor='title'
-                        className='block text-sm font-medium leading-6 text-gray-900'
-                      >
-                        完了
-                      </label>
-                      <div className='mt-2'>
-                        <input
-                          type='checkbox'
-                          id='is_completed'
-                          name='is_completed'
-                          checked={isCompleted}
-                          onChange={(e) => setIsCompleted(e.target.checked)}
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                        />
-                      </div>
-                    </div>
-
-                    <div className='sm:col-span-6'>
                       <div className='flex '>
                         <label
                           htmlFor='zone'
@@ -259,6 +240,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                       >
                         詳細
                       </label>
+
                       <div className='mt-2'>
                         <textarea
                           defaultValue={defaultValues?.description}
@@ -271,6 +253,26 @@ export const EditTodoModal: FC<Props> = (props) => {
                           placeholder='詳細を入力してください'
                         />
                       </div>
+
+                      <div className='sm:col-span-6 mb-7'>
+                        <label
+                          htmlFor='title'
+                          className='block text-sm font-medium leading-6 text-gray-900'
+                        >
+                          完了
+                        </label>
+                        <div className='mt-2'>
+                          <input
+                            type='checkbox'
+                            id='is_completed'
+                            name='is_completed'
+                            checked={isCompleted}
+                            onChange={(e) => setIsCompleted(e.target.checked)}
+                            className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
+                          />
+                        </div>
+                      </div>
+
                       <div className='col-span-full flex gap-4'>
                         <StyledSubmitButton
                           className='bg-indigo-500'
