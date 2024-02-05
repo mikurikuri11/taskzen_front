@@ -40,7 +40,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
   }
 
   return (
-    <div key={category.id} className='relative flex items-start'>
+    <div key={category.id} className='relative flex items-start gap-2'>
       <p>{category.name}</p>
       <div className='flex h-6 items-center'>
         <input
