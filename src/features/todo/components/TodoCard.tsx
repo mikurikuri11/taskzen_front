@@ -16,52 +16,52 @@ export const TodoCard = (props: Props) => {
   const [mouseIsOver, setMouseIsOver] = useState(false)
   const [editMode, setEditMode] = useState(false)
 
-  const toggleEditMode = () => {
-    setEditMode(!editMode)
-    setMouseIsOver(false)
-  }
+  // const toggleEditMode = () => {
+  //   setEditMode(!editMode)
+  //   setMouseIsOver(false)
+  // }
 
-  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
-    id: todo.id,
-    data: {
-      type: 'Todo',
-      todo,
-    },
-  })
+  // const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
+  //   id: todo.id,
+  //   data: {
+  //     type: 'Todo',
+  //     todo,
+  //   },
+  // })
 
-  const style = {
-    transition,
-    transform: CSS.Transform.toString(transform),
-  }
+  // const style = {
+  //   transition,
+  //   transform: CSS.Transform.toString(transform),
+  // }
 
-  if (isDragging) {
-    return (
-      <div
-        ref={setNodeRef}
-        style={style}
-        className='
-        hover:ring-2
-        hover:ring-insert
-        hover:ring-gray-500
-        cursor-grab
-        bg-slate-300
-        w-full
-        h-12
-        rounded-md
-        p-2
-        text-center
-        opacity-30
-        '
-      ></div>
-    )
-  }
+  // if (isDragging) {
+  //   return (
+  //     <div
+  //       ref={setNodeRef}
+  //       style={style}
+  //       className='
+  //       hover:ring-2
+  //       hover:ring-insert
+  //       hover:ring-gray-500
+  //       cursor-grab
+  //       bg-slate-300
+  //       w-full
+  //       h-12
+  //       rounded-md
+  //       p-2
+  //       text-center
+  //       opacity-30
+  //       '
+  //     ></div>
+  //   )
+  // }
 
   return (
     <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
+      // ref={setNodeRef}
+      // style={style}
+      // {...attributes}
+      // {...listeners}
       className='
       flex
       justify-between

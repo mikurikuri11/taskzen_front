@@ -24,11 +24,11 @@ export const TodoZone = (props: Props) => {
 
   const { data: session, status } = useSession()
 
-  const todosId = useMemo(() => filterTodos.map((todo) => todo.id), [filterTodos])
+  // const todosId = useMemo(() => filterTodos.map((todo) => todo.id), [filterTodos])
 
-  const [activeTodo, setActiveTodo] = useState<Todo | null>(null)
+  // const [activeTodo, setActiveTodo] = useState<Todo | null>(null)
 
-  const [incopleteTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
+  // const [incopleteTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   // const onDragStart = (event: DragStartEvent) => {
   //   if (event.active.data.current?.type === 'Todo') {
@@ -57,7 +57,7 @@ export const TodoZone = (props: Props) => {
 
   return (
     <div
-      className={`overflow-y-auto overflow-x-hidden group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 w-96 h-72 border-l ${
+      className={`overflow-y-auto overflow-x-hidden group relative bg-white p-6 w-96 h-72 border-l ${
         zone > 1 ? 'divide-y divide-gray-200' : ''
       }`}
     >
@@ -79,19 +79,19 @@ export const TodoZone = (props: Props) => {
             gap-3
             '
         >
-          <SortableContext items={todosId}>
+          {/* <SortableContext items={todosId}> */}
             {filterTodos
               .filter((todo) => todo.zone === zone)
               .map((todo) => (
                 <TodoCard key={todo.id} todo={todo} openEditModal={openEditModal} />
               ))}
-          </SortableContext>
+          {/* </SortableContext> */}
         </div>
       </div>
       {/* {createPortal( */}
-      <DragOverlay>
+      {/* <DragOverlay>
         {activeTodo && <TodoCard todo={activeTodo} openEditModal={openEditModal} />}
-      </DragOverlay>
+      </DragOverlay> */}
       {/* ,document.body
         )} */}
       {/* </DndContext> */}
