@@ -19,6 +19,8 @@ export const CategoryFlyoutMenu: FC = () => {
 
   setCategories(data);
 
+  console.log(data)
+
   const onClickAdd = async () => {
     const category = {
       name: inputCategory,
@@ -51,7 +53,7 @@ export const CategoryFlyoutMenu: FC = () => {
             <fieldset>
               <legend className='sr-only'>Category</legend>
               {/* TODO: CategoryListコンポーネントを表示する新規作成画面で表示されなくなる */}
-              <CategoryList categories={categories} />
+              <CategoryList />
               <div className='relative mt-2'>
                 <input
                   value={inputCategory}
