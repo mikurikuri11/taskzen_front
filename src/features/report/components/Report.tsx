@@ -12,8 +12,6 @@ export const Report = () => {
   const achievementRate = data && data.length > 0 ? data[0].achievement_rate : null;
 
   if (session === null) return <div>loading...</div>
-  console.log(data);
-  console.log(achievementRate);
 
   return (
     <div className='h-screen flex flex-col justify-center items-center'>

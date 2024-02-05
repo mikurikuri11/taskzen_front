@@ -19,7 +19,6 @@ export const AchievementChart = () => {
   const { filteredData } = useFilteredAchievements(session ? session.user.id : null);
 
   if (session === null) return <div>loading...</div>
-  console.log(data)
 
   return (
     <div className='container'>
