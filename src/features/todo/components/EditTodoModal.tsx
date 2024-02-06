@@ -3,7 +3,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react'
 import { useEffect, FC, Fragment, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { editTodo } from '../api/editTodo'
@@ -17,6 +17,7 @@ import { Category } from '@/features/category/types'
 import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
+// import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
 import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
 
 type Props = {
@@ -28,22 +29,26 @@ type Props = {
 export const EditTodoModal: FC<Props> = (props) => {
   const { todo, open, setOpen } = props
   const { data, error, isLoading } = useTodoCategories(todo?.id ?? 0);
+  // const [modalTodo, setModalTodo] = useRecoilState(ModalTodoAtom)
 
-  console.log('todo', todo)
+  // if (todo) setModalTodo(todo);
+
+  // console.log('todo', todo)
+  // console.log('modalTodo', modalTodo)
   console.log(data, error, isLoading)
 
   const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
 
-  useEffect(() => {
-    reset({
-      title: todo?.title,
-      zone: todo?.zone,
-      due_date: todo?.due_date,
-      description: todo?.description,
-    })
+  // useEffect(() => {
+  //   reset({
+  //     title: todo?.title,
+  //     zone: todo?.zone,
+  //     due_date: todo?.due_date,
+  //     description: todo?.description,
+  //   })
 
-    setIsCompleted(todo?.completed || false)
-  }, [todo])
+  //   setIsCompleted(todo?.completed || false)
+  // }, [todo])
 
   const defaultValues = {
     title: todo?.title,
@@ -66,21 +71,21 @@ export const EditTodoModal: FC<Props> = (props) => {
   const [todoCategories, setTodoCategories] = useRecoilState(TodoCategoryAtom)
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
-  useEffect(() => {
-    const categoryIds = todoCategories
-      .map((category) => category.id)
-      .filter((id) => id !== undefined)
-      .map((id) => id as number)
+  // useEffect(() => {
+  //   const categoryIds = todoCategories
+  //     .map((category) => category.id)
+  //     .filter((id) => id !== undefined)
+  //     .map((id) => id as number)
 
-    if (todo) {
-      const updateTodos = {
-        ...todo,
-        category_ids: categoryIds,
-      }
+  //   if (todo) {
+  //     const updateTodos = {
+  //       ...todo,
+  //       category_ids: categoryIds,
+  //     }
 
       // setModalTodo(updateTodos)
-    }
-  }, [todo, todoCategories])
+  //   }
+  // }, [todo, todoCategories])
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (session?.user?.id) {
@@ -108,17 +113,6 @@ export const EditTodoModal: FC<Props> = (props) => {
       }
     }
   }
-
-  // const fetchTodoCategories = async () => {
-  //   if (todo) {
-  //     const todoCategory = await getTodoCategories({ id: todo.id })
-  //     setTodoCategories(todoCategory)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   fetchTodoCategories()
-  // }, [todo])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -180,7 +174,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         >
                           カテゴリー
                         </label>
-                        <CategoryFlyoutMenu />
+                        <CategoryFlyoutMenu todo={todo} />
                       </div>
                       {data &&
                         data.map((category: Category) => (

@@ -8,9 +8,15 @@ import { useRecoilState } from 'recoil'
 // import { addCategory } from '../api/category/addCategory'
 import { useCategory } from '../hooks/useCategory'
 import { CategoryList } from '@/features/category/components/CategoryList'
+import { Todo } from '@/features/todo/types'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 
-export const CategoryFlyoutMenu: FC = () => {
+interface CategoryFlyoutMenuProps {
+  todo: Todo | null;
+}
+
+export const CategoryFlyoutMenu = (props: CategoryFlyoutMenuProps) => {
+  const { todo } = props
   const { data: session, status } = useSession()
   const [categories, setCategories] = useRecoilState(CategoryAtom)
   // const [inputCategory, setInputCategory] = useState<string>('')
@@ -51,7 +57,7 @@ export const CategoryFlyoutMenu: FC = () => {
             <fieldset>
               <legend className='sr-only'>Category</legend>
               {/* TODO: CategoryListコンポーネントを表示する新規作成画面で表示されなくなる */}
-              <CategoryList />
+              <CategoryList todo={todo} />
               {/* <div className='relative mt-2'>
                 <input
                   value={inputCategory}

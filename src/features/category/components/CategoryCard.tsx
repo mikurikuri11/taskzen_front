@@ -3,14 +3,20 @@
 import { useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
 import { MdSaveAlt, MdDeleteOutline } from 'react-icons/md'
+import { useRecoilState } from 'recoil'
 import { Category } from '../types'
 import { useCategoryCard } from '@/features/category/hooks/useCategoryCard'
+import { editTodo } from '@/features/todo/api/editTodo'
+import { Todo } from '@/features/todo/types'
+import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
 
 interface CategoryCardProps {
+  todo: Todo | null
   category: Category
 }
 
-export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
+export const CategoryCard = (props: CategoryCardProps) => {
+  const { todo, category } = props
   // const {
   //   editedName,
   //   setEditedName,
@@ -23,19 +29,42 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
   // } = useCategoryCard(category)
 
   const [checked, setChecked] = useState(false)
+  const [todoCategory, setTodoCategory] = useRecoilState(TodoCategoryAtom)
+
+  const updateTodoCategory = async (newCategoryId: number) => {
+    if (!todo || !category.id) return
+
+    let updatedCategoryIds = []
+    if (todo.category_ids) {
+        updatedCategoryIds = [...todo.category_ids, newCategoryId]
+    } else {
+        updatedCategoryIds = [newCategoryId]
+    }
+    const updatedTodo = {
+      ...todo,
+      category_ids: updatedCategoryIds,
+    }
+    await editTodo({
+      id: updatedTodo.id,
+      updatedTodo,
+    })
+  }
+
 
   // TODO: カテゴリーのチェックロジックを実装する
   const setCheckedCategory = () => {
     setChecked(!checked)
     const newCategoryId = category.id as number
 
-    if (checked) {
+    if (!checked) {
+      console.log('checked')
+      setTodoCategory([...todoCategory, category])
+      updateTodoCategory(newCategoryId)
+    } else {
+      console.log('unchecked')
       // const filteredTodoCategory = todoCategory.filter((todoCat) => todoCat.id !== newCategoryId)
       // setTodoCategory(filteredTodoCategory)
       // updateTodoCategoryRemove(newCategoryId)
-    } else {
-      // setTodoCategory([...todoCategory, category])
-      // updateTodoCategory(newCategoryId)
     }
   }
 
