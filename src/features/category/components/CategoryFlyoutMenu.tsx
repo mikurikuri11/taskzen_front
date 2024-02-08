@@ -3,7 +3,7 @@
 import { Popover, Transition } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { useSession } from 'next-auth/react'
-import { FC, Fragment, useState, ChangeEvent } from 'react'
+import { Fragment, useState, ChangeEvent } from 'react'
 import { useRecoilState } from 'recoil'
 // import { addCategory } from '../api/category/addCategory'
 import { useCategory } from '../hooks/useCategory'
@@ -19,11 +19,10 @@ export const CategoryFlyoutMenu = (props: CategoryFlyoutMenuProps) => {
   const { todo } = props
   const { data: session, status } = useSession()
   const [categories, setCategories] = useRecoilState(CategoryAtom)
-  // const [inputCategory, setInputCategory] = useState<string>('')
 
-  const { data, error, isLoading } = useCategory(session ? session.user.id : null);
+  const { data: categoryData } = useCategory(session ? session.user.id : null);
 
-  setCategories(data);
+  setCategories(categoryData);
 
   // const onClickAdd = async () => {
   //   const category = {

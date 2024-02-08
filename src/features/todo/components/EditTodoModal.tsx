@@ -18,7 +18,6 @@ import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 // import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
-import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
 
 type Props = {
   todo: Todo | null
@@ -29,13 +28,6 @@ type Props = {
 export const EditTodoModal: FC<Props> = (props) => {
   const { todo, open, setOpen } = props
   const { data, error, isLoading } = useTodoCategories(todo?.id ?? 0);
-  // const [modalTodo, setModalTodo] = useRecoilState(ModalTodoAtom)
-
-  // if (todo) setModalTodo(todo);
-
-  // console.log('todo', todo)
-  // console.log('modalTodo', modalTodo)
-  console.log(data, error, isLoading)
 
   const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
 
@@ -68,7 +60,6 @@ export const EditTodoModal: FC<Props> = (props) => {
   })
 
   const { data: session, status } = useSession()
-  const [todoCategories, setTodoCategories] = useRecoilState(TodoCategoryAtom)
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   // useEffect(() => {
@@ -113,6 +104,8 @@ export const EditTodoModal: FC<Props> = (props) => {
       }
     }
   }
+
+  console.log('Todo', todo)
 
   return (
     <Transition.Root show={open} as={Fragment}>

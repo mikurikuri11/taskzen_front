@@ -1,112 +1,88 @@
-'use client'
-
-import { useState } from 'react'
-import { CiEdit } from 'react-icons/ci'
-import { MdSaveAlt, MdDeleteOutline } from 'react-icons/md'
-import { useRecoilState } from 'recoil'
-import { Category } from '../types'
-import { useCategoryCard } from '@/features/category/hooks/useCategoryCard'
-import { editTodo } from '@/features/todo/api/editTodo'
-import { Todo } from '@/features/todo/types'
-import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
+import React, { useState, useEffect } from 'react';
+import { CiEdit } from 'react-icons/ci';
+import { MdSaveAlt, MdDeleteOutline } from 'react-icons/md';
+import { useRecoilState } from 'recoil';
+import { Category } from '../types';
+import { useCategoryCard } from '@/features/category/hooks/useCategoryCard';
+import { editTodo } from '@/features/todo/api/editTodo';
+import { Todo } from '@/features/todo/types';
 
 interface CategoryCardProps {
-  todo: Todo | null
-  category: Category
+  todo: Todo | null;
+  category: Category;
+  onCategoryCheckChange: (categoryId: number, checked: boolean) => void;
 }
 
 export const CategoryCard = (props: CategoryCardProps) => {
-  const { todo, category } = props
-  // const {
-  //   editedName,
-  //   setEditedName,
-  //   isEditing,
-  //   handleEdit,
-  //   handleSave,
-  //   handleDelete,
-  //   checked,
-  //   setCheckedCategory,
-  // } = useCategoryCard(category)
-
-  const [checked, setChecked] = useState(false)
-  const [todoCategory, setTodoCategory] = useRecoilState(TodoCategoryAtom)
+  const { todo, category, onCategoryCheckChange } = props;
+  const [checked, setChecked] = useState(false);
 
   const updateTodoCategory = async (newCategoryId: number) => {
-    if (!todo || !category.id) return
+    if (!todo || !category.id) return;
 
-    let updatedCategoryIds = []
+    let updatedCategoryIds = [];
     if (todo.category_ids) {
-        updatedCategoryIds = [...todo.category_ids, newCategoryId]
+      updatedCategoryIds = [...todo.category_ids, newCategoryId];
     } else {
-        updatedCategoryIds = [newCategoryId]
+      updatedCategoryIds = [newCategoryId];
     }
     const updatedTodo = {
       ...todo,
       category_ids: updatedCategoryIds,
-    }
+    };
     await editTodo({
       id: updatedTodo.id,
       updatedTodo,
-    })
-  }
+    });
+  };
 
+  const updateTodoCategoryRemove = async (newCategoryId: number) => {
+    if (!todo || !category.id) return;
 
-  // TODO: カテゴリーのチェックロジックを実装する
-  const setCheckedCategory = () => {
-    setChecked(!checked)
-    const newCategoryId = category.id as number
+    const updatedTodo = {
+      ...todo,
+      category_ids: [...todo.category_ids.filter(catId => catId !== newCategoryId)],
+    };
 
-    if (!checked) {
-      console.log('checked')
-      setTodoCategory([...todoCategory, category])
-      updateTodoCategory(newCategoryId)
-    } else {
-      console.log('unchecked')
-      // const filteredTodoCategory = todoCategory.filter((todoCat) => todoCat.id !== newCategoryId)
-      // setTodoCategory(filteredTodoCategory)
-      // updateTodoCategoryRemove(newCategoryId)
-    }
-  }
+    await editTodo({
+      id: updatedTodo.id,
+      updatedTodo,
+    });
+  };
+
+  const handleCheckboxChange = () => {
+    // const newCategoryId = category.id as number;
+    // setChecked(!checked);
+    // onCategoryCheckChange(newCategoryId, !checked);
+    // if (!checked) {
+    //   setTodoCategory([...todoCategory, category]);
+    //   updateTodoCategory(newCategoryId);
+    // } else {
+    //   const filteredTodoCategory = todoCategory.filter(todoCat => todoCat.id !== newCategoryId);
+    //   setTodoCategory(filteredTodoCategory);
+    //   updateTodoCategoryRemove(newCategoryId);
+    // }
+  };
+
+  console.log('todo', todo);
 
   return (
     <div key={category.id} className='relative flex items-start gap-2'>
       <p>{category.name}</p>
       <div className='flex h-6 items-center'>
         <input
-          id='offers'
+          id={category.id?.toString()}
           aria-describedby='offers-description'
-          name='offers'
+          name={category.id?.toString()}
           type='checkbox'
           className='h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
-          onChange={setCheckedCategory}
-          checked={checked}
+          onChange={handleCheckboxChange}
+          checked={checked} // Use checked state here
         />
       </div>
-      <div className='ml-3 text-sm leading-6'>
-        {/* {isEditing ? (
-          <input
-            type='text'
-            value={editedName}
-            onChange={(e) => setEditedName(e.target.value)}
-            className='px-1 rounded border-gray-400 border mr-1'
-          />
-        ) : (
-          <label htmlFor='offers' className='font-medium text-gray-900'>
-            {category.name}
-          </label>
-        )}{' '} */}
-      </div>
+      <div className='ml-3 text-sm leading-6'></div>
       <div className='flex-grow' />
-      <div className='text-xl cursor-pointer'>
-        {/* {isEditing ? (
-          <MdSaveAlt onClick={handleSave} />
-        ) : (
-          <div className='flex gap-1'>
-            <CiEdit onClick={handleEdit} />
-            <MdDeleteOutline onClick={() => category && category.id && handleDelete()} />
-          </div>
-        )} */}
-      </div>
+      <div className='text-xl cursor-pointer'></div>
     </div>
-  )
-}
+  );
+};
