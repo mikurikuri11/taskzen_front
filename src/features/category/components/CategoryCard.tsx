@@ -17,38 +17,47 @@ export const CategoryCard = (props: CategoryCardProps) => {
   const { todo, category, onCategoryCheckChange } = props;
   const [checked, setChecked] = useState(false);
 
-  const updateTodoCategory = async (newCategoryId: number) => {
-    if (!todo || !category.id) return;
+  useEffect(() => {
+    if (!todo || !category) return;
 
-    let updatedCategoryIds = [];
-    if (todo.category_ids) {
-      updatedCategoryIds = [...todo.category_ids, newCategoryId];
-    } else {
-      updatedCategoryIds = [newCategoryId];
-    }
-    const updatedTodo = {
-      ...todo,
-      category_ids: updatedCategoryIds,
-    };
-    await editTodo({
-      id: updatedTodo.id,
-      updatedTodo,
-    });
-  };
+    // todo の categories をチェックして category と一致するものがあれば checked を true に設定する
+    const isCategoryIncluded = todo.categories.some(cat => cat.id === category.id);
+    setChecked(isCategoryIncluded);
+  }, [todo, category]);
 
-  const updateTodoCategoryRemove = async (newCategoryId: number) => {
-    if (!todo || !category.id) return;
 
-    const updatedTodo = {
-      ...todo,
-      category_ids: [...todo.category_ids.filter(catId => catId !== newCategoryId)],
-    };
+  // const updateTodoCategory = async (newCategoryId: number) => {
+  //   if (!todo || !category.id) return;
 
-    await editTodo({
-      id: updatedTodo.id,
-      updatedTodo,
-    });
-  };
+  //   let updatedCategoryIds = [];
+  //   if (todo.category_ids) {
+  //     updatedCategoryIds = [...todo.category_ids, newCategoryId];
+  //   } else {
+  //     updatedCategoryIds = [newCategoryId];
+  //   }
+  //   const updatedTodo = {
+  //     ...todo,
+  //     category_ids: updatedCategoryIds,
+  //   };
+  //   await editTodo({
+  //     id: updatedTodo.id,
+  //     updatedTodo,
+  //   });
+  // };
+
+  // const updateTodoCategoryRemove = async (newCategoryId: number) => {
+  //   if (!todo || !category.id) return;
+
+  //   const updatedTodo = {
+  //     ...todo,
+  //     category_ids: [...todo.category_ids.filter(catId => catId !== newCategoryId)],
+  //   };
+
+  //   await editTodo({
+  //     id: updatedTodo.id,
+  //     updatedTodo,
+  //   });
+  // };
 
   const handleCheckboxChange = () => {
     // const newCategoryId = category.id as number;
@@ -64,8 +73,6 @@ export const CategoryCard = (props: CategoryCardProps) => {
     // }
   };
 
-  console.log('todo', todo);
-
   return (
     <div key={category.id} className='relative flex items-start gap-2'>
       <p>{category.name}</p>
@@ -77,7 +84,7 @@ export const CategoryCard = (props: CategoryCardProps) => {
           type='checkbox'
           className='h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
           onChange={handleCheckboxChange}
-          checked={checked} // Use checked state here
+          checked={checked}
         />
       </div>
       <div className='ml-3 text-sm leading-6'></div>

@@ -1,3 +1,5 @@
+import { Category } from "@/features/category/types"
+
 export type Id = string | number
 
 export type Todo = {
@@ -8,7 +10,7 @@ export type Todo = {
   due_date: string
   completed: boolean
   zone: number
-  category_ids: Id[]
+  categories: Category[]
   created_at: string
   updated_at: string
 }

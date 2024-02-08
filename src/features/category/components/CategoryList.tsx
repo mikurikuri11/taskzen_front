@@ -10,6 +10,7 @@ interface CategoryListProps {
 }
 
 export const CategoryList = (props: CategoryListProps) => {
+  const { todo } = props;
   const [categories, setCategories] = useRecoilState(CategoryAtom)
 
   const handleCategoryCheckChange = (categoryId: Id, checked: boolean) => {
@@ -27,7 +28,7 @@ export const CategoryList = (props: CategoryListProps) => {
         <CategoryCard
           key={category.id}
           category={category}
-          todo={props.todo}
+          todo={todo}
           onCategoryCheckChange={handleCategoryCheckChange}
         />
       ))}
