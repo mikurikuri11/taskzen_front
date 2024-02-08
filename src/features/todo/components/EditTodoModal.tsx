@@ -31,16 +31,17 @@ export const EditTodoModal: FC<Props> = (props) => {
 
   const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
 
-  // useEffect(() => {
-  //   reset({
-  //     title: todo?.title,
-  //     zone: todo?.zone,
-  //     due_date: todo?.due_date,
-  //     description: todo?.description,
-  //   })
+  // 表示するたびにフォームをリセット
+  useEffect(() => {
+    reset({
+      title: todo?.title,
+      zone: todo?.zone,
+      due_date: todo?.due_date,
+      description: todo?.description,
+    })
 
-  //   setIsCompleted(todo?.completed || false)
-  // }, [todo])
+    setIsCompleted(todo?.completed || false)
+  }, [todo])
 
   const defaultValues = {
     title: todo?.title,
