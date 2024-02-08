@@ -3,32 +3,35 @@
 import { Popover, Transition } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { useSession } from 'next-auth/react'
-import { FC, Fragment, useState, ChangeEvent } from 'react'
+import { Fragment, useState, ChangeEvent } from 'react'
 import { useRecoilState } from 'recoil'
-import { addCategory } from '../api/category/addCategory'
+// import { addCategory } from '../api/category/addCategory'
 import { useCategory } from '../hooks/useCategory'
 import { CategoryList } from '@/features/category/components/CategoryList'
+import { Todo } from '@/features/todo/types'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 
-export const CategoryFlyoutMenu: FC = () => {
+interface CategoryFlyoutMenuProps {
+  todo: Todo | null;
+}
+
+export const CategoryFlyoutMenu = (props: CategoryFlyoutMenuProps) => {
+  const { todo } = props
   const { data: session, status } = useSession()
   const [categories, setCategories] = useRecoilState(CategoryAtom)
-  const [inputCategory, setInputCategory] = useState<string>('')
 
-  const { data, error, isLoading } = useCategory(session ? session.user.id : null);
+  const { data: categoryData } = useCategory(session ? session.user.id : null);
 
-  setCategories(data);
+  setCategories(categoryData);
 
-  console.log(data)
-
-  const onClickAdd = async () => {
-    const category = {
-      name: inputCategory,
-    }
-    const newCategory = await addCategory({ category: category, id: session?.user?.id ?? '' })
-    setCategories((prevCategories) => [...prevCategories, newCategory])
-    setInputCategory('')
-  }
+  // const onClickAdd = async () => {
+  //   const category = {
+  //     name: inputCategory,
+  //   }
+  //   const newCategory = await addCategory({ category: category, id: session?.user?.id ?? '' })
+  //   setCategories((prevCategories) => [...prevCategories, newCategory])
+  //   setInputCategory('')
+  // }
 
   return (
     <Popover className='relative'>
@@ -49,12 +52,12 @@ export const CategoryFlyoutMenu: FC = () => {
         leaveTo='opacity-0 translate-y-1'
       >
         <Popover.Panel className='absolute left-1/2 transform -translate-x-1/2 z-10 flex max-h-screen overflow-y-auto px-4 w-auto'>
-          <div className='w-64 shrink rounded-xl bg-slate-300 p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5'>
+          <div className='w-32 h-auto shrink rounded-xl bg-slate-300 p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5'>
             <fieldset>
               <legend className='sr-only'>Category</legend>
               {/* TODO: CategoryListコンポーネントを表示する新規作成画面で表示されなくなる */}
-              <CategoryList />
-              <div className='relative mt-2'>
+              <CategoryList todo={todo} />
+              {/* <div className='relative mt-2'>
                 <input
                   value={inputCategory}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setInputCategory(e.target.value)}
@@ -75,7 +78,7 @@ export const CategoryFlyoutMenu: FC = () => {
                 >
                   追加
                 </button>
-              </div>
+              </div> */}
             </fieldset>
           </div>
         </Popover.Panel>

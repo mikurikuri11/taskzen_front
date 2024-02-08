@@ -3,19 +3,21 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react'
 import { useEffect, FC, Fragment, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { editTodo } from '../api/editTodo'
+import { useTodoCategories } from '../hooks/useTodoCategories'
 import { Id, Todo } from '../types'
 import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
 import { deleteCategory } from '@/features/category/api/category/deleteCategory'
 import { getTodoCategories } from '@/features/category/api/todoCategory/getTodoCategories'
 import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
+import { Category } from '@/features/category/types'
 import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
-import { TodoCategoryAtom } from '@/recoil/atoms/todoCategoryAtom'
+// import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
 
 type Props = {
   todo: Todo | null
@@ -25,19 +27,20 @@ type Props = {
 
 export const EditTodoModal: FC<Props> = (props) => {
   const { todo, open, setOpen } = props
+  const { data, error, isLoading } = useTodoCategories(todo?.id ?? 0);
 
   const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
 
-  useEffect(() => {
-    reset({
-      title: todo?.title,
-      zone: todo?.zone,
-      due_date: todo?.due_date,
-      description: todo?.description,
-    })
+  // useEffect(() => {
+  //   reset({
+  //     title: todo?.title,
+  //     zone: todo?.zone,
+  //     due_date: todo?.due_date,
+  //     description: todo?.description,
+  //   })
 
-    setIsCompleted(todo?.completed || false)
-  }, [todo])
+  //   setIsCompleted(todo?.completed || false)
+  // }, [todo])
 
   const defaultValues = {
     title: todo?.title,
@@ -57,7 +60,6 @@ export const EditTodoModal: FC<Props> = (props) => {
   })
 
   const { data: session, status } = useSession()
-  const [todoCategories, setTodoCategories] = useRecoilState(TodoCategoryAtom)
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   // useEffect(() => {
@@ -72,7 +74,7 @@ export const EditTodoModal: FC<Props> = (props) => {
   //       category_ids: categoryIds,
   //     }
 
-  //     setModalTodo(updateTodos)
+      // setModalTodo(updateTodos)
   //   }
   // }, [todo, todoCategories])
 
@@ -102,17 +104,6 @@ export const EditTodoModal: FC<Props> = (props) => {
       }
     }
   }
-
-  // const fetchTodoCategories = async () => {
-  //   if (todo) {
-  //     const todoCategory = await getTodoCategories({ id: todo.id })
-  //     setTodoCategories(todoCategory)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   fetchTodoCategories()
-  // }, [todo])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -174,13 +165,13 @@ export const EditTodoModal: FC<Props> = (props) => {
                         >
                           カテゴリー
                         </label>
-                        <CategoryFlyoutMenu />
+                        <CategoryFlyoutMenu todo={todo} />
                       </div>
-                      {todoCategories &&
-                        todoCategories.map((category) => (
+                      {data &&
+                        data.map((category: Category) => (
                           <span
                             key={category.id}
-                            className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 px-2 text-sm font-medium text-gray-900'
+                            className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-gray-200 py-1.5 px-2 text-sm font-medium text-gray-900'
                           >
                             <span>{category.name}</span>
                           </span>
