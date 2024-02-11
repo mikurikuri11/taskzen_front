@@ -4,7 +4,6 @@ import { CiEdit } from 'react-icons/ci'
 import { MdSaveAlt, MdDeleteOutline } from 'react-icons/md'
 import { useRecoilState } from 'recoil'
 import { Category } from '../types'
-import { useCategoryCard } from '@/features/category/hooks/useCategoryCard'
 import { editTodo } from '@/features/todo/api/editTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { Todo } from '@/features/todo/types'
@@ -56,6 +55,9 @@ export const CategoryCard = (props: CategoryCardProps) => {
       updatedTodo,
       id: todo.id,
     })
+    if (!session?.user?.id) return
+    const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+    setIncompletedTodos(updatedTodos)
   }
 
   const handleCheckboxChange = () => {
