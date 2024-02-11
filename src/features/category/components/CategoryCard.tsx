@@ -20,11 +20,11 @@ export const CategoryCard = (props: CategoryCardProps) => {
 
   useEffect(() => {
     if (!todo || !category) return
-
-    if (todo.categories.length === 0) {
+    if (!todo || !todo.categories || todo.categories.length === 0) {
       setChecked(false)
       return
     }
+
     const isCategoryIncluded = todo.categories.some((cat) => cat.id === category.id)
     setChecked(isCategoryIncluded)
   }, [todo, category, setChecked])
