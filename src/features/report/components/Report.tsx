@@ -7,9 +7,9 @@ import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 
 export const Report = () => {
   const { data: session, status } = useSession()
-  const { data, error, isLoading } = useAchievementWeek(session ? session.user.id : null);
+  const { data, error, isLoading } = useAchievementWeek(session ? session.user.id : null)
 
-  const achievementRate = data && data.length > 0 ? data[0].achievement_rate : null;
+  const achievementRate = data && data.length > 0 ? data[0].achievement_rate : null
 
   if (session === null) return <div>loading...</div>
 

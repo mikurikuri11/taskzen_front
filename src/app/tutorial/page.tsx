@@ -97,7 +97,8 @@ export default function Home() {
                 <div className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
                   ToDoを作成して、TaskZennの使い方に慣れてきたら、
                   <br />
-                  <span className='font-bold'>レポート機能</span>や<span className='font-bold'>通知機能</span>を使ってみましょう。
+                  <span className='font-bold'>レポート機能</span>や
+                  <span className='font-bold'>通知機能</span>を使ってみましょう。
                   <br />
                   振り返りをすることで、7つの習慣をより効果的に取り入れることができます。
                   <br />
