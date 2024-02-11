@@ -1,77 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import { CiEdit } from 'react-icons/ci';
-import { MdSaveAlt, MdDeleteOutline } from 'react-icons/md';
-import { useRecoilState } from 'recoil';
-import { Category } from '../types';
-import { useCategoryCard } from '@/features/category/hooks/useCategoryCard';
-import { editTodo } from '@/features/todo/api/editTodo';
-import { Todo } from '@/features/todo/types';
+import { useSession } from 'next-auth/react'
+import React, { useState, useEffect } from 'react'
+import { CiEdit } from 'react-icons/ci'
+import { MdSaveAlt, MdDeleteOutline } from 'react-icons/md'
+import { useRecoilState } from 'recoil'
+import { Category } from '../types'
+import { useCategoryCard } from '@/features/category/hooks/useCategoryCard'
+import { editTodo } from '@/features/todo/api/editTodo'
+import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
+import { Todo } from '@/features/todo/types'
+import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 
 interface CategoryCardProps {
-  todo: Todo | null;
-  category: Category;
-  onCategoryCheckChange: (categoryId: number, checked: boolean) => void;
+  todo: Todo | null | undefined
+  category: Category
 }
 
 export const CategoryCard = (props: CategoryCardProps) => {
-  const { todo, category, onCategoryCheckChange } = props;
-  const [checked, setChecked] = useState(false);
+  const { todo, category } = props
+  const [checked, setChecked] = useState(false)
+  const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
+  const { data: session, status } = useSession()
 
   useEffect(() => {
-    if (!todo || !category) return;
+    if (!todo || !category) return
 
     // todo の categories をチェックして category と一致するものがあれば checked を true に設定する
-    const isCategoryIncluded = todo.categories.some(cat => cat.id === category.id);
-    setChecked(isCategoryIncluded);
-  }, [todo, category]);
+    const isCategoryIncluded = todo.categories.some((cat) => cat.id === category.id)
+    setChecked(isCategoryIncluded)
+  }, [todo, category, setChecked])
 
+  const updateTodoCategory = async (categoryId: number) => {
+    if (!todo) return
 
-  // const updateTodoCategory = async (newCategoryId: number) => {
-  //   if (!todo || !category.id) return;
+    const updatedTodo = {
+      ...todo,
+      categories: [...todo.categories, { id: categoryId, name: category.name }],
+    }
+    await editTodo({
+      updatedTodo,
+      id: todo.id,
+    })
+    if (!session?.user?.id) return
+    const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+    setIncompletedTodos(updatedTodos)
+  }
 
-  //   let updatedCategoryIds = [];
-  //   if (todo.category_ids) {
-  //     updatedCategoryIds = [...todo.category_ids, newCategoryId];
-  //   } else {
-  //     updatedCategoryIds = [newCategoryId];
-  //   }
-  //   const updatedTodo = {
-  //     ...todo,
-  //     category_ids: updatedCategoryIds,
-  //   };
-  //   await editTodo({
-  //     id: updatedTodo.id,
-  //     updatedTodo,
-  //   });
-  // };
+  const updateTodoCategoryRemove = async (categoryId: number) => {
+    if (!todo) return
 
-  // const updateTodoCategoryRemove = async (newCategoryId: number) => {
-  //   if (!todo || !category.id) return;
-
-  //   const updatedTodo = {
-  //     ...todo,
-  //     category_ids: [...todo.category_ids.filter(catId => catId !== newCategoryId)],
-  //   };
-
-  //   await editTodo({
-  //     id: updatedTodo.id,
-  //     updatedTodo,
-  //   });
-  // };
+    const updatedTodo = {
+      ...todo,
+      categories: todo.categories.filter((cat) => cat.id !== categoryId),
+    }
+    await editTodo({
+      updatedTodo,
+      id: todo.id,
+    })
+  }
 
   const handleCheckboxChange = () => {
-    // const newCategoryId = category.id as number;
-    // setChecked(!checked);
-    // onCategoryCheckChange(newCategoryId, !checked);
-    // if (!checked) {
-    //   setTodoCategory([...todoCategory, category]);
-    //   updateTodoCategory(newCategoryId);
-    // } else {
-    //   const filteredTodoCategory = todoCategory.filter(todoCat => todoCat.id !== newCategoryId);
-    //   setTodoCategory(filteredTodoCategory);
-    //   updateTodoCategoryRemove(newCategoryId);
-    // }
-  };
+    const newCategoryId = category.id as number
+    setChecked(!checked)
+    if (checked) {
+      updateTodoCategoryRemove(newCategoryId)
+    } else {
+      updateTodoCategory(newCategoryId)
+    }
+  }
 
   return (
     <div key={category.id} className='relative flex items-start gap-2'>
@@ -91,5 +86,5 @@ export const CategoryCard = (props: CategoryCardProps) => {
       <div className='flex-grow' />
       <div className='text-xl cursor-pointer'></div>
     </div>
-  );
-};
+  )
+}

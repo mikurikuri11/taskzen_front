@@ -12,7 +12,7 @@ import { Todo } from '@/features/todo/types'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 
 interface CategoryFlyoutMenuProps {
-  todo: Todo | null;
+  todo?: Todo | null;
 }
 
 export const CategoryFlyoutMenu = (props: CategoryFlyoutMenuProps) => {

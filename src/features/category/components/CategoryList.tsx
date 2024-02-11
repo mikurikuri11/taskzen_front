@@ -6,20 +6,12 @@ import { Id, Todo } from '@/features/todo/types'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 
 interface CategoryListProps {
-  todo: Todo | null;
+  todo: Todo | null | undefined;
 }
 
 export const CategoryList = (props: CategoryListProps) => {
   const { todo } = props;
   const [categories, setCategories] = useRecoilState(CategoryAtom)
-
-  const handleCategoryCheckChange = (categoryId: Id, checked: boolean) => {
-    setCategories(prevCategories =>
-      prevCategories.map(category =>
-        category.id === categoryId ? { ...category, checked } : category
-      )
-    );
-  };
 
   return (
     <div className='space-y-5'>
@@ -29,7 +21,6 @@ export const CategoryList = (props: CategoryListProps) => {
           key={category.id}
           category={category}
           todo={todo}
-          onCategoryCheckChange={handleCategoryCheckChange}
         />
       ))}
     </div>
