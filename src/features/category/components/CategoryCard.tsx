@@ -1,7 +1,5 @@
 import { useSession } from 'next-auth/react'
 import React, { useState, useEffect } from 'react'
-import { CiEdit } from 'react-icons/ci'
-import { MdSaveAlt, MdDeleteOutline } from 'react-icons/md'
 import { useRecoilState } from 'recoil'
 import { Category } from '../types'
 import { editTodo } from '@/features/todo/api/editTodo'
@@ -23,7 +21,10 @@ export const CategoryCard = (props: CategoryCardProps) => {
   useEffect(() => {
     if (!todo || !category) return
 
-    // todo の categories をチェックして category と一致するものがあれば checked を true に設定する
+    if (todo.categories.length === 0) {
+      setChecked(false)
+      return
+    }
     const isCategoryIncluded = todo.categories.some((cat) => cat.id === category.id)
     setChecked(isCategoryIncluded)
   }, [todo, category, setChecked])
