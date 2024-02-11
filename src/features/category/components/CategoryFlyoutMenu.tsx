@@ -12,7 +12,7 @@ import { Todo } from '@/features/todo/types'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 
 interface CategoryFlyoutMenuProps {
-  todo: Todo | null;
+  todo?: Todo | null
 }
 
 export const CategoryFlyoutMenu = (props: CategoryFlyoutMenuProps) => {
@@ -20,9 +20,9 @@ export const CategoryFlyoutMenu = (props: CategoryFlyoutMenuProps) => {
   const { data: session, status } = useSession()
   const [categories, setCategories] = useRecoilState(CategoryAtom)
 
-  const { data: categoryData } = useCategory(session ? session.user.id : null);
+  const { data: categoryData } = useCategory(session ? session.user.id : null)
 
-  setCategories(categoryData);
+  setCategories(categoryData)
 
   // const onClickAdd = async () => {
   //   const category = {

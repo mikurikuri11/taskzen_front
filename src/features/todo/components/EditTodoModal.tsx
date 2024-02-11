@@ -27,7 +27,7 @@ type Props = {
 
 export const EditTodoModal: FC<Props> = (props) => {
   const { todo, open, setOpen } = props
-  const { data, error, isLoading } = useTodoCategories(todo?.id ?? 0);
+  const { data, error, isLoading } = useTodoCategories(todo?.id ?? 0)
 
   const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
 
@@ -75,7 +75,7 @@ export const EditTodoModal: FC<Props> = (props) => {
   //       category_ids: categoryIds,
   //     }
 
-      // setModalTodo(updateTodos)
+  // setModalTodo(updateTodos)
   //   }
   // }, [todo, todoCategories])
 

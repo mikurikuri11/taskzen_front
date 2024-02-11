@@ -80,11 +80,11 @@ export const TodoZone = (props: Props) => {
             '
         >
           {/* <SortableContext items={todosId}> */}
-            {filterTodos
-              .filter((todo) => todo.zone === zone)
-              .map((todo) => (
-                <TodoCard key={todo.id} todo={todo} openEditModal={openEditModal} />
-              ))}
+          {filterTodos
+            .filter((todo) => todo.zone === zone)
+            .map((todo) => (
+              <TodoCard key={todo.id} todo={todo} openEditModal={openEditModal} />
+            ))}
           {/* </SortableContext> */}
         </div>
       </div>
