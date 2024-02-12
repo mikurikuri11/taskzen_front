@@ -1,12 +1,18 @@
 import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth/next'
+import { getCategory } from '@/features/category/api/category/getCategory'
+import { CategoryTable } from '@/features/category/components/category-setting/CategoryTable'
+import { nextAuthOptions } from '@/libs/next-auth/options'
 
-import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
+export default async function Page() {
+  const session = await getServerSession(nextAuthOptions)
+  const userId = session?.user.id
 
-export default async function Home() {
-  const sessionInfo: SessionInfo | null = await useGetServerSession()
+  const categories = await getCategory({ id: userId })
 
-  if (!sessionInfo) {
+  if (!session) {
     redirect('/')
   }
-  return <>Hello</>
+
+  return <CategoryTable categories={categories} />
 }
