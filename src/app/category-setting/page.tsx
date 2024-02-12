@@ -1,7 +1,12 @@
 import { getServerSession } from 'next-auth/next'
+import { getCategory } from '@/features/category/api/category/getCategory'
+import { CategoryTable } from '@/features/category/components/category-setting/CategoryTable'
 import { nextAuthOptions } from '@/libs/next-auth/options'
 
 export default async function Page() {
   const session = await getServerSession(nextAuthOptions)
-  return <pre className='text-white'>{JSON.stringify(session, null, 2)}</pre>
+  const userId = session?.user.id
+  const categories = await getCategory({ id: userId })
+
+  return <CategoryTable categories={categories} />
 }

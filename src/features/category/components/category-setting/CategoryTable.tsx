@@ -4,13 +4,12 @@ import { useSession } from "next-auth/react"
 import { useCategory } from "../../hooks/useCategory"
 import { Category } from "../../types";
 
-export const CategoryTable = () => {
-  const { data: session, status } = useSession()
-  const { data: categoryData, isLoading } = useCategory(session ? session.user.id : null)
+interface Props {
+  categories: Category[]
+}
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+export const CategoryTable = (props: Props) => {
+  const { categories } = props;
 
   return (
     <div className='bg-gray-900'>
@@ -70,7 +69,7 @@ export const CategoryTable = () => {
                       </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-800'>
-                      {categoryData.map((category: Category) => (
+                      {categories.map((category: Category) => (
                         <tr key={category.id}>
                           <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0'>
                             {category.name}
