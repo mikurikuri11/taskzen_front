@@ -2,10 +2,10 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { CiEdit } from 'react-icons/ci'
-import { MdDeleteOutline } from 'react-icons/md'
 import { deleteCategory } from '../../api/category/deleteCategory'
+import { editCategory } from '../../api/category/editCategory'
 import { Category } from '../../types'
+import { CategoryItem } from './CategoryItem'
 import { CreateCategoryModal } from './CreateCategoryModal'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { Id } from '@/features/todo/types'
@@ -28,6 +28,11 @@ export const CategoryTable = (props: Props) => {
     router.refresh()
   }
 
+  const handleUpdate = async (id: Id, name: string) => {
+    await editCategory({ id, name })
+    router.refresh()
+  }
+
   return (
     <>
       <div className='mx-auto max-w-7xl text-white py-10'>
@@ -47,20 +52,12 @@ export const CategoryTable = (props: Props) => {
                   <div className='inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8'>
                     <div className='min-w-full divide-y divide-gray-700'>
                       {categories.map((category) => (
-                        <div key={category.id} className='flex'>
-                          <h2 className='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0'>
-                            {category.name}
-                          </h2>
-                          <div className='mt-5 text-2xl ml-auto flex gap-4'>
-                            <CiEdit
-                              className='cursor-pointer hover:text-blue-400'
-                            />
-                            <MdDeleteOutline
-                              className='cursor-pointer hover:text-red-400'
-                              onClick={() => category.id && handleDelete(category.id)}
-                            />
-                          </div>
-                        </div>
+                        <CategoryItem
+                          key={category.id}
+                          category={category}
+                          onDelete={() => category.id && handleDelete(category.id)}
+                          handleUpdate={handleUpdate}
+                        />
                       ))}
                     </div>
                   </div>
