@@ -1,6 +1,9 @@
 'use client'
 
+import { useRouter } from 'next/navigation';
+import { deleteCategory } from '../../api/category/deleteCategory'
 import { Category } from '../../types'
+import { Id } from '@/features/todo/types'
 
 interface Props {
   categories: Category[]
@@ -8,6 +11,12 @@ interface Props {
 
 export const CategoryTable = (props: Props) => {
   const { categories } = props
+  const router = useRouter();
+
+  const handleDelete = async(id: Id) => {
+    await deleteCategory({ id })
+    router.refresh();
+  }
 
   return (
     <div className='mx-auto max-w-7xl text-white py-10'>
@@ -28,7 +37,7 @@ export const CategoryTable = (props: Props) => {
                           <button className='text-indigo-400 hover:text-indigo-300'>
                             Edit
                           </button>
-                          <button className='text-red-400 hover:text-red-300 ml-4'>
+                          <button onClick={() => category.id && handleDelete(category.id)} className='text-red-400 hover:text-red-300 ml-4'>
                             Delete
                           </button>
                         </div>
