@@ -1,12 +1,7 @@
-import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth/next'
+import { nextAuthOptions } from '@/libs/next-auth/options'
 
-import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
-
-export default async function Home() {
-  const sessionInfo: SessionInfo | null = await useGetServerSession()
-
-  if (!sessionInfo) {
-    redirect('/')
-  }
-  return <>Hello</>
+export default async function Page() {
+  const session = await getServerSession(nextAuthOptions)
+  return <pre className='text-white'>{JSON.stringify(session, null, 2)}</pre>
 }
