@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react'
 import React, { useState, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
-import { Category } from '../types'
+import { Category } from '../../types'
 import { editTodo } from '@/features/todo/api/editTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { Todo } from '@/features/todo/types'

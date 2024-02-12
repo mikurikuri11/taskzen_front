@@ -37,6 +37,9 @@ export const FlyoutMenu: FC = () => {
             <Link href='/notification' className='block p-2 hover:text-indigo-600'>
               通知設定
             </Link>
+            <Link href='/category-setting' className='block p-2 hover:text-indigo-600'>
+              カテゴリー設定
+            </Link>
             <div
               className='block p-2 hover:text-indigo-600 hover: cursor-pointer'
               onClick={() => signOut()}

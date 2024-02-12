@@ -7,7 +7,6 @@ import { getIncompleteTodos } from '../api/getIncompleteTodos'
 import { Id } from '../types'
 import { EditTodoModal } from './EditTodoModal'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
-import { getCategories } from '@/features/category/api/category/getCategories'
 import { CreateTodoModal } from '@/features/todo/components/CreateTodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useSelectTodo } from '@/features/todo/hooks/useSelectTodo'
@@ -41,8 +40,6 @@ export const TodoManagement: FC = () => {
 
   const openModal = async () => {
     setShowCreateTodoModal(true)
-    const categories = await getCategories({ id: session?.user?.id ?? '' })
-    setCategories(categories)
   }
 
   const openEditModal = (id: Id) => {

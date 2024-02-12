@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { Category } from '../types'
+import { Category } from '../../types'
 import { CategoryCard } from './CategoryCard'
 import { Id, Todo } from '@/features/todo/types'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
