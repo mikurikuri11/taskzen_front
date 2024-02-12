@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { CiEdit } from 'react-icons/ci'
+import { MdDeleteOutline } from 'react-icons/md'
 import { deleteCategory } from '../../api/category/deleteCategory'
 import { Category } from '../../types'
 import { CreateCategoryModal } from './CreateCategoryModal'
@@ -35,7 +37,9 @@ export const CategoryTable = (props: Props) => {
               <div className='flex'>
                 <h1 className='text-2xl font-bold leading-6 mt-4'>カテゴリー</h1>
                 <div className='mt-4 ml-auto sm:mt-0 sm:flex-none'>
-                  <StyledButton onClick={openModal} buttonStyle='bg-indigo-500'>追加する</StyledButton>
+                  <StyledButton onClick={openModal} buttonStyle='bg-indigo-500'>
+                    追加する
+                  </StyledButton>
                 </div>
               </div>
               <div className='mt-8 flow-root'>
@@ -47,14 +51,14 @@ export const CategoryTable = (props: Props) => {
                           <h2 className='py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0'>
                             {category.name}
                           </h2>
-                          <div className='mt-3 ml-auto'>
-                            <button className='text-indigo-400 hover:text-indigo-300'>Edit</button>
-                            <button
+                          <div className='mt-5 text-2xl ml-auto flex gap-4'>
+                            <CiEdit
+                              className='cursor-pointer hover:text-blue-400'
+                            />
+                            <MdDeleteOutline
+                              className='cursor-pointer hover:text-red-400'
                               onClick={() => category.id && handleDelete(category.id)}
-                              className='text-red-400 hover:text-red-300 ml-4'
-                            >
-                              Delete
-                            </button>
+                            />
                           </div>
                         </div>
                       ))}
