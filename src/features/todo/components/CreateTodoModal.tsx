@@ -9,7 +9,7 @@ import { useSetRecoilState, useRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { Todo } from '../types'
 import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
-import { CategoryFlyoutMenu } from '@/features/category/components/CategoryFlyoutMenu'
+import { CategoryFlyoutMenu } from '@/features/category/components/category/CategoryFlyoutMenu'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 
