@@ -17,8 +17,11 @@ export const AchievementChart = () => {
   const { data: session, status } = useSession()
   const { data, error, isLoading } = useAchievement(session ? session.user.id : null)
   const { filteredData } = useFilteredAchievements(session ? session.user.id : null)
+  console.log('filteredData', filteredData)
 
   if (session === null) return <div>loading...</div>
+
+  if (filteredData.length === 0) return <div className='text-white text-3xl'>達成率のデータがありません</div>
 
   return (
     <div className='container'>
