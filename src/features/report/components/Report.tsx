@@ -1,17 +1,14 @@
-'use client'
-
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
-import { useAchievementWeek } from '../hooks/useAchievementWeek'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
+import { Achievement } from '@/features/chart/types'
 
-export const Report = () => {
-  const { data: session, status } = useSession()
-  const { data, error, isLoading } = useAchievementWeek(session ? session.user.id : null)
+interface Props {
+  achievement: Achievement[]
+}
 
-  const achievementRate = data && data.length > 0 ? data[0].achievement_rate : null
-
-  if (session === null) return <div>loading...</div>
+export const Report = (props: Props) => {
+  const { achievement } = props
+  const achievementRate = achievement.length > 0 ? achievement[0].achievement_rate : 0
 
   return (
     <div className='h-screen flex flex-col justify-center items-center'>
