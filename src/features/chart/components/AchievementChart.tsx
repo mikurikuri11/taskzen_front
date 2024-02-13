@@ -1,6 +1,5 @@
 import { useSession } from 'next-auth/react'
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
-import { useAchievement } from '../hooks/useAchievement'
 import { useFilteredAchievements } from '../hooks/useFilteredAchievement'
 
 const pStyle = {
@@ -15,7 +14,6 @@ const divStyle = {
 
 export const AchievementChart = () => {
   const { data: session, status } = useSession()
-  const { data, error, isLoading } = useAchievement(session ? session.user.id : null)
   const { filteredData } = useFilteredAchievements(session ? session.user.id : null)
   console.log('filteredData', filteredData)
 
