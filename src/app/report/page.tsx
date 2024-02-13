@@ -9,10 +9,9 @@ export default async function Home() {
   const userId = session?.user.id
 
   const achievement = await getAchievement({ id: userId })
-  const achievementRate = achievement[0].achievement_rate
 
   if (!session) {
     redirect('/')
   }
-  return <Report achievementRate={achievementRate} />
+  return <Report achievement={achievement} />
 }

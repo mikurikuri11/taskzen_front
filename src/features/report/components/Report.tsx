@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
+import { Achievement } from '@/features/chart/types'
 
 interface Props {
-  achievementRate: number
+  achievement: Achievement[]
 }
 
 export const Report = (props: Props) => {
-  const { achievementRate } = props
+  const { achievement } = props
+  const achievementRate = achievement.length > 0 ? achievement[0].achievement_rate : 0
 
   return (
     <div className='h-screen flex flex-col justify-center items-center'>
