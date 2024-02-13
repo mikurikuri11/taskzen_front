@@ -3,7 +3,7 @@ export type Id = string | number
 export type Achievement = {
   id: Id
   user_id: Id
-  achievement_rate: string
+  achievement_rate: number
   zone: number | null
   achievements_start_date: Date
   achievements_end_date: Date
