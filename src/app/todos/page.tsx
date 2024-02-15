@@ -1,13 +1,20 @@
 import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { TodoManagement } from '@/features/todo/components/TodoManagement'
-
-import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
+import { nextAuthOptions } from '@/libs/next-auth/options'
 
 export default async function Home() {
-  const sessionInfo: SessionInfo | null = await useGetServerSession()
+  const session = await getServerSession(nextAuthOptions)
+  const userId = session?.user.id
 
-  if (!sessionInfo) {
+  if (!userId) {
     redirect('/')
   }
-  return <TodoManagement />
+  const incompleteTodos = await getIncompleteTodos({ id: userId })
+
+  if (!session) {
+    redirect('/')
+  }
+  return <TodoManagement incompleteTodos={incompleteTodos} />
 }

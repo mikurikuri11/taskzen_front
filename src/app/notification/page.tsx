@@ -1,15 +1,15 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
 import { NotificationForm } from '@/features/notification/components/NotificationForm'
 
-import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
+import { nextAuthOptions } from '@/libs/next-auth/options'
 
 export default async function Home() {
-  const sessionInfo: SessionInfo | null = await useGetServerSession()
+  const session = await getServerSession(nextAuthOptions)
 
-  if (!sessionInfo) {
+  if (!session) {
     redirect('/')
-    return null
   }
 
   return (

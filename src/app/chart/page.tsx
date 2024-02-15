@@ -1,12 +1,13 @@
 import { redirect } from 'next/navigation'
 
+import { getServerSession } from 'next-auth'
 import { AchievementManagement } from '@/features/chart/components/AchievementManagement'
-import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
+import { nextAuthOptions } from '@/libs/next-auth/options'
 
 export default async function Home() {
-  const sessionInfo: SessionInfo | null = await useGetServerSession()
+  const session = await getServerSession(nextAuthOptions)
 
-  if (!sessionInfo) {
+  if (!session) {
     redirect('/')
   }
   return <AchievementManagement />

@@ -15,11 +15,11 @@ const divStyle = {
 export const AchievementChart = () => {
   const { data: session, status } = useSession()
   const { filteredData } = useFilteredAchievements(session ? session.user.id : null)
-  console.log('filteredData', filteredData)
 
   if (session === null) return <div>loading...</div>
 
-  if (filteredData.length === 0) return <div className='text-white text-3xl'>達成率のデータがありません</div>
+  if (filteredData.length === 0)
+    return <div className='text-white text-3xl'>達成率のデータがありません</div>
 
   return (
     <div className='container'>
