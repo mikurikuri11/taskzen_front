@@ -7,7 +7,6 @@ import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { CreateTodoModal } from '@/features/todo/components/CreateTodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useSelectTodo } from '@/features/todo/hooks/useSelectTodo'
-import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
 import { showEditTodoModalAtom } from '@/recoil/atoms/showEditTodoModalAtom'
@@ -23,7 +22,6 @@ export const TodoManagement = (props: Props) => {
 
   setIncompletedTodos(incompleteTodos)
 
-  const [categories, setCategories] = useRecoilState(CategoryAtom)
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
   const [showCreateTodoModal, setShowCreateTodoModal] = useRecoilState(showCreateTodoModalAtom)
