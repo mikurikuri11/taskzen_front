@@ -1,12 +1,13 @@
 import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
 import { TodoManagement } from '@/features/todo/components/TodoManagement'
+import { nextAuthOptions } from '@/libs/next-auth/options'
 
-import { SessionInfo, useGetServerSession } from '@/hooks/useGetServerSession'
 
 export default async function Home() {
-  const sessionInfo: SessionInfo | null = await useGetServerSession()
+  const session = await getServerSession(nextAuthOptions)
 
-  if (!sessionInfo) {
+  if (!session) {
     redirect('/')
   }
   return <TodoManagement />
