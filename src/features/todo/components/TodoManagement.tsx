@@ -18,7 +18,6 @@ interface Props {
 export const TodoManagement = (props: Props) => {
   const { incompleteTodos } = props
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
-  console.log('incompletedTodos', incompletedTodos)
 
   setIncompletedTodos(incompleteTodos)
 
