@@ -31,13 +31,13 @@ export const CategoryItem = (props: Props) => {
   if (editMode) {
     return (
       <div
-        className="
+        className='
         p-2
         text-left
-      "
+      '
       >
         <textarea
-          className="
+          className='
             resize-none
             border-none
             rounded
@@ -46,20 +46,20 @@ export const CategoryItem = (props: Props) => {
             focus:outline-none
             bg-gray-700
             p-2
-            "
+            '
           defaultValue={category.name}
           autoFocus
-          placeholder="Task a content"
+          placeholder='Task a content'
           onBlur={toggleEditMode}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              toggleEditMode();
+            if (e.key === 'Enter' && !e.shiftKey) {
+              toggleEditMode()
             }
           }}
           onChange={(e) => handleUpdate(category.id!, e.target.value)}
         ></textarea>
       </div>
-    );
+    )
   }
 
   return (
@@ -74,10 +74,7 @@ export const CategoryItem = (props: Props) => {
           onMouseLeave={handleMouseLeave}
           onClick={toggleEditMode}
         />
-        <MdDeleteOutline
-          className='cursor-pointer hover:text-red-400'
-          onClick={onDelete}
-        />
+        <MdDeleteOutline className='cursor-pointer hover:text-red-400' onClick={onDelete} />
       </div>
     </div>
   )

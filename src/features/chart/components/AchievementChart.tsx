@@ -18,7 +18,8 @@ export const AchievementChart = () => {
 
   if (session === null) return <div>loading...</div>
 
-  if (filteredData.length === 0) return <div className='text-white text-3xl'>達成率のデータがありません</div>
+  if (filteredData.length === 0)
+    return <div className='text-white text-3xl'>達成率のデータがありません</div>
 
   return (
     <div className='container'>
