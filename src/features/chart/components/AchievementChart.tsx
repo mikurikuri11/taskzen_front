@@ -15,7 +15,6 @@ const divStyle = {
 export const AchievementChart = () => {
   const { data: session, status } = useSession()
   const { filteredData } = useFilteredAchievements(session ? session.user.id : null)
-  console.log('filteredData', filteredData)
 
   if (session === null) return <div>loading...</div>
 
