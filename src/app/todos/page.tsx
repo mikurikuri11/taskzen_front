@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth'
 import { TodoManagement } from '@/features/todo/components/TodoManagement'
 import { nextAuthOptions } from '@/libs/next-auth/options'
 
-
 export default async function Home() {
   const session = await getServerSession(nextAuthOptions)
 
