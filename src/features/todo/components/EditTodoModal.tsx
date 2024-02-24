@@ -83,7 +83,11 @@ export const EditTodoModal: FC<Props> = (props) => {
     if (session?.user?.id) {
       try {
         if (!todo) return
-        await editTodo({ updatedTodo: { ...data, completed: isCompleted }, id: todo?.id })
+        await editTodo({
+          updatedTodo: { ...data, completed: isCompleted },
+          todoId: todo.id,
+          id: session.user.id,
+        })
         const updatedTodos = await getIncompleteTodos({ id: session.user.id })
         setIncompletedTodos(updatedTodos)
         setOpen(false)
@@ -97,7 +101,7 @@ export const EditTodoModal: FC<Props> = (props) => {
   async function handleDeleteTodo(id: Id) {
     if (session?.user?.id) {
       try {
-        await deleteTodo({ id })
+        await deleteTodo({ todoId: id, id: session.user.id })
         const updatedTodos = await getIncompleteTodos({ id: session.user.id })
         setIncompletedTodos(updatedTodos)
       } catch (error) {
