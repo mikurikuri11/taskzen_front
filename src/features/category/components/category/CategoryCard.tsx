@@ -36,9 +36,11 @@ export const CategoryCard = (props: CategoryCardProps) => {
       ...todo,
       categories: [...todo.categories, { id: categoryId, name: category.name }],
     }
+    if (!session?.user?.id) return
     await editTodo({
       updatedTodo,
-      id: todo.id,
+      todoId: todo.id,
+      id: session?.user?.id,
     })
     if (!session?.user?.id) return
     const updatedTodos = await getIncompleteTodos({ id: session.user.id })
@@ -52,9 +54,11 @@ export const CategoryCard = (props: CategoryCardProps) => {
       ...todo,
       categories: todo.categories.filter((cat) => cat.id !== categoryId),
     }
+    if (!session?.user?.id) return
     await editTodo({
       updatedTodo,
-      id: todo.id,
+      todoId: todo.id,
+      id: session?.user?.id,
     })
     if (!session?.user?.id) return
     const updatedTodos = await getIncompleteTodos({ id: session.user.id })

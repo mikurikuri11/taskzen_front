@@ -83,7 +83,11 @@ export const EditTodoModal: FC<Props> = (props) => {
     if (session?.user?.id) {
       try {
         if (!todo) return
-        await editTodo({ updatedTodo: { ...data, completed: isCompleted }, todoId: todo.id, id: session.user.id })
+        await editTodo({
+          updatedTodo: { ...data, completed: isCompleted },
+          todoId: todo.id,
+          id: session.user.id,
+        })
         const updatedTodos = await getIncompleteTodos({ id: session.user.id })
         setIncompletedTodos(updatedTodos)
         setOpen(false)
