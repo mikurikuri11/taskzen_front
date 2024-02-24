@@ -97,7 +97,7 @@ export const EditTodoModal: FC<Props> = (props) => {
   async function handleDeleteTodo(id: Id) {
     if (session?.user?.id) {
       try {
-        await deleteTodo({ id })
+        await deleteTodo({ todoId: id, id: session.user.id })
         const updatedTodos = await getIncompleteTodos({ id: session.user.id })
         setIncompletedTodos(updatedTodos)
       } catch (error) {
