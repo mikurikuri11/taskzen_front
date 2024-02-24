@@ -37,11 +37,11 @@ export const Report = (props: Props) => {
 
       <div className='flex gap-5'>
         <StyledButton buttonStyle='bg-indigo-500'>
-          <Link href='/chart'>もっと見る</Link>
+          <Link href='/chart'>グラフを見る</Link>
         </StyledButton>
-        <StyledButton buttonStyle='bg-cyan-500 hover:bg-cyan-300'>
+        {/* <StyledButton buttonStyle='bg-cyan-500 hover:bg-cyan-300'>
           <Link href='/chart'>共有する</Link>
-        </StyledButton>
+        </StyledButton> */}
       </div>
     </div>
   )

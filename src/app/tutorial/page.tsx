@@ -105,13 +105,20 @@ export default function Home() {
                   TaskZennについて理解できたら、実際に使ってみましょう！
                   <br />
                   {status === 'authenticated' ? (
-                    <button>
-                      <Link
-                        href='/todos'
-                        className='font-bold text-indigo-500 hover:text-indigo-700'
-                      >
-                        ToDoを作成する
-                      </Link>
+                    <button
+                      className='
+                      rounded-md
+                      bg-indigo-500
+                      hover:bg-indigo-400
+                      px-3
+                      py-2
+                      mt-4
+                      text-md
+                      font-semibold
+                      text-white
+                      shadow-sm'
+                    >
+                      <Link href='/todos'>ToDoを作成する</Link>
                     </button>
                   ) : (
                     <>
