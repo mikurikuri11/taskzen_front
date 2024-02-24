@@ -16,6 +16,7 @@ export const AchievementChart = () => {
   const { data: session, status } = useSession()
   const { filteredData } = useFilteredAchievements(session ? session.user.id : null)
 
+  // TODO:Loading用のコンポーネントを作る
   if (session === null) return <div>loading...</div>
 
   if (filteredData.length === 0)
@@ -45,9 +46,23 @@ export const AchievementChart = () => {
             fill: '#eadcdc',
           }}
         />
-        <YAxis dataKey='achievement_rate' tickCount={5} />
-        <Line type='monotone' dataKey='achievement_rate' stroke='#cac8f3' strokeWidth={2} />
-        <Legend verticalAlign='top' height={30} iconSize={20} />
+        <YAxis
+          dataKey='achievement_rate'
+          tickCount={5}
+          // label={{ value: '%', position: 'insideLeft' }}
+        />
+        <Line
+          type='monotone'
+          dataKey='achievement_rate'
+          stroke='#cac8f3'
+          strokeWidth={2}
+          name='達成率'
+        />
+        <Legend
+          verticalAlign='top'
+          height={30}
+          iconSize={20}
+        />
         <Tooltip contentStyle={divStyle} labelStyle={pStyle} />
       </LineChart>
     </div>
