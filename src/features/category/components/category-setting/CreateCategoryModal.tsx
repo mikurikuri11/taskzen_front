@@ -32,7 +32,7 @@ export const CreateCategoryModal = (props: Props) => {
         await addCategory({ category: data, id: session.user.id })
         setOpen(false)
         router.refresh()
-        reset()
+        reset({ name: '' })
       } catch (error) {
         console.error(error)
       }

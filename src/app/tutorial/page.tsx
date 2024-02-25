@@ -4,7 +4,7 @@ import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/splide/css'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRecoilState } from 'recoil'
 
 import { LoginModal } from '@/components/ui-elements/Modal/LoginModal'
@@ -32,14 +32,18 @@ export default function Home() {
             <Splide
               aria-label='私のお気に入りの画像集'
               options={{
-                autoplay: true,
-                interval: 3000,
+                autoplay: false,
+                // interval: 3000,
               }}
             >
               <SplideSlide>
-                <h2 className='text-2xl font-bold mt-10 mb-5 text-center'>TaskZennとは</h2>
+                <h2 className='text-xl mt-10 mb-5 text-center'>
+                  <span className='text-2xl'>『TaskZenn』</span>にようこそ
+                </h2>
                 <p className='mb-10 text-center mx-auto max-w-2xl lg:text-left'>
-                  自分にとって今最も重要なことだけを管理するToDoアプリです。
+                  このアプリは、
+                  <span className='font-bold'>自分にとって今最も重要なことだけを管理する</span>
+                  ためのToDoアプリです。
                   <br />
                   自分にとって今最も重要なこととは、何でしょうか。
                   <br />
@@ -71,7 +75,7 @@ export default function Home() {
                 </p>
               </SplideSlide>
               <SplideSlide>
-                <h2 className='text-2xl font-bold mt-10 mb-5 text-center'>ToDoの作成方法</h2>
+                <h2 className='text-2xl mt-10 mb-5 text-center'>ToDoの作成方法</h2>
                 <p className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
                   画面右上の<span className='font-bold'>「ToDoを作成する」</span>
                   ボタンを押して、ToDoを作成します。
@@ -93,7 +97,7 @@ export default function Home() {
                 />
               </SplideSlide>
               <SplideSlide>
-                <h2 className='text-2xl font-bold mt-10 mb-5 text-center'>その後の機能</h2>
+                <h2 className='text-2xl mt-10 mb-5 text-center'>その後の機能</h2>
                 <div className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
                   ToDoを作成して、TaskZennの使い方に慣れてきたら、
                   <br />
@@ -122,11 +126,21 @@ export default function Home() {
                     </button>
                   ) : (
                     <>
-                      <button
+                      <div>👇ログインして始める</div>
+                      {/* <button
                         onClick={openModal}
                         className='font-bold text-indigo-500 hover:text-indigo-700'
                       >
                         使ってみる
+                      </button> */}
+                      <button
+                        type='button'
+                        className='my-2 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 '
+                        onClick={() =>
+                          signIn('google', { callbackUrl: '/todos' }, { prompt: 'login' })
+                        }
+                      >
+                        Login With Google
                       </button>
                       <div className='text-gray-500 text-sm'>※ログインが必要です</div>
                     </>
