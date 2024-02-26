@@ -46,13 +46,29 @@ export const FlyoutMenu: FC = () => {
           static
         >
           <div className='w-40 shrink rounded-xl bg-white p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5'>
-            <Link
+            {/* <Link
               onClick={handleItemClick}
               className='block p-2 hover:text-indigo-600'
               href='/notification'
               passHref
             >
               通知設定
+            </Link> */}
+            <Link
+              onClick={handleItemClick}
+              className='block p-2 hover:text-indigo-600'
+              href='/tutorial'
+              passHref
+            >
+              チュートリアル
+            </Link>
+            <Link
+              onClick={handleItemClick}
+              className='block p-2 hover:text-indigo-600'
+              href='/todos'
+              passHref
+            >
+              ToDo
             </Link>
             <Link
               onClick={handleItemClick}
@@ -60,10 +76,26 @@ export const FlyoutMenu: FC = () => {
               href='/category-setting'
               passHref
             >
-              カテゴリー設定
+              カテゴリー
+            </Link>
+            <Link
+              onClick={handleItemClick}
+              className='block p-2 hover:text-indigo-600'
+              href='/report'
+              passHref
+            >
+              レポート
+            </Link>
+            <Link
+              onClick={handleItemClick}
+              className='block p-2 hover:text-indigo-600'
+              href='/chart'
+              passHref
+            >
+              グラフ
             </Link>
             <div
-              className='block p-2 hover:text-indigo-600 hover:cursor-pointer'
+              className='block p-2 text-red-600 hover:text-red-500 hover:cursor-pointer'
               onClick={() => {
                 signOut()
                 handleItemClick()
@@ -71,12 +103,12 @@ export const FlyoutMenu: FC = () => {
             >
               ログアウト
             </div>
-            <div
+            {/* <div
               className='block p-2 hover:text-red-600 text-red-500 hover:cursor-pointer'
               onClick={handleItemClick}
             >
               退会する
-            </div>
+            </div> */}
           </div>
         </Popover.Panel>
       </Transition>

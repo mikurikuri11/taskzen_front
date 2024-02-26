@@ -49,7 +49,7 @@ export const LoginModal: FC<Props> = (props) => {
                   {status !== 'authenticated' ? (
                     <>
                       <GoogleLoginButton />
-                      <div className='mt-4'>
+                      {/* <div className='mt-4'>
                         <LineLoginButton />
                       </div>
                       <div className='mt-3 text-center sm:mt-5'>
@@ -58,7 +58,7 @@ export const LoginModal: FC<Props> = (props) => {
                             ※通知機能を利用するには、LINEアカウントでログインしてください。
                           </p>
                         </div>
-                      </div>
+                      </div> */}
                     </>
                   ) : (
                     <LogoutButton />
