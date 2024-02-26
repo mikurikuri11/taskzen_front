@@ -102,49 +102,44 @@ export default function Home() {
                   ToDoを作成して、TaskZennの使い方に慣れてきたら、
                   <br />
                   <span className='font-bold'>レポート機能</span>や
-                  <span className='font-bold'>通知機能</span>を使ってみましょう。
+                  <span className='font-bold'>グラフ機能</span>を使ってみましょう。
                   <br />
                   振り返りをすることで、7つの習慣をより効果的に取り入れることができます。
                   <br />
                   TaskZennについて理解できたら、実際に使ってみましょう！
                   <br />
-                  {status === 'authenticated' ? (
-                    <button
-                      className='
-                      rounded-md
-                      bg-indigo-500
-                      hover:bg-indigo-400
-                      px-3
-                      py-2
-                      mt-4
-                      text-md
-                      font-semibold
-                      text-white
-                      shadow-sm'
-                    >
-                      <Link href='/todos'>ToDoを作成する</Link>
-                    </button>
-                  ) : (
-                    <>
-                      <div>👇ログインして始める</div>
-                      {/* <button
-                        onClick={openModal}
-                        className='font-bold text-indigo-500 hover:text-indigo-700'
-                      >
-                        使ってみる
-                      </button> */}
+                  <div className='text-center mt-2'>
+                    {status === 'authenticated' ? (
                       <button
-                        type='button'
-                        className='my-2 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 '
-                        onClick={() =>
-                          signIn('google', { callbackUrl: '/todos' }, { prompt: 'login' })
-                        }
+                        className='
+                        rounded-md
+                        bg-indigo-500
+                        hover:bg-indigo-400
+                        px-3
+                        py-2
+                        mt-4
+                        text-md
+                        font-semibold
+                        text-white
+                        shadow-sm'
                       >
-                        Login With Google
+                        <Link href='/todos'>ToDoを作成する</Link>
                       </button>
-                      <div className='text-gray-500 text-sm'>※ログインが必要です</div>
-                    </>
-                  )}
+                    ) : (
+                      <>
+                        <button
+                          type='button'
+                          className='my-2 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 '
+                          onClick={() =>
+                            signIn('google', { callbackUrl: '/todos' }, { prompt: 'login' })
+                          }
+                        >
+                          Login With Google
+                        </button>
+                        <div className='text-gray-500 text-sm'>※ログインが必要です</div>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <Image
                   width={600}
