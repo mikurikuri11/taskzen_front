@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { Id } from '../types'
+import { Id } from '@/types'
 
 async function fetchTodoCategories(url: string) {
   const res = await fetch(url)

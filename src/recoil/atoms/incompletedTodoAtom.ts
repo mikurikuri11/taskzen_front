@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { atom, RecoilState } from 'recoil'
-import { Todo } from '@/features/todo/types'
+import { Todo } from '@/types'
 import { recoilPersist } from 'recoil-persist'
 
 const { persistAtom } = recoilPersist({

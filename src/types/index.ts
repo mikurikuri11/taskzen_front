@@ -32,8 +32,18 @@ export interface User {
   active: boolean
 }
 
-export interface TodoCardProps {
+export interface Achievement {
   id: Id
-  todo: Todo
-  openModal: (id: Id) => void
+  user_id: Id
+  achievement_rate: number
+  zone: number | null
+  achievements_start_date: Date
+  achievements_end_date: Date
+  created_at: string
+  updated_at: string
+}
+
+export interface Notification {
+  notification_time: number
+  active: boolean
 }

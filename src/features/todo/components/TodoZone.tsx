@@ -7,11 +7,11 @@ import { useState, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { useRecoilState } from 'recoil'
 
-import { Todo, Id } from '../types'
 import { TodoCard } from './TodoCard'
 import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
+import { Todo, Id } from '@/types'
 
 interface Props {
   zone: number

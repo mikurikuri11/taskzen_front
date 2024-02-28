@@ -3,20 +3,19 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react'
 import { useEffect, FC, Fragment, useState } from 'react'
-import { useForm, SubmitHandler, set } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { editTodo } from '../api/editTodo'
 import { useTodoCategories } from '../hooks/useTodoCategories'
-import { Id, Todo } from '../types'
 import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
 import { deleteCategory } from '@/features/category/api/category/deleteCategory'
 import { getTodoCategories } from '@/features/category/api/todoCategory/getTodoCategories'
 import { CategoryFlyoutMenu } from '@/features/category/components/category/CategoryFlyoutMenu'
-import { Category } from '@/features/category/types'
 import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
+import { Id, Todo, Category } from '@/types'
 // import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
 
 type Props = {

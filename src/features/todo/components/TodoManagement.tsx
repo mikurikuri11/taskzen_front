@@ -4,7 +4,6 @@ import { useSession } from 'next-auth/react'
 import { FC, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { getIncompleteTodos } from '../api/getIncompleteTodos'
-import { Id } from '../types'
 import { EditTodoModal } from './EditTodoModal'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { CreateTodoModal } from '@/features/todo/components/CreateTodoModal'
@@ -14,6 +13,7 @@ import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
 import { showEditTodoModalAtom } from '@/recoil/atoms/showEditTodoModalAtom'
+import { Id } from '@/types'
 
 export const TodoManagement: FC = () => {
   const { data: session, status } = useSession()

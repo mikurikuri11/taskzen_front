@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Id, Todo } from '@/features/todo/types/index'
+import { Id, Todo } from '@/types'
 
 type Props = {
   id: Id
