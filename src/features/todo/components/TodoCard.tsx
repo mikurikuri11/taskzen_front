@@ -3,7 +3,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { useState } from 'react'
 import { FaEdit, FaRegTrashAlt } from 'react-icons/fa'
 
-import { Id, Todo } from '../types'
+import { Id, Todo } from '@/types'
 
 interface Props {
   todo: Todo

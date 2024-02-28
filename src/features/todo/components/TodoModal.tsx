@@ -2,45 +2,108 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react'
-
-import { FC, Fragment } from 'react'
+import { useEffect, FC, Fragment, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useSetRecoilState, useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
-import { Todo } from '../types'
+import { editTodo } from '../api/editTodo'
+import { useTodoCategories } from '../hooks/useTodoCategories'
 import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
 import { CategoryFlyoutMenu } from '@/features/category/components/category/CategoryFlyoutMenu'
+import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
+import { Id, Todo, Category } from '@/types'
 
-type Props = {
+interface Props {
+  todo?: Todo | null
   open: boolean
   setOpen: (open: boolean) => void
 }
 
-export const CreateTodoModal: FC<Props> = (props) => {
-  const { open, setOpen } = props
+export const TodoModal: FC<Props> = (props) => {
+  const { todo, open, setOpen } = props
+
+  const defaultValues = {
+    title: todo?.title,
+    zone: todo?.zone,
+    due_date: todo?.due_date,
+    description: todo?.description,
+  }
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     reset,
-  } = useForm<Todo>()
+  } = useForm<Todo>({
+    mode: 'onChange',
+    defaultValues,
+  })
 
   const { data: session, status } = useSession()
+  const { data, error, isLoading } = useTodoCategories(todo?.id ?? 0)
 
+  const [selectedCategories, setSelectedCategories] = useState<Category[] | null>([])
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
+  const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (session?.user?.id) {
+      if (todo) {
+        try {
+          await editTodo({
+            updatedTodo: { ...data, completed: isCompleted },
+            todoId: todo.id,
+            id: session.user.id,
+          })
+          const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+          setIncompletedTodos(updatedTodos)
+          setOpen(false)
+          reset()
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        try {
+          await addTodo({ todo: data, id: session.user.id })
+          const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+          setIncompletedTodos(updatedTodos)
+          setOpen(false)
+          reset()
+        } catch (error) {
+          console.error(error)
+        }
+      }
+    }
+  }
+
+  // 表示するたびにフォームをリセット
+  useEffect(() => {
+    reset({
+      title: todo?.title,
+      zone: todo?.zone,
+      due_date: todo?.due_date,
+      description: todo?.description,
+    })
+
+    setIsCompleted(todo?.completed || false)
+  }, [todo])
+
+  // 既にカテゴリーがある場合、初期値としてセット
+  useEffect(() => {
+    if (data) {
+      setSelectedCategories(data)
+    }
+  }, [data])
+
+  async function handleDeleteTodo(id: Id) {
+    if (session?.user?.id) {
       try {
-        await addTodo({ todo: data, id: session.user.id })
+        await deleteTodo({ todoId: id, id: session.user.id })
         const updatedTodos = await getIncompleteTodos({ id: session.user.id })
         setIncompletedTodos(updatedTodos)
-        setOpen(false)
-        reset()
       } catch (error) {
-        console.error(error)
+        console.log(error)
       }
     }
   }
@@ -86,6 +149,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                       <div className='mt-2'>
                         <input
                           {...register('title', { required: true })}
+                          defaultValue={defaultValues?.title}
                           id='title'
                           name='title'
                           type='text'
@@ -104,18 +168,21 @@ export const CreateTodoModal: FC<Props> = (props) => {
                         >
                           カテゴリー
                         </label>
-                        <CategoryFlyoutMenu />
+                        <CategoryFlyoutMenu
+                          todo={todo}
+                          setSelectedCategories={setSelectedCategories}
+                        />
                       </div>
-                      {/* TODO: 入力したcategoriesをstateで管理する */}
-                      {/* {todoCategories &&
-                        todoCategories.map((category) => (
+                      {/* 選択したカテゴリーを表示する */}
+                      {selectedCategories &&
+                        selectedCategories.map((category) => (
                           <span
                             key={category.id}
                             className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 px-2 text-sm font-medium text-gray-900'
                           >
                             <span>{category.name}</span>
                           </span>
-                        ))} */}
+                        ))}
                     </div>
 
                     <div className='sm:col-span-4'>
@@ -127,6 +194,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                       </label>
                       <div className='mt-2'>
                         <select
+                          defaultValue={defaultValues?.zone}
                           {...register('zone', { required: true })}
                           id='zone'
                           name='zone'
@@ -152,6 +220,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                       </label>
                       <div className='mt-2'>
                         <input
+                          defaultValue={defaultValues?.due_date}
                           {...register('due_date')}
                           id='due_date'
                           name='due_date'
@@ -171,6 +240,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
                       </label>
                       <div className='mt-2'>
                         <textarea
+                          defaultValue={defaultValues?.description}
                           {...register('description')}
                           name='description'
                           id='description'
@@ -180,12 +250,46 @@ export const CreateTodoModal: FC<Props> = (props) => {
                           placeholder='詳細を入力してください'
                         />
                       </div>
-                      <StyledSubmitButton
-                        className='bg-indigo-500 text-lg'
-                        onClick={handleSubmit(onSubmit)}
-                      >
-                        作成
-                      </StyledSubmitButton>
+                      {todo ? (
+                        <div className='sm:col-span-6 mb-7'>
+                          <label
+                            htmlFor='title'
+                            className='block text-sm font-medium leading-6 text-gray-900'
+                          >
+                            完了
+                          </label>
+                          <div className='mt-2'>
+                            <input
+                              type='checkbox'
+                              id='is_completed'
+                              name='is_completed'
+                              checked={isCompleted}
+                              onChange={(e) => setIsCompleted(e.target.checked)}
+                              className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
+                            />
+                          </div>
+                        </div>
+                      ) : null}
+                      {todo ? (
+                        <div className='col-span-full flex gap-4'>
+                          <StyledSubmitButton
+                            className='bg-indigo-500'
+                            disabled={!isDirty || !isValid}
+                          >
+                            更新
+                          </StyledSubmitButton>
+                          <StyledSubmitButton
+                            className='bg-red-500'
+                            onClick={() => todo && handleDeleteTodo(todo.id)}
+                          >
+                            削除
+                          </StyledSubmitButton>
+                        </div>
+                      ) : (
+                        <StyledSubmitButton className='bg-indigo-500 text-lg'>
+                          作成
+                        </StyledSubmitButton>
+                      )}
                     </div>
                   </div>
                 </Dialog.Panel>

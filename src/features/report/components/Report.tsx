@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
-import { Achievement } from '@/features/chart/types'
+import { Achievement } from '@/types'
 
 interface Props {
   achievement: Achievement[]

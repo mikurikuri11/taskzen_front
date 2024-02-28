@@ -1,6 +1,6 @@
-import { Category } from '../../types/index'
+import { Category } from '@/types'
 
-type Props = {
+interface Props {
   category: Category
   id: string
 }

@@ -1,6 +1,6 @@
-import { Notification } from '../types/index'
+import { Notification } from '@/types'
 
-type Props = {
+interface Props {
   notification: Notification
   id: string
 }

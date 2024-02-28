@@ -1,7 +1,7 @@
 import { memo } from 'react'
 
-import { Id, Todo } from '../types'
 import { TodoZone } from './TodoZone'
+import { Id, Todo } from '@/types'
 
 interface Props {
   todos: Todo[]

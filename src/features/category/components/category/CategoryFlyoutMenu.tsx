@@ -3,20 +3,21 @@
 import { Popover, Transition } from '@headlessui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { useSession } from 'next-auth/react'
-import { Fragment, useState, ChangeEvent } from 'react'
+import { Fragment, useState, ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { useRecoilState } from 'recoil'
 // import { addCategory } from '../api/category/addCategory'
 import { useCategory } from '../../hooks/useCategory'
 import { CategoryList } from '@/features/category/components/category/CategoryList'
-import { Todo } from '@/features/todo/types'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
+import { Category, Todo } from '@/types'
 
 interface CategoryFlyoutMenuProps {
   todo?: Todo | null
+  setSelectedCategories: Dispatch<SetStateAction<Category[] | null>>
 }
 
 export const CategoryFlyoutMenu = (props: CategoryFlyoutMenuProps) => {
-  const { todo } = props
+  const { todo, setSelectedCategories } = props
   const { data: session, status } = useSession()
   const [categories, setCategories] = useRecoilState(CategoryAtom)
 
@@ -56,7 +57,7 @@ export const CategoryFlyoutMenu = (props: CategoryFlyoutMenuProps) => {
             <fieldset>
               <legend className='sr-only'>Category</legend>
               {/* TODO: CategoryListコンポーネントを表示する新規作成画面で表示されなくなる */}
-              <CategoryList todo={todo} />
+              <CategoryList todo={todo} setSelectedCategories={setSelectedCategories} />
               {/* <div className='relative mt-2'>
                 <input
                   value={inputCategory}

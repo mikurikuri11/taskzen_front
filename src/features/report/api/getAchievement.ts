@@ -1,4 +1,4 @@
-import { Achievement } from '@/features/chart/types'
+import { Achievement } from '@/types'
 
 export const getAchievement = async (props: any): Promise<Achievement[]> => {
   const { id } = props

@@ -1,4 +1,4 @@
-import { Todo, Id } from '../types/index'
+import { Todo, Id } from '@/types'
 
 interface Props {
   updatedTodo: Todo

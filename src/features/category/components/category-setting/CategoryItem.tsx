@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { CiEdit } from 'react-icons/ci'
 import { MdDeleteOutline } from 'react-icons/md'
-import { Category } from '../../types'
-import { Id } from '@/features/todo/types'
+import { Category, Id } from '@/types'
 
 interface Props {
   category: Category

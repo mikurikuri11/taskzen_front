@@ -4,11 +4,10 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { deleteCategory } from '../../api/category/deleteCategory'
 import { editCategory } from '../../api/category/editCategory'
-import { Category } from '../../types'
 import { CategoryItem } from './CategoryItem'
 import { CreateCategoryModal } from './CreateCategoryModal'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
-import { Id } from '@/features/todo/types'
+import { Category, Id } from '@/types'
 
 interface Props {
   categories: Category[]

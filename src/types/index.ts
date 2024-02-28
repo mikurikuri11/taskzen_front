@@ -1,8 +1,11 @@
-import { Category } from '@/features/category/types'
-
 export type Id = string | number
 
-export type Todo = {
+export interface Category {
+  id?: Id
+  name: string
+}
+
+export interface Todo {
   id: Id
   user_id: Id
   title: string
@@ -15,7 +18,7 @@ export type Todo = {
   updated_at: string
 }
 
-export type User = {
+export interface User {
   id: Id
   provider: string
   uid: string
@@ -29,8 +32,18 @@ export type User = {
   active: boolean
 }
 
-export interface TodoCardProps {
+export interface Achievement {
   id: Id
-  todo: Todo
-  openModal: (id: Id) => void
+  user_id: Id
+  achievement_rate: number
+  zone: number | null
+  achievements_start_date: Date
+  achievements_end_date: Date
+  created_at: string
+  updated_at: string
+}
+
+export interface Notification {
+  notification_time: number
+  active: boolean
 }

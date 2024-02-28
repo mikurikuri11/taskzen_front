@@ -4,16 +4,13 @@ import { useSession } from 'next-auth/react'
 import { FC, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { getIncompleteTodos } from '../api/getIncompleteTodos'
-import { Id } from '../types'
-import { EditTodoModal } from './EditTodoModal'
+import { TodoModal } from './TodoModal'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
-import { CreateTodoModal } from '@/features/todo/components/CreateTodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useSelectTodo } from '@/features/todo/hooks/useSelectTodo'
-import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
-import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
 import { showEditTodoModalAtom } from '@/recoil/atoms/showEditTodoModalAtom'
+import { Id } from '@/types'
 
 export const TodoManagement: FC = () => {
   const { data: session, status } = useSession()
@@ -32,18 +29,14 @@ export const TodoManagement: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const [categories, setCategories] = useRecoilState(CategoryAtom)
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
-  const [showCreateTodoModal, setShowCreateTodoModal] = useRecoilState(showCreateTodoModalAtom)
   const [showEditTodoModal, setShowEditTodoModal] = useRecoilState(showEditTodoModalAtom)
 
-  const openModal = async () => {
-    setShowCreateTodoModal(true)
-  }
-
-  const openEditModal = (id: Id) => {
-    onSelectTodo({ id, incompletedTodos, setShowEditTodoModal })
+  const openModal = (id?: Id) => {
+    if (id) {
+      onSelectTodo({ id, incompletedTodos, setShowEditTodoModal })
+    }
   }
 
   return (
@@ -56,29 +49,10 @@ export const TodoManagement: FC = () => {
           </StyledButton>
         </div>
       </div>
-      {/* <div className='mx-auto max-w-screen-md flex justify-evenly mt-16'>
-        <div className='text-white star-burst'>緊急</div>
-        <div className='text-white'>緊急でない</div>
-      </div> */}
       <div className='mx-auto max-w-screen-md flex justify-between'>
-        {/* <div className='mx-auto max-w-screen-md flex flex-col justify-evenly my-8'>
-          <div
-            className='text-white mx-6'
-            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-          >
-            重要
-          </div>
-          <div
-            className='text-white mx-6'
-            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-          >
-            重要でない
-          </div>
-        </div> */}
-        <TodoMatrix todos={incompletedTodos} openEditModal={openEditModal} />
+        <TodoMatrix todos={incompletedTodos} openEditModal={openModal} />
       </div>
-      <CreateTodoModal open={showCreateTodoModal} setOpen={setShowCreateTodoModal} />
-      <EditTodoModal todo={selectedTodo} open={showEditTodoModal} setOpen={setShowEditTodoModal} />
+      <TodoModal todo={selectedTodo} open={showEditTodoModal} setOpen={setShowEditTodoModal} />
     </div>
   )
 }
