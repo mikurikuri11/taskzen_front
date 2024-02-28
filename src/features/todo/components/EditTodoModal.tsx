@@ -18,7 +18,7 @@ import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { Id, Todo, Category } from '@/types'
 // import { ModalTodoAtom } from '@/recoil/atoms/modalTodoAtom'
 
-type Props = {
+interface Props {
   todo: Todo | null
   open: boolean
   setOpen: (open: boolean) => void
@@ -169,7 +169,7 @@ export const EditTodoModal: FC<Props> = (props) => {
                         >
                           カテゴリー
                         </label>
-                        <CategoryFlyoutMenu todo={todo} />
+                        {/* <CategoryFlyoutMenu todo={todo} /> */}
                       </div>
                       {data &&
                         data.map((category: Category) => (

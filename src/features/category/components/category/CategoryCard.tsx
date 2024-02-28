@@ -1,5 +1,5 @@
 import { useSession } from 'next-auth/react'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import { useRecoilState } from 'recoil'
 import { editTodo } from '@/features/todo/api/editTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
@@ -9,10 +9,11 @@ import { Category, Todo } from '@/types'
 interface CategoryCardProps {
   todo: Todo | null | undefined
   category: Category
+  setSelectedCategories: Dispatch<SetStateAction<Category[] | null>>
 }
 
 export const CategoryCard = (props: CategoryCardProps) => {
-  const { todo, category } = props
+  const { todo, category, setSelectedCategories } = props
   const [checked, setChecked] = useState(false)
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
   const { data: session, status } = useSession()
@@ -71,6 +72,11 @@ export const CategoryCard = (props: CategoryCardProps) => {
       updateTodoCategoryRemove(newCategoryId)
     } else {
       updateTodoCategory(newCategoryId)
+      setSelectedCategories((prevCategories) => {
+        if (!prevCategories) return [category]
+        return [...prevCategories, category]
+      }
+      )
     }
   }
 

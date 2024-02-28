@@ -3,7 +3,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/react'
 
-import { FC, Fragment } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useSetRecoilState, useRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
@@ -11,9 +11,9 @@ import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmit
 import { CategoryFlyoutMenu } from '@/features/category/components/category/CategoryFlyoutMenu'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
-import { Todo } from '@/types'
+import { Category, Todo } from '@/types'
 
-type Props = {
+interface Props {
   open: boolean
   setOpen: (open: boolean) => void
 }
@@ -29,6 +29,7 @@ export const CreateTodoModal: FC<Props> = (props) => {
 
   const { data: session, status } = useSession()
 
+  const [selectedCategories, setSelectedCategories] = useState<Category[] | null>([])
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
@@ -44,6 +45,13 @@ export const CreateTodoModal: FC<Props> = (props) => {
       }
     }
   }
+
+  // TODO: 表示するたびにフォームをリセット
+  useEffect(() => {
+    setIncompletedTodos([])
+  }, [open])
+
+  console.log('OPEN', open)
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -104,18 +112,18 @@ export const CreateTodoModal: FC<Props> = (props) => {
                         >
                           カテゴリー
                         </label>
-                        <CategoryFlyoutMenu />
+                        <CategoryFlyoutMenu setSelectedCategories={setSelectedCategories} />
                       </div>
-                      {/* TODO: 入力したcategoriesをstateで管理する */}
-                      {/* {todoCategories &&
-                        todoCategories.map((category) => (
+                      {/* 選択したカテゴリーを表示する */}
+                      {selectedCategories &&
+                        selectedCategories.map((category) => (
                           <span
                             key={category.id}
                             className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 px-2 text-sm font-medium text-gray-900'
                           >
                             <span>{category.name}</span>
                           </span>
-                        ))} */}
+                        ))}
                     </div>
 
                     <div className='sm:col-span-4'>
