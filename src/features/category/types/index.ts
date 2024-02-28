@@ -1,6 +1,6 @@
 import { Id } from '@/features/todo/types'
 
-export type Category = {
+export interface Category {
   id?: Id
   name: string
 }
