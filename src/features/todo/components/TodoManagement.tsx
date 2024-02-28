@@ -56,25 +56,7 @@ export const TodoManagement: FC = () => {
           </StyledButton>
         </div>
       </div>
-      {/* <div className='mx-auto max-w-screen-md flex justify-evenly mt-16'>
-        <div className='text-white star-burst'>緊急</div>
-        <div className='text-white'>緊急でない</div>
-      </div> */}
       <div className='mx-auto max-w-screen-md flex justify-between'>
-        {/* <div className='mx-auto max-w-screen-md flex flex-col justify-evenly my-8'>
-          <div
-            className='text-white mx-6'
-            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-          >
-            重要
-          </div>
-          <div
-            className='text-white mx-6'
-            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-          >
-            重要でない
-          </div>
-        </div> */}
         <TodoMatrix todos={incompletedTodos} openEditModal={openEditModal} />
       </div>
       <CreateTodoModal open={showCreateTodoModal} setOpen={setShowCreateTodoModal} />
