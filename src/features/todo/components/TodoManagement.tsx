@@ -4,12 +4,10 @@ import { useSession } from 'next-auth/react'
 import { FC, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { getIncompleteTodos } from '../api/getIncompleteTodos'
-import { EditTodoModal } from './EditTodoModal'
+import { TodoModal } from './TodoModal'
 import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
-import { CreateTodoModal } from '@/features/todo/components/CreateTodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useSelectTodo } from '@/features/todo/hooks/useSelectTodo'
-import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { showCreateTodoModalAtom } from '@/recoil/atoms/showCreateTodoModalAtom'
 import { showEditTodoModalAtom } from '@/recoil/atoms/showEditTodoModalAtom'
@@ -32,7 +30,6 @@ export const TodoManagement: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const [categories, setCategories] = useRecoilState(CategoryAtom)
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
   const [showCreateTodoModal, setShowCreateTodoModal] = useRecoilState(showCreateTodoModalAtom)
@@ -42,8 +39,10 @@ export const TodoManagement: FC = () => {
     setShowCreateTodoModal(true)
   }
 
-  const openEditModal = (id: Id) => {
-    onSelectTodo({ id, incompletedTodos, setShowEditTodoModal })
+  const openEditModal = (id?: Id) => {
+    if (id) {
+      onSelectTodo({ id, incompletedTodos, setShowEditTodoModal })
+    }
   }
 
   return (
@@ -51,7 +50,7 @@ export const TodoManagement: FC = () => {
       <div className='mx-auto max-w-screen-md flex justify-between my-10'>
         <h1 className='text-white text-2xl font-bold mt-4'>Todo Matrix</h1>
         <div>
-          <StyledButton buttonStyle='bg-indigo-500' onClick={openModal}>
+          <StyledButton buttonStyle='bg-indigo-500' onClick={openEditModal}>
             Todoを作成する
           </StyledButton>
         </div>
@@ -59,8 +58,7 @@ export const TodoManagement: FC = () => {
       <div className='mx-auto max-w-screen-md flex justify-between'>
         <TodoMatrix todos={incompletedTodos} openEditModal={openEditModal} />
       </div>
-      <CreateTodoModal open={showCreateTodoModal} setOpen={setShowCreateTodoModal} />
-      <EditTodoModal todo={selectedTodo} open={showEditTodoModal} setOpen={setShowEditTodoModal} />
+      <TodoModal todo={selectedTodo} open={showEditTodoModal} setOpen={setShowEditTodoModal} />
     </div>
   )
 }
