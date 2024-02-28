@@ -8,8 +8,8 @@ import { useRecoilState } from 'recoil'
 // import { addCategory } from '../api/category/addCategory'
 import { useCategory } from '../../hooks/useCategory'
 import { CategoryList } from '@/features/category/components/category/CategoryList'
-import { Todo } from '@/features/todo/types'
 import { CategoryAtom } from '@/recoil/atoms/categoryAtom'
+import { Todo } from '@/types'
 
 interface CategoryFlyoutMenuProps {
   todo?: Todo | null

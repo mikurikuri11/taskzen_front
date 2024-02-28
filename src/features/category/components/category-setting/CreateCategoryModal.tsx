@@ -6,8 +6,8 @@ import { useSession } from 'next-auth/react'
 import { Fragment } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { addCategory } from '../../api/category/addCategory'
-import { Category } from '../../types'
 import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
+import { Category } from '@/types'
 
 interface Props {
   open: boolean
