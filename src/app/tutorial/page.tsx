@@ -40,17 +40,16 @@ export default function Home() {
                 <h2 className='text-xl mt-10 mb-5 text-center'>
                   <span className='text-2xl'>『TaskZenn』</span>にようこそ
                 </h2>
-                <p className='mb-10 text-center mx-auto max-w-2xl lg:text-left'>
+                <p className='mb-10 text-center mx-auto max-w-2xl'>
                   このアプリは、
                   <span className='font-bold'>自分にとって今最も重要なことだけを管理する</span>
                   ためのToDoアプリです。
                   <br />
-                  自分にとって今最も重要なこととは、何でしょうか。
                   <br />
                   「7つの習慣」の第3の習慣、「最優先事項を優先する」によると、
                   緊急と重要のマトリックスにおいて、
                   <span className='text-red-500'>緊急ではないが重要なこと</span>
-                  が最も重要なことだと言われています。 下の図の第2領域にあたります。
+                  が最も重要だと言われています。（下図の第2領域）
                   <br />
                   このアプリは、第2領域にあるタスクに効果的にアプローチできるようにサポートします。
                   <br />
@@ -76,7 +75,7 @@ export default function Home() {
               </SplideSlide>
               <SplideSlide>
                 <h2 className='text-2xl mt-10 mb-5 text-center'>ToDoの作成方法</h2>
-                <p className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
+                <p className='mb-8 text-center mx-auto max-w-2xl'>
                   画面右上の<span className='font-bold'>「ToDoを作成する」</span>
                   ボタンを押して、ToDoを作成します。
                   <br />
@@ -84,7 +83,7 @@ export default function Home() {
                   <br />
                   領域とは、ToDoを緊急と重要のマトリックスよりどの領域に分類するかを指します。
                   <br />
-                  これにより、作成したToDoが自分にとって今最も重要なことかどうかを判断することができます。
+                  このアプローチにより、作成したToDoが自分にとって今最も重要なことかどうかを判断することができます。
                   <br />
                 </p>
                 <Image
@@ -98,7 +97,7 @@ export default function Home() {
               </SplideSlide>
               <SplideSlide>
                 <h2 className='text-2xl mt-10 mb-5 text-center'>その後の機能</h2>
-                <div className='mb-8 text-center mx-auto max-w-2xl lg:text-left'>
+                <div className='mb-8 text-center mx-auto max-w-2xl'>
                   ToDoを作成して、TaskZennの使い方に慣れてきたら、
                   <br />
                   <span className='font-bold'>レポート機能</span>や
