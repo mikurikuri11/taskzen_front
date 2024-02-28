@@ -16,12 +16,6 @@ export const AchievementChart = () => {
   const { data: session, status } = useSession()
   const { filteredData } = useFilteredAchievements(session ? session.user.id : null)
 
-  // TODO:Loading用のコンポーネントを作る
-  if (session === null) return <div>loading...</div>
-
-  if (filteredData.length === 0)
-    return <div className='text-white text-3xl'>達成率のデータがありません</div>
-
   return (
     <div className='container'>
       <LineChart
@@ -58,11 +52,7 @@ export const AchievementChart = () => {
           strokeWidth={2}
           name='達成率'
         />
-        <Legend
-          verticalAlign='top'
-          height={30}
-          iconSize={20}
-        />
+        <Legend verticalAlign='top' height={30} iconSize={20} />
         <Tooltip contentStyle={divStyle} labelStyle={pStyle} />
       </LineChart>
     </div>
