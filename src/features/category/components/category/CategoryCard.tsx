@@ -29,54 +29,57 @@ export const CategoryCard = (props: CategoryCardProps) => {
     setChecked(isCategoryIncluded)
   }, [todo, category, setChecked])
 
-  const updateTodoCategory = async (categoryId: number) => {
-    if (!todo) return
+  // const updateTodoCategory = async (categoryId: number) => {
+  //   if (!todo) return
 
-    const updatedTodo = {
-      ...todo,
-      categories: [...todo.categories, { id: categoryId, name: category.name }],
-    }
-    if (!session?.user?.id) return
-    await editTodo({
-      updatedTodo,
-      todoId: todo.id,
-      id: session?.user?.id,
-    })
-    if (!session?.user?.id) return
-    const updatedTodos = await getIncompleteTodos({ id: session.user.id })
-    setIncompletedTodos(updatedTodos)
-  }
+  //   const updatedTodo = {
+  //     ...todo,
+  //     categories: [...todo.categories, { id: categoryId, name: category.name }],
+  //   }
+  //   if (!session?.user?.id) return
+  //   await editTodo({
+  //     updatedTodo,
+  //     todoId: todo.id,
+  //     id: session?.user?.id,
+  //   })
+  //   if (!session?.user?.id) return
+  //   const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+  //   setIncompletedTodos(updatedTodos)
+  // }
 
-  const updateTodoCategoryRemove = async (categoryId: number) => {
-    if (!todo) return
+  // const updateTodoCategoryRemove = async (categoryId: number) => {
+  //   if (!todo) return
 
-    const updatedTodo = {
-      ...todo,
-      categories: todo.categories.filter((cat) => cat.id !== categoryId),
-    }
-    if (!session?.user?.id) return
-    await editTodo({
-      updatedTodo,
-      todoId: todo.id,
-      id: session?.user?.id,
-    })
-    if (!session?.user?.id) return
-    const updatedTodos = await getIncompleteTodos({ id: session.user.id })
-    setIncompletedTodos(updatedTodos)
-  }
+  //   const updatedTodo = {
+  //     ...todo,
+  //     categories: todo.categories.filter((cat) => cat.id !== categoryId),
+  //   }
+  //   if (!session?.user?.id) return
+  //   await editTodo({
+  //     updatedTodo,
+  //     todoId: todo.id,
+  //     id: session?.user?.id,
+  //   })
+  //   if (!session?.user?.id) return
+  //   const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+  //   setIncompletedTodos(updatedTodos)
+  // }
 
   const handleCheckboxChange = () => {
-    const newCategoryId = category.id as number
+    // const newCategoryId = category.id as number
     setChecked(!checked)
     if (checked) {
-      updateTodoCategoryRemove(newCategoryId)
+      setSelectedCategories((prevCategories) => {
+        if (!prevCategories) return null
+        return prevCategories.filter((cat) => cat.id !== category.id)
+      })
+      // updateTodoCategoryRemove(newCategoryId)
     } else {
-      updateTodoCategory(newCategoryId)
+      // updateTodoCategory(newCategoryId)
       setSelectedCategories((prevCategories) => {
         if (!prevCategories) return [category]
         return [...prevCategories, category]
-      }
-      )
+      })
     }
   }
 

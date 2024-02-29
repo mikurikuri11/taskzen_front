@@ -48,11 +48,16 @@ export const TodoModal: FC<Props> = (props) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
+    const newTodo = {
+      ...data,
+      categories: selectedCategories ?? [],
+      completed: isCompleted,
+    }
     if (session?.user?.id) {
       if (todo) {
         try {
           await editTodo({
-            updatedTodo: { ...data, completed: isCompleted },
+            updatedTodo: newTodo,
             todoId: todo.id,
             id: session.user.id,
           })
@@ -65,7 +70,7 @@ export const TodoModal: FC<Props> = (props) => {
         }
       } else {
         try {
-          await addTodo({ todo: data, id: session.user.id })
+          await addTodo({ todo: newTodo, id: session.user.id })
           const updatedTodos = await getIncompleteTodos({ id: session.user.id })
           setIncompletedTodos(updatedTodos)
           setOpen(false)
@@ -94,7 +99,7 @@ export const TodoModal: FC<Props> = (props) => {
     if (data) {
       setSelectedCategories(data)
     }
-  }, [data])
+  }, [data, todo, open])
 
   async function handleDeleteTodo(id: Id) {
     if (session?.user?.id) {
