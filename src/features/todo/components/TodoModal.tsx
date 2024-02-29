@@ -85,9 +85,9 @@ export const TodoModal: FC<Props> = (props) => {
       due_date: todo?.due_date,
       description: todo?.description,
     })
-
     setIsCompleted(todo?.completed || false)
-  }, [todo])
+    setSelectedCategories([])
+  }, [open])
 
   // 既にカテゴリーがある場合、初期値としてセット
   useEffect(() => {
