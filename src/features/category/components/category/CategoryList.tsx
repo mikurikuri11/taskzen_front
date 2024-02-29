@@ -17,7 +17,12 @@ export const CategoryList = (props: CategoryListProps) => {
     <div className='space-y-5'>
       {categories.length === 0 && <div>カテゴリーがありません</div>}
       {categories.map((category) => (
-        <CategoryCard key={category.id} category={category} todo={todo} setSelectedCategories={setSelectedCategories} />
+        <CategoryCard
+          key={category.id}
+          category={category}
+          todo={todo}
+          setSelectedCategories={setSelectedCategories}
+        />
       ))}
     </div>
   )
