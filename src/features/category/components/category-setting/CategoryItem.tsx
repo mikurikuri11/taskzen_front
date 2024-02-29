@@ -39,16 +39,16 @@ export const CategoryItem = (props: Props) => {
           className='
             resize-none
             border-none
-            rounded
             bg-transparent
             text-white
+            bg-slate-600
             focus:outline-none
-            bg-gray-700
-            p-2
-            '
+            rounded-md
+            px-2
+          '
           defaultValue={category.name}
           autoFocus
-          placeholder='Task a content'
+          placeholder='Edit category'
           onBlur={toggleEditMode}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
