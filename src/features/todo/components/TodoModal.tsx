@@ -48,37 +48,31 @@ export const TodoModal: FC<Props> = (props) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
+    if (!session?.user?.id) return
+
     const newTodo = {
       ...data,
       categories: selectedCategories ?? [],
       completed: isCompleted,
     }
-    if (session?.user?.id) {
+
+    try {
       if (todo) {
-        try {
-          await editTodo({
-            updatedTodo: newTodo,
-            todoId: todo.id,
-            id: session.user.id,
-          })
-          const updatedTodos = await getIncompleteTodos({ id: session.user.id })
-          setIncompletedTodos(updatedTodos)
-          setOpen(false)
-          reset()
-        } catch (error) {
-          console.log(error)
-        }
+        await editTodo({
+          updatedTodo: newTodo,
+          todoId: todo.id,
+          id: session.user.id,
+        })
       } else {
-        try {
-          await addTodo({ todo: newTodo, id: session.user.id })
-          const updatedTodos = await getIncompleteTodos({ id: session.user.id })
-          setIncompletedTodos(updatedTodos)
-          setOpen(false)
-          reset()
-        } catch (error) {
-          console.error(error)
-        }
+        await addTodo({ todo: newTodo, id: session.user.id })
       }
+
+      const updatedTodos = await getIncompleteTodos({ id: session.user.id })
+      setIncompletedTodos(updatedTodos)
+      setOpen(false)
+      reset()
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -91,14 +85,17 @@ export const TodoModal: FC<Props> = (props) => {
       description: todo?.description,
     })
     setIsCompleted(todo?.completed || false)
-    setSelectedCategories([])
+    setSelectedCategories((prev) => (prev ? [...prev] : []) as Category[])
   }, [open])
 
   // 既にカテゴリーがある場合、初期値としてセット
   useEffect(() => {
-    if (data) {
-      setSelectedCategories(data)
-    }
+    setSelectedCategories((data) => {
+      if (todo?.categories) {
+        return todo.categories
+      }
+      return data
+    })
   }, [data, todo, open])
 
   async function handleDeleteTodo(id: Id) {
