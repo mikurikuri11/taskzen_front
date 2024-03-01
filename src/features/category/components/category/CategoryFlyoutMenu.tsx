@@ -43,7 +43,7 @@ export const CategoryFlyoutMenu = (props: CategoryFlyoutMenuProps) => {
         leaveTo='opacity-0 translate-y-1'
       >
         <Popover.Panel>
-          <div className='absolute left-1/2 transform -translate-x-1/2 z-10 flex overflow-y-auto px-4 w-auto max-h-64 shrink rounded-xl bg-slate-300 p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5'>
+          <div className='whitespace-nowrap absolute left-1/2 transform -translate-x-1/2 z-10 flex overflow-y-auto px-4 w-auto max-h-64 shrink rounded-xl bg-slate-300 p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5'>
             <fieldset>
               <legend className='sr-only'>Category</legend>
               {/* TODO: CategoryListコンポーネントを表示する新規作成画面で表示されなくなる */}
