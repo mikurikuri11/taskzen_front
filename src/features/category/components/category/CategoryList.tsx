@@ -15,7 +15,9 @@ export const CategoryList = (props: CategoryListProps) => {
 
   return (
     <div className='space-y-5'>
-      {categories.length === 0 && <div>カテゴリーがありません</div>}
+      {categories.length === 0 && (
+        <div className='relative flex items-start gap-2 w-48'>カテゴリーはありません</div>
+      )}
       {categories.map((category) => (
         <CategoryCard
           key={category.id}
