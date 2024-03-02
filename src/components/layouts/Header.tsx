@@ -2,6 +2,7 @@
 
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useDisclosure } from '@mantine/hooks';
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -25,6 +26,7 @@ export const Header: FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showLoginModal, setShowLoginModal] = useRecoilState(showLoginModalAtom)
   const { data: session, status } = useSession()
+  const [opened, { open, close }] = useDisclosure(false);
 
   const openModal = () => {
     setShowLoginModal(true)
@@ -65,7 +67,7 @@ export const Header: FC = () => {
             {status !== 'authenticated' ? (
               <div
                 className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
-                onClick={openModal}
+                onClick={open}
               >
                 ログイン <BiLogIn className='ml-2' />
               </div>
@@ -117,7 +119,7 @@ export const Header: FC = () => {
           </Dialog.Panel>
         </Dialog>
       </header>
-      <LoginModal open={showLoginModal} setOpen={setShowLoginModal} />
+      <LoginModal opened={opened} open={open} close={close} />
     </>
   )
 }
