@@ -1,5 +1,7 @@
 'use client'
 
+import { Button } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/splide/css'
 import Image from 'next/image'
@@ -12,11 +14,7 @@ import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
 export default function Home() {
   const { data: session, status } = useSession()
-  const [showLoginModal, setShowLoginModal] = useRecoilState(showLoginModalAtom)
-
-  const openModal = () => {
-    setShowLoginModal(true)
-  }
+  const [opened, { close }] = useDisclosure(false)
 
   return (
     <>
@@ -109,32 +107,20 @@ export default function Home() {
                   <br />
                   <div className='text-center mt-2'>
                     {status === 'authenticated' ? (
-                      <button
-                        className='
-                        rounded-md
-                        bg-indigo-500
-                        hover:bg-indigo-400
-                        px-3
-                        py-2
-                        mt-4
-                        text-md
-                        font-semibold
-                        text-white
-                        shadow-sm'
-                      >
-                        <Link href='/todos'>ToDoを作成する</Link>
-                      </button>
+                      <Button component={Link} href='/todos' color='violet'>
+                        ToDoを作成する
+                      </Button>
                     ) : (
                       <>
-                        <button
-                          type='button'
-                          className='my-2 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 '
+                        <Button
                           onClick={() =>
                             signIn('google', { callbackUrl: '/todos' }, { prompt: 'login' })
                           }
+                          className='mb-1'
+                          color='violet'
                         >
                           Login With Google
-                        </button>
+                        </Button>
                         <div className='text-gray-500 text-sm'>※ログインが必要です</div>
                       </>
                     )}
@@ -153,7 +139,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <LoginModal open={showLoginModal} setOpen={setShowLoginModal} />
+      <LoginModal opened={opened} close={close} />
     </>
   )
 }

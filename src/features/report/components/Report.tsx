@@ -1,5 +1,5 @@
+import { Button } from '@mantine/core'
 import Link from 'next/link'
-import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { Achievement } from '@/types'
 
 interface Props {
@@ -36,12 +36,9 @@ export const Report = (props: Props) => {
       </div>
 
       <div className='flex gap-5'>
-        <StyledButton buttonStyle='bg-indigo-500'>
-          <Link href='/chart'>グラフを見る</Link>
-        </StyledButton>
-        {/* <StyledButton buttonStyle='bg-cyan-500 hover:bg-cyan-300'>
-          <Link href='/chart'>共有する</Link>
-        </StyledButton> */}
+        <Button component={Link} href='/chart' color='violet'>
+          グラフを見る
+        </Button>
       </div>
     </div>
   )

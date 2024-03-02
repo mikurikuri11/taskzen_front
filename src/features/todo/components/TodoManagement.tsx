@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@mantine/core'
 import { useSession } from 'next-auth/react'
 import { FC, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
@@ -44,9 +45,12 @@ export const TodoManagement: FC = () => {
       <div className='mx-auto max-w-screen-md flex justify-between my-10'>
         <h1 className='text-white text-2xl font-bold mt-4'>Todo Matrix</h1>
         <div>
-          <StyledButton buttonStyle='bg-indigo-500' onClick={openModal}>
+          <Button color='violet'>
             Todoを作成する
-          </StyledButton>
+          </Button>
+          {/* <StyledButton buttonStyle='bg-indigo-500' onClick={openModal}>
+            Todoを作成する
+          </StyledButton> */}
         </div>
       </div>
       <div className='mx-auto max-w-screen-md flex justify-between'>
