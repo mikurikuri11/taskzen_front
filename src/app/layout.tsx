@@ -1,4 +1,6 @@
 import './globals.css'
+import { ColorSchemeScript, MantineProvider } from '@mantine/core'
+import '@mantine/core/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
@@ -18,13 +20,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en'>
+    <html lang='ja'>
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body className={inter.className}>
         <NextAuthProvider>
           <RecoilProvider>
-            <Header />
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-            <Footer />
+            <MantineProvider>
+              <Header />
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+              <Footer />
+            </MantineProvider>
           </RecoilProvider>
         </NextAuthProvider>
       </body>
