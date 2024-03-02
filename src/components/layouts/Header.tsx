@@ -2,7 +2,7 @@
 
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks'
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -26,7 +26,7 @@ export const Header: FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showLoginModal, setShowLoginModal] = useRecoilState(showLoginModalAtom)
   const { data: session, status } = useSession()
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(false)
 
   const openModal = () => {
     setShowLoginModal(true)
@@ -36,10 +36,10 @@ export const Header: FC = () => {
     <>
       <header className='bg-gray-800 shadow-2xl'>
         <nav className='mx-auto flex max-w-7xl items-center justify-between' aria-label='Global'>
-          <div className='flex items-center gap-x-12 mt-1 mr-7'>
+          <div className='flex items-center gap-x-12 mt-2 mr-7'>
             <Link href='/' className='-m-1.5 p-1.5 mt-3 mr-4'>
               <span className='sr-only'>Your Company</span>
-              <Image src='/taskzen-logo.png' alt='' width={60} height={60} />
+              <Image src='/taskzen-logo.png' alt='' width={50} height={70} />
             </Link>
           </div>
           <div className='flex lg:hidden'>
@@ -57,7 +57,7 @@ export const Header: FC = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className='text-sm font-semibold leading-6 text-white hover:text-gray-400'
+                className='text-sm font-semibold leading-6 text-white hover:text-gray-400 no-underline'
               >
                 {item.name}
               </Link>
@@ -76,6 +76,8 @@ export const Header: FC = () => {
             )}
           </div>
         </nav>
+
+        {/* モバイル用メニュー */}
         <Dialog as='div' className='lg:hidden' open={mobileMenuOpen} onClose={setMobileMenuOpen}>
           <div className='fixed inset-0 z-10' />
           <Dialog.Panel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10'>
@@ -119,7 +121,7 @@ export const Header: FC = () => {
           </Dialog.Panel>
         </Dialog>
       </header>
-      <LoginModal opened={opened} open={open} close={close} />
+      <LoginModal opened={opened} close={close} />
     </>
   )
 }

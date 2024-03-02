@@ -1,117 +1,66 @@
-import { Popover, Transition } from '@headlessui/react'
+import { Popover } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
-import { FC, Fragment, useState } from 'react'
+import { FC, useState } from 'react'
+
+const Items = [
+  { href: '/tutorial', text: 'チュートリアル' },
+  { href: '/todos', text: 'ToDo' },
+  { href: '/category-setting', text: 'カテゴリー' },
+  { href: '/report', text: 'レポート' },
+  { href: '/chart', text: 'グラフ' }
+];
 
 export const FlyoutMenu: FC = () => {
   const { data: session, status } = useSession()
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleItemClick = () => {
-    setIsOpen(false)
-  }
-
   return (
-    <Popover className='relative' as='div'>
-      <Popover.Button
-        className='inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 focus:outline-none cursor-pointer'
-        onClick={() => setIsOpen(!isOpen)}
-      >
+    <Popover width={200} position='bottom' withArrow shadow='md' opened={isOpen} onClose={() => setIsOpen(false)}>
+      <Popover.Target>
         {session?.user?.image ? (
           <Image
+            onClick={() => setIsOpen(!isOpen)}
             src={session?.user?.image}
-            width={55}
-            height={55}
+            width={50}
+            height={50}
             alt=''
             className='rounded-full'
           />
         ) : (
           <div className='w-14 h-14 rounded-full bg-gray-300' />
         )}
-      </Popover.Button>
-
-      <Transition
-        show={isOpen}
-        as={Fragment}
-        enter='transition ease-out duration-200'
-        enterFrom='opacity-0 translate-y-1'
-        enterTo='opacity-100 translate-y-0'
-        leave='transition ease-in duration-150'
-        leaveFrom='opacity-100 translate-y-0'
-        leaveTo='opacity-0 translate-y-1'
-      >
-        <Popover.Panel
-          className='absolute left-1/2 z-10 mt-5 flex w-screen max-w-min -translate-x-1/2 px-4'
-          static
-        >
-          <div className='w-40 shrink rounded-xl bg-white p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5'>
-            {/* <Link
-              onClick={handleItemClick}
-              className='block p-2 hover:text-indigo-600'
-              href='/notification'
-              passHref
-            >
-              通知設定
-            </Link> */}
+      </Popover.Target>
+      <Popover.Dropdown>
+        <div className='w-40 shrink rounded-xl bg-white p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5'>
+          {Items.map((item, index) => (
             <Link
-              onClick={handleItemClick}
-              className='block p-2 hover:text-indigo-600'
-              href='/tutorial'
+              key={index}
+              onClick={() => setIsOpen(!isOpen)}
+              className='block p-2 text-black hover:text-indigo-600 no-underline'
+              href={item.href}
               passHref
             >
-              チュートリアル
+              {item.text}
             </Link>
-            <Link
-              onClick={handleItemClick}
-              className='block p-2 hover:text-indigo-600'
-              href='/todos'
-              passHref
-            >
-              ToDo
-            </Link>
-            <Link
-              onClick={handleItemClick}
-              className='block p-2 hover:text-indigo-600'
-              href='/category-setting'
-              passHref
-            >
-              カテゴリー
-            </Link>
-            <Link
-              onClick={handleItemClick}
-              className='block p-2 hover:text-indigo-600'
-              href='/report'
-              passHref
-            >
-              レポート
-            </Link>
-            <Link
-              onClick={handleItemClick}
-              className='block p-2 hover:text-indigo-600'
-              href='/chart'
-              passHref
-            >
-              グラフ
-            </Link>
-            <div
-              className='block p-2 text-red-600 hover:text-red-500 hover:cursor-pointer'
-              onClick={() => {
-                signOut()
-                handleItemClick()
-              }}
-            >
-              ログアウト
-            </div>
-            {/* <div
+          ))}
+          <div
+            className='block p-2 text-red-600 hover:text-red-500 hover:cursor-pointer'
+            onClick={() => {
+              signOut()
+            }}
+          >
+            ログアウト
+          </div>
+          {/* <div
               className='block p-2 hover:text-red-600 text-red-500 hover:cursor-pointer'
               onClick={handleItemClick}
             >
               退会する
             </div> */}
-          </div>
-        </Popover.Panel>
-      </Transition>
+        </div>
+      </Popover.Dropdown>
     </Popover>
   )
 }
