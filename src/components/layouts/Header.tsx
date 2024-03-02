@@ -7,14 +7,11 @@ import { useDisclosure } from '@mantine/hooks'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-
 import { FC, useState } from 'react'
 import { BiLogIn } from 'react-icons/bi'
 
-import { useRecoilState } from 'recoil'
 import { FlyoutMenu } from '../ui-elements/Modal/FlyoutMenu'
 import { LoginModal } from '../ui-elements/Modal/LoginModal'
-import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
 const navigation = [
   { name: 'ドキュメント', href: '/tutorial' },
@@ -24,13 +21,8 @@ const navigation = [
 
 export const Header: FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [showLoginModal, setShowLoginModal] = useRecoilState(showLoginModalAtom)
   const { data: session, status } = useSession()
   const [opened, { open, close }] = useDisclosure(false)
-
-  const openModal = () => {
-    setShowLoginModal(true)
-  }
 
   return (
     <>
@@ -111,7 +103,7 @@ export const Header: FC = () => {
                 <div className='py-6'>
                   <div
                     className='-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800'
-                    onClick={openModal}
+                    onClick={open}
                   >
                     Log in
                   </div>
