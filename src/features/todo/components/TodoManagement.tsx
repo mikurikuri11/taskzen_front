@@ -11,7 +11,6 @@ import { TodoModal } from './TodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useSelectTodo } from '@/features/todo/hooks/useSelectTodo'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
-import { showEditTodoModalAtom } from '@/recoil/atoms/showEditTodoModalAtom'
 import { Id } from '@/types'
 
 export const TodoManagement: FC = () => {
@@ -34,11 +33,9 @@ export const TodoManagement: FC = () => {
 
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
-  const [showEditTodoModal, setShowEditTodoModal] = useRecoilState(showEditTodoModalAtom)
-
   const openModal = (id?: Id) => {
     if (id) {
-      onSelectTodo({ id, incompletedTodos, setShowEditTodoModal })
+      onSelectTodo({ id, incompletedTodos })
     }
     open()
   }
@@ -51,7 +48,7 @@ export const TodoManagement: FC = () => {
           Todoを作成する
         </Button>
       </div>
-      <TodoMatrix todos={incompletedTodos} openEditModal={openModal} />
+      <TodoMatrix todos={incompletedTodos} openModal={openModal} />
       <TodoModal todo={selectedTodo} opened={opened} close={close} />
     </div>
   )

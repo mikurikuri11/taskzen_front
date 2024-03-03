@@ -17,7 +17,7 @@ import 'dayjs/locale/ja'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { editTodo } from '../api/editTodo'
 import { useTodoCategories } from '../hooks/useTodoCategories'
@@ -161,7 +161,6 @@ export const TodoModal = (props: Props) => {
       <Modal opened={opened} onClose={close}>
         <Box maw={340} mx='auto'>
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
-            {/* Done */}
             <div className='sm:col-span-6'>
               <TextInput
                 {...register('title', { required: true })}
@@ -173,7 +172,6 @@ export const TodoModal = (props: Props) => {
               {errors.title && <span className='text-red-500'>タイトルは必須です</span>}
             </div>
 
-            {/* Done */}
             <div className='sm:col-span-6'>
               <MultiSelect
                 label='カテゴリー'
@@ -189,7 +187,6 @@ export const TodoModal = (props: Props) => {
               />
             </div>
 
-            {/* Done */}
             <div className='sm:col-span-4'>
               <Select
                 label='領域'
@@ -207,7 +204,6 @@ export const TodoModal = (props: Props) => {
               {errors.zone && <span className='text-red-500'>領域は必須です</span>}
             </div>
 
-            {/* Done */}
             <div className='sm:col-span-4'>
               <DatePickerInput
                 valueFormat='YYYY/MM/DD'
@@ -218,7 +214,6 @@ export const TodoModal = (props: Props) => {
               />
             </div>
 
-            {/* Done */}
             <div className='col-span-full'>
               <Textarea
                 {...register('description')}
@@ -230,22 +225,6 @@ export const TodoModal = (props: Props) => {
 
             {todo ? (
               <div className='sm:col-span-6'>
-                {/* <label
-                  htmlFor='title'
-                  className='block text-sm font-medium leading-6 text-gray-900'
-                >
-                  完了
-                </label>
-                <div className='mt-2'>
-                  <input
-                    type='checkbox'
-                    id='is_completed'
-                    name='is_completed'
-                    checked={isCompleted}
-                    onChange={(e) => setIsCompleted(e.target.checked)}
-                    className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
-                  />
-                </div> */}
                 <Checkbox
                   label='完了'
                   checked={checked}
