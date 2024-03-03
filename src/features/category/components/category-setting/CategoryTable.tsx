@@ -1,12 +1,12 @@
 'use client'
 
+import { Button } from '@mantine/core'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { deleteCategory } from '../../api/category/deleteCategory'
 import { editCategory } from '../../api/category/editCategory'
 import { CategoryItem } from './CategoryItem'
 import { CreateCategoryModal } from './CreateCategoryModal'
-import { StyledButton } from '@/components/ui-elements/Button/StyledButton'
 import { Category, Id } from '@/types'
 
 interface Props {
@@ -41,9 +41,7 @@ export const CategoryTable = (props: Props) => {
               <div className='flex'>
                 <h1 className='text-2xl font-bold leading-6 mt-4'>カテゴリー</h1>
                 <div className='mt-4 ml-auto sm:mt-0 sm:flex-none'>
-                  <StyledButton onClick={openModal} buttonStyle='bg-indigo-500'>
-                    追加する
-                  </StyledButton>
+                  <Button onClick={openModal} color='violet'>追加する</Button>
                 </div>
               </div>
               <div className='mt-8 flow-root'>

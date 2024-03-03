@@ -2,6 +2,7 @@ import './globals.css'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css';
+import '@mantine/dates/styles.css';
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 

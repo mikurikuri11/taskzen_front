@@ -13,10 +13,10 @@ export const StyledSubmitButton: FC<StyledSubmitButtonProps> = ({
   return (
     <button
       type='submit'
-      className={`rounded-md ${className} px-4 py-3 text font-semibold rounded-md text-white shadow-sm hover:${className.replace(
+      className={`rounded-md ${className} px-4 py-3 text font-semibold rounded-md text-white hover:${className.replace(
         /bg-.+$/,
         'bg-opacity-80',
-      )} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500`}
+      )}`}
       onClick={onClick}
     >
       {children}

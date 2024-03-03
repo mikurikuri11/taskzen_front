@@ -14,7 +14,7 @@ export const CategoryList = (props: CategoryListProps) => {
   const [categories, setCategories] = useRecoilState(CategoryAtom)
 
   return (
-    <div className='space-y-5'>
+    <div>
       {categories.length === 0 && (
         <div className='relative flex items-start gap-2 w-48'>カテゴリーはありません</div>
       )}
