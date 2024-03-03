@@ -1,15 +1,27 @@
 'use client'
 
-import { Modal, Button, Box, TextInput, Textarea, Select } from '@mantine/core'
+import {
+  Modal,
+  Button,
+  Box,
+  TextInput,
+  Textarea,
+  Select,
+  ComboboxItem,
+  MultiSelect,
+  Checkbox,
+} from '@mantine/core'
+import { DatePickerInput, DatesProvider } from '@mantine/dates'
+import 'dayjs/locale/ja'
 
 import { useSession } from 'next-auth/react'
-import { useEffect, FC, Fragment, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { editTodo } from '../api/editTodo'
 import { useTodoCategories } from '../hooks/useTodoCategories'
-import { CategoryFlyoutMenu } from '@/features/category/components/category/CategoryFlyoutMenu'
+import { useCategory } from '@/features/category/hooks/useCategory'
 import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
@@ -43,30 +55,61 @@ export const TodoModal = (props: Props) => {
   const { data: session, status } = useSession()
   const { data, error, isLoading } = useTodoCategories(todo?.id ?? 0)
 
-  const [selectedCategories, setSelectedCategories] = useState<Category[] | null>([])
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
+
+  // フォーム用
   const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
+  const [zone, setZone] = useState<ComboboxItem | null>(null)
+
+  const { data: categoryData } = useCategory(session ? session.user.id : null)
+  const categories = categoryData?.map((category: Category) => ({
+    value: String(category.id),
+    label: category.name,
+  }))
+  const [categoryValues, setCategoryValues] = useState<ComboboxItem[] | null>([])
+  const [selectedCategories, setSelectedCategories] = useState<Category[] | null>([])
+
+  const [dueDate, setDueDate] = useState<Date | null>(null)
+  const [checked, setChecked] = useState(false)
+
+  useEffect(() => {
+    setCategoryValues(categories)
+  }, [categoryData])
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (!session?.user?.id) return
 
-    console.log(data)
+    setSelectedCategories((prev) => (prev ? [...prev] : []) as Category[])
 
     const newTodo = {
       ...data,
       categories: selectedCategories ?? [],
+      zone: zone?.value ?? 0,
+      due_date: dueDate,
       completed: isCompleted,
     }
+    console.log(newTodo)
 
     try {
       if (todo) {
         await editTodo({
-          updatedTodo: newTodo,
+          updatedTodo: {
+            ...newTodo,
+            zone: Number(newTodo.zone),
+            due_date: newTodo.due_date?.toISOString() ?? '',
+          },
           todoId: todo.id,
           id: session.user.id,
         })
       } else {
-        await addTodo({ todo: newTodo, id: session.user.id })
+        await addTodo({
+          todo: {
+            ...newTodo,
+            zone: Number(newTodo.zone),
+            due_date: newTodo.due_date?.toISOString() ?? '',
+          },
+          id: session.user.id,
+        })
       }
 
       const updatedTodos = await getIncompleteTodos({ id: session.user.id })
@@ -88,7 +131,7 @@ export const TodoModal = (props: Props) => {
     })
     setIsCompleted(todo?.completed || false)
     setSelectedCategories((prev) => (prev ? [...prev] : []) as Category[])
-  }, [open])
+  }, [todo, opened, reset])
 
   // 既にカテゴリーがある場合、初期値としてセット
   useEffect(() => {
@@ -98,7 +141,7 @@ export const TodoModal = (props: Props) => {
       }
       return data
     })
-  }, [data, todo, open])
+  }, [data, opened])
 
   async function handleDeleteTodo(id: Id) {
     if (session?.user?.id) {
@@ -114,127 +157,119 @@ export const TodoModal = (props: Props) => {
 
   // TODO: Mantine Formを使えるかも、Zodを使ってバリデーションをかける
   return (
-    <Modal opened={opened} onClose={close}>
-      <Box maw={340} mx='auto'>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Done */}
-          <div className='sm:col-span-6'>
-            <TextInput
-              {...register('title', { required: true })}
-              defaultValue={defaultValues?.title}
-              label='タイトル'
-              withAsterisk
-              placeholder='タイトルを入力してください'
-            />
-            {errors.title && <span className='text-red-500'>タイトルは必須です</span>}
-          </div>
-
-          <div className='sm:col-span-6'>
-            <div className='flex'>
-              <label htmlFor='zone' className='block text-sm font-medium leading-6 text-gray-900'>
-                カテゴリー
-              </label>
-              <CategoryFlyoutMenu todo={todo} setSelectedCategories={setSelectedCategories} />
-              {selectedCategories &&
-                selectedCategories.map((category) => (
-                  <span
-                    key={category.id}
-                    className='rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-900'
-                  >
-                    <span>{category.name}</span>
-                  </span>
-                ))}
+    <DatesProvider settings={{ locale: 'ja' }}>
+      <Modal opened={opened} onClose={close}>
+        <Box maw={340} mx='auto'>
+          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
+            {/* Done */}
+            <div className='sm:col-span-6'>
+              <TextInput
+                {...register('title', { required: true })}
+                defaultValue={defaultValues?.title}
+                label='タイトル'
+                withAsterisk
+                placeholder='タイトルを入力してください'
+              />
+              {errors.title && <span className='text-red-500'>タイトルは必須です</span>}
             </div>
-          </div>
 
-          <div className='sm:col-span-4'>
-            {/* <label htmlFor='zone' className='block text-sm font-medium leading-6 text-gray-900'>
-              領域
-            </label>
-            <div className='mt-2'>
-              <select
-                defaultValue={defaultValues?.zone}
-                {...register('zone', { required: true })}
-                id='zone'
-                name='zone'
-                autoComplete='zone'
-                className='p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6'
-              >
-                <option value=''>選択してください</option>
-                <option value='1'>第1領域</option>
-                <option value='2'>第2領域</option>
-                <option value='3'>第3領域</option>
-                <option value='4'>第4領域</option>
-              </select>
-            </div> */}
-            <Select
-              label='領域'
-              placeholder='選択してください'
-              data={['第1領域', '第2領域', '第3領域', '第4領域']}
-            />
-            {errors.zone && <span className='text-red-500'>領域は必須です</span>}
-          </div>
-
-          <div className='sm:col-span-4'>
-            <label htmlFor='due_date' className='block text-sm font-medium leading-6 text-gray-900'>
-              日付
-            </label>
-            <div className='mt-2'>
-              <input
-                defaultValue={defaultValues?.due_date}
-                {...register('due_date')}
-                id='due_date'
-                name='due_date'
-                type='date'
-                className='p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-                placeholder='日付'
+            {/* Done */}
+            <div className='sm:col-span-6'>
+              <MultiSelect
+                label='カテゴリー'
+                placeholder='カテゴリーを選択してください'
+                data={categoryValues || undefined}
+                value={selectedCategories?.map((category) => String(category.id)) || []}
+                onChange={(value) => {
+                  const selected = categoryData?.filter((category: Category) =>
+                    value.includes(String(category.id)),
+                  )
+                  setSelectedCategories(selected as Category[])
+                }}
               />
             </div>
-          </div>
 
-          {/* Done */}
-          <div className='col-span-full'>
-            <Textarea
-              {...register('description')}
-              defaultValue={defaultValues?.description}
-              label='詳細'
-              placeholder='詳細を入力してください'
-            />
-          </div>
+            {/* Done */}
+            <div className='sm:col-span-4'>
+              <Select
+                label='領域'
+                withAsterisk
+                placeholder='選択してください'
+                data={[
+                  { value: '1', label: '第1領域' },
+                  { value: '2', label: '第2領域' },
+                  { value: '3', label: '第3領域' },
+                  { value: '4', label: '第4領域' },
+                ]}
+                value={zone ? zone.value : null}
+                onChange={(_value, option) => setZone(option)}
+              />
+              {errors.zone && <span className='text-red-500'>領域は必須です</span>}
+            </div>
 
-          {todo ? (
-            <div className='sm:col-span-6 mb-7'>
-              <label htmlFor='title' className='block text-sm font-medium leading-6 text-gray-900'>
-                完了
-              </label>
-              <div className='mt-2'>
-                <input
-                  type='checkbox'
-                  id='is_completed'
-                  name='is_completed'
-                  checked={isCompleted}
-                  onChange={(e) => setIsCompleted(e.target.checked)}
-                  className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
+            {/* Done */}
+            <div className='sm:col-span-4'>
+              <DatePickerInput
+                valueFormat='YYYY/MM/DD'
+                label='日付'
+                placeholder='日付を選択してください'
+                value={dueDate}
+                onChange={setDueDate}
+              />
+            </div>
+
+            {/* Done */}
+            <div className='col-span-full'>
+              <Textarea
+                {...register('description')}
+                defaultValue={defaultValues?.description}
+                label='詳細'
+                placeholder='詳細を入力してください'
+              />
+            </div>
+
+            {todo ? (
+              <div className='sm:col-span-6'>
+                {/* <label
+                  htmlFor='title'
+                  className='block text-sm font-medium leading-6 text-gray-900'
+                >
+                  完了
+                </label>
+                <div className='mt-2'>
+                  <input
+                    type='checkbox'
+                    id='is_completed'
+                    name='is_completed'
+                    checked={isCompleted}
+                    onChange={(e) => setIsCompleted(e.target.checked)}
+                    className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
+                  />
+                </div> */}
+                <Checkbox
+                  label='完了'
+                  checked={checked}
+                  onChange={(event) => setChecked(event.currentTarget.checked)}
                 />
               </div>
-            </div>
-          ) : null}
-          {todo ? (
-            <div className='col-span-full flex gap-4'>
+            ) : null}
+            {todo ? (
+              <div className='col-span-full flex gap-4'>
+                <Button type='submit' color='violet'>
+                  更新
+                </Button>
+                <Button type='submit' onClick={() => todo && handleDeleteTodo(todo.id)} color='red'>
+                  削除
+                </Button>
+              </div>
+            ) : (
               <Button type='submit' color='violet'>
-                更新
+                作成
               </Button>
-              <Button type='submit' onClick={() => todo && handleDeleteTodo(todo.id)} color='red'>
-                削除
-              </Button>
-            </div>
-          ) : (
-            <Button type='submit' color='violet'>
-              作成
-            </Button>
-          )}
-        </form>
-      </Box>
-    </Modal>
+            )}
+          </form>
+        </Box>
+      </Modal>
+    </DatesProvider>
   )
 }
