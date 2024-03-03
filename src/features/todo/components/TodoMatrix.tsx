@@ -1,3 +1,4 @@
+import { SimpleGrid } from '@mantine/core'
 import { memo } from 'react'
 
 import { TodoZone } from './TodoZone'
@@ -12,21 +13,7 @@ export const TodoMatrix = memo((props: Props) => {
   const { todos, openEditModal } = props
 
   return (
-    <div
-      className='
-      mt-4
-      divide-y
-      divide-gray-200
-      overflow-hidden
-      rounded-lg
-      bg-gray-200
-      shadow
-      sm:grid
-      sm:grid-cols-2
-      sm:gap-px
-      sm:divide-y-0
-      '
-    >
+    <SimpleGrid cols={2} spacing='none' verticalSpacing='xs'>
       {[1, 2, 3, 4].map((zone) => (
         <TodoZone
           key={zone}
@@ -35,7 +22,7 @@ export const TodoMatrix = memo((props: Props) => {
           openEditModal={openEditModal}
         />
       ))}
-    </div>
+    </SimpleGrid>
   )
 })
 

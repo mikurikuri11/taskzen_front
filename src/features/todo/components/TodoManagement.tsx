@@ -40,21 +40,18 @@ export const TodoManagement: FC = () => {
     if (id) {
       onSelectTodo({ id, incompletedTodos, setShowEditTodoModal })
     }
+    open()
   }
 
   return (
-    <div className='mt-12 mb-24'>
-      <div className='mx-auto max-w-screen-md flex justify-between my-10'>
-        <h1 className='text-white text-2xl font-bold mt-4'>Todo Matrix</h1>
-        <div>
-          <Button onClick={open} color='violet'>
-            Todoを作成する
-          </Button>
-        </div>
+    <div className='flex flex-col gap-4'>
+      <div className='flex justify-between'>
+        <h1 className='text-white text-2xl font-bold'>Todo Matrix</h1>
+        <Button onClick={open} color='violet' className='mt-3'>
+          Todoを作成する
+        </Button>
       </div>
-      <div className='mx-auto max-w-screen-md flex justify-between'>
-        <TodoMatrix todos={incompletedTodos} openEditModal={openModal} />
-      </div>
+      <TodoMatrix todos={incompletedTodos} openEditModal={openModal} />
       <TodoModal todo={selectedTodo} opened={opened} close={close} />
     </div>
   )

@@ -62,7 +62,7 @@ export const TodoZone = (props: Props) => {
       }`}
     >
       {/* <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}> */}
-      <div className='mt-1'>
+      <div>
         <h3 className='text-base font-semibold leading-6 text-gray-900'>
           {zone === 2 ? (
             <span className='bg-blue-200 rounded-lg p-1'>第{zone}の領域</span>
@@ -73,7 +73,6 @@ export const TodoZone = (props: Props) => {
         <div
           className='
             mt-3
-            list-none
             flex
             flex-col
             gap-3
