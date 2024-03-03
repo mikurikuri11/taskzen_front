@@ -1,3 +1,4 @@
+import { Button } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -55,12 +56,7 @@ export default function Home() {
             自分にとって今最も重要なことを管理する
           </p>
           <div className='mt-10 flex items-center gap-x-6'>
-            <Link
-              href='/tutorial'
-              className='rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400'
-            >
-              始めてみる
-            </Link>
+          <Button component={Link} href="/tutorial" variant="filled" color="violet">始めてみる</Button>
             {/* <Link href='#' className='text-sm font-semibold leading-6 text-white'>
               Learn more <span aria-hidden='true'>→</span>
             </Link> */}

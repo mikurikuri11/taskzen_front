@@ -1,15 +1,27 @@
 'use client'
 
-import { Dialog, Transition } from '@headlessui/react'
+import {
+  Modal,
+  Button,
+  Box,
+  TextInput,
+  Textarea,
+  Select,
+  ComboboxItem,
+  MultiSelect,
+  Checkbox,
+} from '@mantine/core'
+import { DatePickerInput, DatesProvider } from '@mantine/dates'
+import 'dayjs/locale/ja'
+
 import { useSession } from 'next-auth/react'
-import { useEffect, FC, Fragment, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { editTodo } from '../api/editTodo'
 import { useTodoCategories } from '../hooks/useTodoCategories'
-import { StyledSubmitButton } from '@/components/ui-elements/Button/StyledSubmitButton'
-import { CategoryFlyoutMenu } from '@/features/category/components/category/CategoryFlyoutMenu'
+import { useCategory } from '@/features/category/hooks/useCategory'
 import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
@@ -17,12 +29,12 @@ import { Id, Todo, Category } from '@/types'
 
 interface Props {
   todo?: Todo | null
-  open: boolean
-  setOpen: (open: boolean) => void
+  opened: boolean
+  close: () => void
 }
 
-export const TodoModal: FC<Props> = (props) => {
-  const { todo, open, setOpen } = props
+export const TodoModal = (props: Props) => {
+  const { todo, opened, close } = props
 
   const defaultValues = {
     title: todo?.title,
@@ -33,7 +45,7 @@ export const TodoModal: FC<Props> = (props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
     reset,
   } = useForm<Todo>({
     mode: 'onChange',
@@ -43,33 +55,66 @@ export const TodoModal: FC<Props> = (props) => {
   const { data: session, status } = useSession()
   const { data, error, isLoading } = useTodoCategories(todo?.id ?? 0)
 
-  const [selectedCategories, setSelectedCategories] = useState<Category[] | null>([])
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
+
+  // フォーム用
   const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
+  const [zone, setZone] = useState<ComboboxItem | null>(null)
+
+  const { data: categoryData } = useCategory(session ? session.user.id : null)
+  const categories = categoryData?.map((category: Category) => ({
+    value: String(category.id),
+    label: category.name,
+  }))
+  const [categoryValues, setCategoryValues] = useState<ComboboxItem[] | null>([])
+  const [selectedCategories, setSelectedCategories] = useState<Category[] | null>([])
+
+  const [dueDate, setDueDate] = useState<Date | null>(null)
+  const [checked, setChecked] = useState(false)
+
+  useEffect(() => {
+    setCategoryValues(categories)
+  }, [categoryData])
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (!session?.user?.id) return
 
+    setSelectedCategories((prev) => (prev ? [...prev] : []) as Category[])
+
     const newTodo = {
       ...data,
       categories: selectedCategories ?? [],
+      zone: zone?.value ?? 0,
+      due_date: dueDate,
       completed: isCompleted,
     }
+    console.log(newTodo)
 
     try {
       if (todo) {
         await editTodo({
-          updatedTodo: newTodo,
+          updatedTodo: {
+            ...newTodo,
+            zone: Number(newTodo.zone),
+            due_date: newTodo.due_date?.toISOString() ?? '',
+          },
           todoId: todo.id,
           id: session.user.id,
         })
       } else {
-        await addTodo({ todo: newTodo, id: session.user.id })
+        await addTodo({
+          todo: {
+            ...newTodo,
+            zone: Number(newTodo.zone),
+            due_date: newTodo.due_date?.toISOString() ?? '',
+          },
+          id: session.user.id,
+        })
       }
 
       const updatedTodos = await getIncompleteTodos({ id: session.user.id })
       setIncompletedTodos(updatedTodos)
-      setOpen(false)
+      close()
       reset()
     } catch (error) {
       console.error(error)
@@ -86,7 +131,7 @@ export const TodoModal: FC<Props> = (props) => {
     })
     setIsCompleted(todo?.completed || false)
     setSelectedCategories((prev) => (prev ? [...prev] : []) as Category[])
-  }, [open])
+  }, [todo, opened, reset])
 
   // 既にカテゴリーがある場合、初期値としてセット
   useEffect(() => {
@@ -96,7 +141,7 @@ export const TodoModal: FC<Props> = (props) => {
       }
       return data
     })
-  }, [data, todo, open])
+  }, [data, opened])
 
   async function handleDeleteTodo(id: Id) {
     if (session?.user?.id) {
@@ -110,196 +155,121 @@ export const TodoModal: FC<Props> = (props) => {
     }
   }
 
+  // TODO: Mantine Formを使えるかも、Zodを使ってバリデーションをかける
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as='div' className='relative z-10' onClose={setOpen}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Transition.Child
-            as={Fragment}
-            enter='ease-out duration-300'
-            enterFrom='opacity-0'
-            enterTo='opacity-100'
-            leave='ease-in duration-200'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
-          >
-            <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
-          </Transition.Child>
-
-          <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-            <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
-              <Transition.Child
-                as={Fragment}
-                enter='ease-out duration-300'
-                enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
-                enterTo='opacity-100 translate-y-0 sm:scale-100'
-                leave='ease-in duration-200'
-                leaveFrom='opacity-100 translate-y-0 sm:scale-100'
-                leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
-              >
-                <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md sm:p-6'>
-                  <div className='mt-5 sm:mt-6'></div>
-
-                  <div className='grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2 mx-8'>
-                    <div className='sm:col-span-6'>
-                      <label
-                        htmlFor='title'
-                        className='block text-sm font-medium leading-6 text-gray-900'
-                      >
-                        タイトル
-                      </label>
-                      <div className='mt-2'>
-                        <input
-                          {...register('title', { required: true })}
-                          defaultValue={defaultValues?.title}
-                          id='title'
-                          name='title'
-                          type='text'
-                          autoComplete='title'
-                          className='p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-                        />
-                        {errors.title && <span className='text-red-500'>タイトルは必須です</span>}
-                      </div>
-                    </div>
-
-                    <div className='sm:col-span-6'>
-                      <div className='flex '>
-                        <label
-                          htmlFor='zone'
-                          className='block text-sm font-medium leading-6 text-gray-900'
-                        >
-                          カテゴリー
-                        </label>
-                        <CategoryFlyoutMenu
-                          todo={todo}
-                          setSelectedCategories={setSelectedCategories}
-                        />
-                      </div>
-                      {/* 選択したカテゴリーを表示する */}
-                      {selectedCategories &&
-                        selectedCategories.map((category) => (
-                          <span
-                            key={category.id}
-                            className='ml-1 mt-2 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 px-2 text-sm font-medium text-gray-900'
-                          >
-                            <span>{category.name}</span>
-                          </span>
-                        ))}
-                    </div>
-
-                    <div className='sm:col-span-4'>
-                      <label
-                        htmlFor='zone'
-                        className='block text-sm font-medium leading-6 text-gray-900'
-                      >
-                        領域
-                      </label>
-                      <div className='mt-2'>
-                        <select
-                          defaultValue={defaultValues?.zone}
-                          {...register('zone', { required: true })}
-                          id='zone'
-                          name='zone'
-                          autoComplete='zone'
-                          className='p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6'
-                        >
-                          <option value=''>選択してください</option>
-                          <option value='1'>第1領域</option>
-                          <option value='2'>第2領域</option>
-                          <option value='3'>第3領域</option>
-                          <option value='4'>第4領域</option>
-                        </select>
-                        {errors.zone && <span className='text-red-500'>領域は必須です</span>}
-                      </div>
-                    </div>
-
-                    <div className='sm:col-span-4'>
-                      <label
-                        htmlFor='due_date'
-                        className='block text-sm font-medium leading-6 text-gray-900'
-                      >
-                        日付
-                      </label>
-                      <div className='mt-2'>
-                        <input
-                          defaultValue={defaultValues?.due_date}
-                          {...register('due_date')}
-                          id='due_date'
-                          name='due_date'
-                          type='date'
-                          className='p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-                          placeholder='日付'
-                        />
-                      </div>
-                    </div>
-
-                    <div className='col-span-full'>
-                      <label
-                        htmlFor='description'
-                        className='block text-sm font-medium leading-6 text-gray-900'
-                      >
-                        詳細
-                      </label>
-                      <div className='mt-2'>
-                        <textarea
-                          defaultValue={defaultValues?.description}
-                          {...register('description')}
-                          name='description'
-                          id='description'
-                          autoComplete='description'
-                          className='p-3 mb-6 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-                          rows={4}
-                          placeholder='詳細を入力してください'
-                        />
-                      </div>
-                      {todo ? (
-                        <div className='sm:col-span-6 mb-7'>
-                          <label
-                            htmlFor='title'
-                            className='block text-sm font-medium leading-6 text-gray-900'
-                          >
-                            完了
-                          </label>
-                          <div className='mt-2'>
-                            <input
-                              type='checkbox'
-                              id='is_completed'
-                              name='is_completed'
-                              checked={isCompleted}
-                              onChange={(e) => setIsCompleted(e.target.checked)}
-                              className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
-                            />
-                          </div>
-                        </div>
-                      ) : null}
-                      {todo ? (
-                        <div className='col-span-full flex gap-4'>
-                          <StyledSubmitButton
-                            className='bg-indigo-500'
-                            disabled={!isDirty || !isValid}
-                          >
-                            更新
-                          </StyledSubmitButton>
-                          <StyledSubmitButton
-                            className='bg-red-500'
-                            onClick={() => todo && handleDeleteTodo(todo.id)}
-                          >
-                            削除
-                          </StyledSubmitButton>
-                        </div>
-                      ) : (
-                        <StyledSubmitButton className='bg-indigo-500 text-lg'>
-                          作成
-                        </StyledSubmitButton>
-                      )}
-                    </div>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
+    <DatesProvider settings={{ locale: 'ja' }}>
+      <Modal opened={opened} onClose={close}>
+        <Box maw={340} mx='auto'>
+          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
+            {/* Done */}
+            <div className='sm:col-span-6'>
+              <TextInput
+                {...register('title', { required: true })}
+                defaultValue={defaultValues?.title}
+                label='タイトル'
+                withAsterisk
+                placeholder='タイトルを入力してください'
+              />
+              {errors.title && <span className='text-red-500'>タイトルは必須です</span>}
             </div>
-          </div>
-        </form>
-      </Dialog>
-    </Transition.Root>
+
+            {/* Done */}
+            <div className='sm:col-span-6'>
+              <MultiSelect
+                label='カテゴリー'
+                placeholder='カテゴリーを選択してください'
+                data={categoryValues || undefined}
+                value={selectedCategories?.map((category) => String(category.id)) || []}
+                onChange={(value) => {
+                  const selected = categoryData?.filter((category: Category) =>
+                    value.includes(String(category.id)),
+                  )
+                  setSelectedCategories(selected as Category[])
+                }}
+              />
+            </div>
+
+            {/* Done */}
+            <div className='sm:col-span-4'>
+              <Select
+                label='領域'
+                withAsterisk
+                placeholder='選択してください'
+                data={[
+                  { value: '1', label: '第1領域' },
+                  { value: '2', label: '第2領域' },
+                  { value: '3', label: '第3領域' },
+                  { value: '4', label: '第4領域' },
+                ]}
+                value={zone ? zone.value : null}
+                onChange={(_value, option) => setZone(option)}
+              />
+              {errors.zone && <span className='text-red-500'>領域は必須です</span>}
+            </div>
+
+            {/* Done */}
+            <div className='sm:col-span-4'>
+              <DatePickerInput
+                valueFormat='YYYY/MM/DD'
+                label='日付'
+                placeholder='日付を選択してください'
+                value={dueDate}
+                onChange={setDueDate}
+              />
+            </div>
+
+            {/* Done */}
+            <div className='col-span-full'>
+              <Textarea
+                {...register('description')}
+                defaultValue={defaultValues?.description}
+                label='詳細'
+                placeholder='詳細を入力してください'
+              />
+            </div>
+
+            {todo ? (
+              <div className='sm:col-span-6'>
+                {/* <label
+                  htmlFor='title'
+                  className='block text-sm font-medium leading-6 text-gray-900'
+                >
+                  完了
+                </label>
+                <div className='mt-2'>
+                  <input
+                    type='checkbox'
+                    id='is_completed'
+                    name='is_completed'
+                    checked={isCompleted}
+                    onChange={(e) => setIsCompleted(e.target.checked)}
+                    className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
+                  />
+                </div> */}
+                <Checkbox
+                  label='完了'
+                  checked={checked}
+                  onChange={(event) => setChecked(event.currentTarget.checked)}
+                />
+              </div>
+            ) : null}
+            {todo ? (
+              <div className='col-span-full flex gap-4'>
+                <Button type='submit' color='violet'>
+                  更新
+                </Button>
+                <Button type='submit' onClick={() => todo && handleDeleteTodo(todo.id)} color='red'>
+                  削除
+                </Button>
+              </div>
+            ) : (
+              <Button type='submit' color='violet'>
+                作成
+              </Button>
+            )}
+          </form>
+        </Box>
+      </Modal>
+    </DatesProvider>
   )
 }

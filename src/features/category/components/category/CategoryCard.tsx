@@ -38,22 +38,19 @@ export const CategoryCard = (props: CategoryCardProps) => {
   }
 
   return (
-    <div key={category.id} className='relative flex items-start gap-2'>
+    <div key={category.id} className='flex items-start gap-2'>
       <p>{category.name}</p>
-      <div className='flex h-6 items-center'>
+      <div className=''>
         <input
           id={category.id?.toString()}
           aria-describedby='offers-description'
           name={category.id?.toString()}
           type='checkbox'
-          className='h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
+          className='mt-5 h-4'
           onChange={handleCheckboxChange}
           checked={checked}
         />
       </div>
-      <div className='ml-3 text-sm leading-6'></div>
-      <div className='flex-grow' />
-      <div className='text-xl cursor-pointer'></div>
     </div>
   )
 }

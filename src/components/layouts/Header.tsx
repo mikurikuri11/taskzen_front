@@ -2,18 +2,16 @@
 
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useDisclosure } from '@mantine/hooks'
 
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-
 import { FC, useState } from 'react'
 import { BiLogIn } from 'react-icons/bi'
 
-import { useRecoilState } from 'recoil'
 import { FlyoutMenu } from '../ui-elements/Modal/FlyoutMenu'
 import { LoginModal } from '../ui-elements/Modal/LoginModal'
-import { showLoginModalAtom } from '@/recoil/atoms/showLoginModalAtom'
 
 const navigation = [
   { name: 'ドキュメント', href: '/tutorial' },
@@ -23,21 +21,17 @@ const navigation = [
 
 export const Header: FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [showLoginModal, setShowLoginModal] = useRecoilState(showLoginModalAtom)
   const { data: session, status } = useSession()
-
-  const openModal = () => {
-    setShowLoginModal(true)
-  }
+  const [opened, { open, close }] = useDisclosure(false)
 
   return (
     <>
       <header className='bg-gray-800 shadow-2xl'>
         <nav className='mx-auto flex max-w-7xl items-center justify-between' aria-label='Global'>
-          <div className='flex items-center gap-x-12 mt-1 mr-7'>
+          <div className='flex items-center gap-x-12 mt-2 mr-7'>
             <Link href='/' className='-m-1.5 p-1.5 mt-3 mr-4'>
               <span className='sr-only'>Your Company</span>
-              <Image src='/taskzen-logo.png' alt='' width={60} height={60} />
+              <Image src='/taskzen-logo.png' alt='' width={50} height={70} />
             </Link>
           </div>
           <div className='flex lg:hidden'>
@@ -55,7 +49,7 @@ export const Header: FC = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className='text-sm font-semibold leading-6 text-white hover:text-gray-400'
+                className='text-sm font-semibold leading-6 text-white hover:text-gray-400 no-underline'
               >
                 {item.name}
               </Link>
@@ -65,7 +59,7 @@ export const Header: FC = () => {
             {status !== 'authenticated' ? (
               <div
                 className='text-sm font-semibold leading-6 text-white cursor-pointer flex items-center'
-                onClick={openModal}
+                onClick={open}
               >
                 ログイン <BiLogIn className='ml-2' />
               </div>
@@ -74,6 +68,8 @@ export const Header: FC = () => {
             )}
           </div>
         </nav>
+
+        {/* モバイル用メニュー */}
         <Dialog as='div' className='lg:hidden' open={mobileMenuOpen} onClose={setMobileMenuOpen}>
           <div className='fixed inset-0 z-10' />
           <Dialog.Panel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10'>
@@ -107,7 +103,7 @@ export const Header: FC = () => {
                 <div className='py-6'>
                   <div
                     className='-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800'
-                    onClick={openModal}
+                    onClick={open}
                   >
                     Log in
                   </div>
@@ -117,7 +113,7 @@ export const Header: FC = () => {
           </Dialog.Panel>
         </Dialog>
       </header>
-      <LoginModal open={showLoginModal} setOpen={setShowLoginModal} />
+      <LoginModal opened={opened} close={close} />
     </>
   )
 }

@@ -1,4 +1,8 @@
 import './globals.css'
+import { ColorSchemeScript, MantineProvider } from '@mantine/core'
+import '@mantine/core/styles.css'
+import '@mantine/carousel/styles.css'
+import '@mantine/dates/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
@@ -18,13 +22,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en'>
-      <body className={inter.className}>
+    <html lang='ja'>
+      <head>
+        <ColorSchemeScript />
+      </head>
+      <body className={`${inter.className} bg-gray-900`}>
         <NextAuthProvider>
           <RecoilProvider>
-            <Header />
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-            <Footer />
+            <MantineProvider>
+              <Header />
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+              <Footer />
+            </MantineProvider>
           </RecoilProvider>
         </NextAuthProvider>
       </body>

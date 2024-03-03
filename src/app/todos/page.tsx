@@ -9,5 +9,9 @@ export default async function Home() {
   if (!session) {
     redirect('/')
   }
-  return <TodoManagement />
+  return (
+    <div className='mt-16 mb-20 flex justify-center'>
+      <TodoManagement />
+    </div>
+  )
 }

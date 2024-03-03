@@ -65,41 +65,22 @@ export const TodoCard = (props: Props) => {
       className='
       flex
       justify-between
-      hover:ring-2
-      hover:ring-insert
-      hover:ring-gray-500
       cursor-grab
       bg-slate-300
       w-full
       rounded-md
-      p-2
+      px-2
       text-center
     '
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
     >
       <p>{todo.title}</p>
-      {mouseIsOver && (
-        <button
-          onClick={() => openEditModal(todo.id)}
-          className='
-            stroke-white
-            top-1/2
-            -translate-y-1/2
-            bg-columnBackgroundColor
-            mt-3
-            ml-auto
-            mr-2
-            rounded-full
-            cursor-pointer
-            flex
-            gap-2
-            '
-        >
-          <FaEdit />
-          {/* <FaRegTrashAlt /> */}
-        </button>
-      )}
+      <p>
+        {mouseIsOver && (
+          <FaEdit onClick={() => openEditModal(todo.id)} className='cursor-pointer mr-1' />
+        )}
+      </p>
     </div>
   )
 }

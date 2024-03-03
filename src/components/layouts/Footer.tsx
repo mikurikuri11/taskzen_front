@@ -22,7 +22,7 @@ export const Footer: FC = () => {
             <li key={item.name} className='inline-block mr-4'>
               <Link
                 href={item.href}
-                className='text-sm leading-6 text-gray-400 hover:text-gray-500'
+                className='text-sm leading-6 text-gray-400 hover:text-gray-500 no-underline'
               >
                 {item.name}
               </Link>
