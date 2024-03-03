@@ -1,5 +1,6 @@
 import './globals.css'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
+import '@mantine/charts/styles.css';
 import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css'
 import '@mantine/dates/styles.css'
