@@ -1,8 +1,8 @@
 import './globals.css'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
-import '@mantine/carousel/styles.css';
-import '@mantine/dates/styles.css';
+import '@mantine/carousel/styles.css'
+import '@mantine/dates/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <ColorSchemeScript />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-gray-900`}>
         <NextAuthProvider>
           <RecoilProvider>
             <MantineProvider>
