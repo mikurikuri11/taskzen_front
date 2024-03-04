@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Id, Todo } from '@/types'
 
-type Props = {
+interface Props {
   id: Id
   incompletedTodos: Array<Todo>
 }

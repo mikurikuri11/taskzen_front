@@ -5,11 +5,11 @@ import { Todo, Id } from '@/types'
 interface Props {
   zone: number
   filterTodos: Todo[]
-  openModal: (id: Id) => void
+  openModalWithId: (id: Id) => void
 }
 
 export const TodoZone = (props: Props) => {
-  const { zone, filterTodos, openModal } = props
+  const { zone, filterTodos, openModalWithId } = props
 
   return (
     <div
@@ -36,7 +36,7 @@ export const TodoZone = (props: Props) => {
           {filterTodos
             .filter((todo) => todo.zone === zone)
             .map((todo) => (
-              <TodoCard key={todo.id} todo={todo} openModal={openModal} />
+              <TodoCard key={todo.id} todo={todo} openModalWithId={openModalWithId} />
             ))}
         </div>
       </div>

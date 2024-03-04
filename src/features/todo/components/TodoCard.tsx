@@ -5,11 +5,11 @@ import { Id, Todo } from '@/types'
 
 interface Props {
   todo: Todo
-  openModal: (id: Id) => void
+  openModalWithId: (id: Id) => void
 }
 
 export const TodoCard = (props: Props) => {
-  const { todo, openModal } = props
+  const { todo, openModalWithId } = props
 
   const [mouseIsOver, setMouseIsOver] = useState(false)
 
@@ -31,7 +31,7 @@ export const TodoCard = (props: Props) => {
       <p>{todo.title}</p>
       <p>
         {mouseIsOver && (
-          <FaEdit onClick={() => openModal(todo.id)} className='cursor-pointer mr-1' />
+          <FaEdit onClick={() => openModalWithId(todo.id)} className='cursor-pointer mr-1' />
         )}
       </p>
     </div>

@@ -28,15 +28,21 @@ export const TodoManagement: FC = () => {
     }
 
     getTodosAsync()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
-  const openModal = (id?: Id) => {
-    if (id) {
-      onSelectTodo({ id, incompletedTodos })
-    }
+  const openModal = () => {
+    onSelectTodo({
+      id: 0,
+      incompletedTodos,
+    })
+    open()
+  }
+
+  const openModalWithId = (id?: Id) => {
+    if (!id) return
+    onSelectTodo({ id, incompletedTodos })
     open()
   }
 
@@ -44,12 +50,12 @@ export const TodoManagement: FC = () => {
     <div className='flex flex-col gap-4'>
       <div className='flex justify-between'>
         <h1 className='text-white text-2xl font-bold'>Todo Matrix</h1>
-        <Button onClick={open} color='violet' className='mt-3'>
+        <Button onClick={openModal} color='violet' className='mt-3'>
           Todoを作成する
         </Button>
       </div>
-      <TodoMatrix todos={incompletedTodos} openModal={openModal} />
-      <TodoModal todo={selectedTodo} opened={opened} close={close} />
+      <TodoMatrix todos={incompletedTodos} openModalWithId={openModalWithId} />
+      <TodoModal selectedTodo={selectedTodo} opened={opened} close={close} />
     </div>
   )
 }

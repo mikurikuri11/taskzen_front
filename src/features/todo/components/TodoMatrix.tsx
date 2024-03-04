@@ -6,11 +6,11 @@ import { Id, Todo } from '@/types'
 
 interface Props {
   todos: Todo[]
-  openModal: (id: Id) => void
+  openModalWithId: (id: Id) => void
 }
 
 export const TodoMatrix = memo((props: Props) => {
-  const { todos, openModal } = props
+  const { todos, openModalWithId } = props
 
   return (
     <SimpleGrid cols={2} spacing='none' verticalSpacing='xs'>
@@ -19,7 +19,7 @@ export const TodoMatrix = memo((props: Props) => {
           key={zone}
           zone={zone}
           filterTodos={todos.filter((todo) => todo.zone === zone)}
-          openModal={openModal}
+          openModalWithId={openModalWithId}
         />
       ))}
     </SimpleGrid>
