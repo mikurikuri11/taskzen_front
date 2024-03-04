@@ -16,7 +16,7 @@ import 'dayjs/locale/ja'
 
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { useRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { editTodo } from '../api/editTodo'
@@ -115,6 +115,8 @@ export const TodoModal = (props: Props) => {
 
       const updatedTodos = await getIncompleteTodos({ id: session.user.id })
       setIncompletedTodos(updatedTodos)
+      setChecked(false)
+      setIsCompleted(false)
       close()
       reset()
     } catch (error) {
@@ -216,7 +218,10 @@ export const TodoModal = (props: Props) => {
                 <Checkbox
                   label='完了'
                   checked={checked}
-                  onChange={(event) => setChecked(event.currentTarget.checked)}
+                  onChange={() => {
+                    setIsCompleted(!isCompleted)
+                    setChecked(!checked)
+                  }}
                 />
               </div>
             ) : null}

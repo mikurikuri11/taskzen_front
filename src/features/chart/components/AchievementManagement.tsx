@@ -9,6 +9,8 @@ export const AchievementManagement = () => {
   const { data: session, status } = useSession()
   const { filteredData } = useFilteredAchievements(session ? session.user.id : null)
 
+  console.log(filteredData)
+
   return (
     <div className='mx-auto max-w-screen-md flex justify-between my-10 flex-col items-center'>
       <h1 className='text-3xl font-semibold text-white mb-14'>月間レポート</h1>
