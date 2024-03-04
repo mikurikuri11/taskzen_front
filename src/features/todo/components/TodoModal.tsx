@@ -35,8 +35,6 @@ interface Props {
 export const TodoModal = (props: Props) => {
   const { selectedTodo, opened, close } = props
 
-  console.log("selectedTodo", selectedTodo)
-
   // フォーム用
   const [isCompleted, setIsCompleted] = useState<boolean>(selectedTodo?.completed || false)
   const [zone, setZone] = useState<ComboboxItem | null>(null)
@@ -73,9 +71,16 @@ export const TodoModal = (props: Props) => {
 
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
+
+  // カテゴリーのデータをフォームにセット
   useEffect(() => {
     setCategoryValues(categories)
   }, [categoryData])
+
+  // 領域のデータをフォームにセット
+  useEffect(() => {
+    setZone(selectedTodo?.zone.toString() as unknown as ComboboxItem);
+  }, [selectedTodo])
 
   // ToDoが変更されたらフォームをリセット
   useEffect(() => {
@@ -90,16 +95,13 @@ export const TodoModal = (props: Props) => {
     const newTodo = {
       ...data,
       categories: selectedCategories ?? [],
-      zone: zone?.value ?? 0,
+      zone: zone?.value,
       due_date: dueDate,
       completed: isCompleted,
     }
 
-    console.log("newTodo", newTodo)
-
     try {
       if (selectedTodo) {
-        console.log("updatetodo", newTodo)
         await editTodo({
           updatedTodo: {
             ...newTodo,
@@ -110,7 +112,6 @@ export const TodoModal = (props: Props) => {
           id: session.user.id,
         })
       } else {
-        console.log("newTodo", newTodo)
         await addTodo({
           todo: {
             ...newTodo,
