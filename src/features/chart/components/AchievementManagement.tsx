@@ -12,20 +12,21 @@ export const AchievementManagement = () => {
   console.log(filteredData)
 
   return (
-    <div className='mx-auto max-w-screen-md flex justify-between my-10 flex-col items-center'>
-      <h1 className='text-3xl font-semibold text-white mb-14'>月間レポート</h1>
+    <div className='mx-auto max-w-screen-md flex justify-between mt-10 flex-col items-center'>
+      <h1 className='text-3xl font-semibold text-white mb-14'>週間レポート</h1>
       <AreaChart
         h={300}
         data={filteredData}
-        dataKey="achievements_end_date"
+        dataKey="achievement_date"
         series={[
           { name: 'achievement_rate', color: 'indigo.6' },
           // { name: 'Oranges', color: 'blue.6' },
           // { name: 'Tomatoes', color: 'teal.6' },
         ]}
-        curveType="linear"
-        className="mt-12 mb-24"
-
+        curveType="bump"
+        tickLine="xy"
+        gridAxis="xy"
+        className="mt-20 mb-24"
       />
     </div>
   );
