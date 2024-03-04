@@ -1,4 +1,3 @@
-
 import { TodoCard } from './TodoCard'
 import { Todo, Id } from '@/types'
 
@@ -13,9 +12,8 @@ export const TodoZone = (props: Props) => {
 
   return (
     <div
-      className={`overflow-y-auto overflow-x-hidden group relative bg-white p-6 w-96 h-72 border-l ${
-        zone > 1 ? 'divide-y divide-gray-200' : ''
-      }`}
+      className='rounded-md border border-solid border-slate-500 overflow-y-auto overflow-x-hidden group relative bg-white p-6 w-96 h-72
+      '
     >
       <div>
         <h3 className='text-base font-semibold leading-6 text-gray-900'>
