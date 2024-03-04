@@ -1,35 +1,39 @@
+'use client'
+
 import { Button } from '@mantine/core'
 import Link from 'next/link'
-import { Achievement } from '@/types'
+import { useSession } from 'next-auth/react'
+import { useFilteredAchievements } from '@/features/chart/hooks/useFilteredAchievement'
 
-interface Props {
-  achievement: Achievement[]
-}
+export const Report = () => {
+  const { data: session, status } = useSession()
+  const { filteredData } = useFilteredAchievements(session ? session.user.id : null)
 
-export const Report = (props: Props) => {
-  const { achievement } = props
-  const achievementRate = achievement.length > 0 ? achievement[0].achievement_rate : 0
+  const achievementRates = filteredData.map((data) => data.achievement_rate)
+  console.log(achievementRates)
+  const weeklyAchievementRate =
+  Math.floor(achievementRates.reduce((acc, curr) => acc + curr, 0) / achievementRates.length)
 
   return (
     <div className='h-screen flex flex-col justify-center items-center'>
       <div className='text-3xl font-semibold text-white mb-14'>週間レポート</div>
       <div>
         <div className='text-2xl font-semibold text-white mb-10'>
-          今週の達成率 {achievementRate} %
+          今週の達成率 {weeklyAchievementRate} %
         </div>
       </div>
       <div>
         <p className='text-1xl font-semibold text-white mb-10'>
-          {achievementRate !== null && (
+          {weeklyAchievementRate !== null && (
             <>
-              {achievementRate <= 30 && 'もう少し頑張りましょう。'}
-              {achievementRate > 30 &&
-                achievementRate <= 55 &&
+              {weeklyAchievementRate <= 30 && 'もう少し頑張りましょう。'}
+              {weeklyAchievementRate > 30 &&
+                weeklyAchievementRate <= 55 &&
                 'そこそこできています。もう一踏ん張りです。'}
-              {achievementRate > 55 &&
-                achievementRate <= 80 &&
+              {weeklyAchievementRate > 55 &&
+                weeklyAchievementRate <= 80 &&
                 'とてもいい感じです。これからも頑張りましょう。'}
-              {achievementRate > 80 && '完璧です。新しいことに挑戦してみましょう。'}
+              {weeklyAchievementRate > 80 && '完璧です。新しいことに挑戦してみましょう。'}
             </>
           )}
         </p>
