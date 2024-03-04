@@ -4,35 +4,34 @@ import { useAchievement } from '../hooks/useAchievement'
 export const useFilteredAchievements = (userId: string | null) => {
   const { data } = useAchievement(userId)
 
+  console.log(data)
+
   const sortedData = useMemo(() => {
     if (!data) return []
 
     // データを日付でソート
     const sortedData = [...data].sort((a, b) => {
-      return (
-        Number(new Date(a.achievements_start_date)) - Number(new Date(b.achievements_start_date))
-      )
+      return Number(new Date(b.achievement_date)) - Number(new Date(a.achievement_date))
     })
 
     // 今日の日付を取得
     const today = new Date()
 
-    // 過去4つのデータを取得
-    const pastFourData = []
-    for (let i = sortedData.length - 1; i >= 0; i--) {
-      const itemDate = new Date(sortedData[i].achievements_start_date)
-      // 今日から過去4つのデータを取得
-      if (itemDate <= today && pastFourData.length < 4) {
-        pastFourData.push(sortedData[i])
-      }
-    }
+    // 今日から過去一週間のデータを取得
+    const pastWeekData = sortedData.filter((item) => {
+      const itemDate = new Date(item.achievement_date)
+      return itemDate >= new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7)
+    })
 
-    // pastFourDataが4つ未満の場合は0で埋める
-    while (pastFourData.length < 4) {
-      pastFourData.push({ achievements_start_date: '', achievement_rate: 0 })
-    }
+    pastWeekData.sort((a, b) => {
+      const dateA = new Date(a.achievement_date)
+      const dateB = new Date(b.achievement_date)
+      if (dateA < dateB) return -1
+      if (dateA > dateB) return 1
+      return 0
+    })
 
-    return pastFourData.reverse()
+    return pastWeekData
   }, [data])
 
   return { filteredData: sortedData }
