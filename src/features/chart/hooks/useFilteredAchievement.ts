@@ -4,8 +4,6 @@ import { useAchievement } from '../hooks/useAchievement'
 export const useFilteredAchievements = (userId: string | null) => {
   const { data } = useAchievement(userId)
 
-  console.log(data)
-
   const sortedData = useMemo(() => {
     if (!data) return []
 
