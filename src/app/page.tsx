@@ -57,16 +57,13 @@ export default function Home() {
           </p>
           <div className='mt-10 flex items-center gap-x-6'>
           <Button component={Link} href="/tutorial" variant="filled" color="violet">始めてみる</Button>
-            {/* <Link href='#' className='text-sm font-semibold leading-6 text-white'>
-              Learn more <span aria-hidden='true'>→</span>
-            </Link> */}
           </div>
         </div>
         <div className='mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32'>
           <div className='max-w-3xl flex-none sm:max-w-5xl lg:max-w-none'>
             <Image
-              width={1000}
-              height={1000}
+              width={500}
+              height={700}
               src='/taskzenn_matrix_diagram.png'
               alt='App screenshot'
               className='w-[50rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10'

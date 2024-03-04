@@ -17,10 +17,9 @@ import 'dayjs/locale/ja'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { addTodo } from '../api/addTodo'
 import { editTodo } from '../api/editTodo'
-import { useTodoCategories } from '../hooks/useTodoCategories'
 import { useCategory } from '@/features/category/hooks/useCategory'
 import { deleteTodo } from '@/features/todo/api/deleteTodo'
 import { getIncompleteTodos } from '@/features/todo/api/getIncompleteTodos'
@@ -28,39 +27,19 @@ import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { Id, Todo, Category } from '@/types'
 
 interface Props {
-  todo?: Todo | null
+  selectedTodo: Todo | null
   opened: boolean
   close: () => void
 }
 
 export const TodoModal = (props: Props) => {
-  const { todo, opened, close } = props
-
-  const defaultValues = {
-    title: todo?.title,
-    zone: todo?.zone,
-    due_date: todo?.due_date,
-    description: todo?.description,
-  }
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<Todo>({
-    mode: 'onChange',
-    defaultValues,
-  })
-
-  const { data: session, status } = useSession()
-  const { data, error, isLoading } = useTodoCategories(todo?.id ?? 0)
-
-  const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
+  const { selectedTodo, opened, close } = props
 
   // フォーム用
-  const [isCompleted, setIsCompleted] = useState<boolean>(todo?.completed || false)
+  const [isCompleted, setIsCompleted] = useState<boolean>(selectedTodo?.completed || false)
   const [zone, setZone] = useState<ComboboxItem | null>(null)
 
+  const { data: session, status } = useSession()
   const { data: categoryData } = useCategory(session ? session.user.id : null)
   const categories = categoryData?.map((category: Category) => ({
     value: String(category.id),
@@ -72,9 +51,40 @@ export const TodoModal = (props: Props) => {
   const [dueDate, setDueDate] = useState<Date | null>(null)
   const [checked, setChecked] = useState(false)
 
+  const defaultValues = {
+    title: selectedTodo?.title,
+    categories: selectedTodo?.categories,
+    zone: selectedTodo?.zone,
+    due_date: selectedTodo?.due_date,
+    description: selectedTodo?.description,
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Todo>({
+    mode: 'onChange',
+    defaultValues,
+  })
+
+  const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
+
+  // カテゴリーのデータをフォームにセット
   useEffect(() => {
     setCategoryValues(categories)
   }, [categoryData])
+
+  // 領域のデータをフォームにセット
+  useEffect(() => {
+    setZone(selectedTodo?.zone.toString() as unknown as ComboboxItem)
+  }, [selectedTodo])
+
+  // ToDoが変更されたらフォームをリセット
+  useEffect(() => {
+    reset(defaultValues)
+  }, [selectedTodo])
 
   const onSubmit: SubmitHandler<Todo> = async (data) => {
     if (!session?.user?.id) return
@@ -83,31 +93,22 @@ export const TodoModal = (props: Props) => {
 
     const newTodo = {
       ...data,
-      categories: selectedCategories ?? [],
-      zone: zone?.value ?? 0,
-      due_date: dueDate,
+      categories: selectedCategories ?? selectedCategories ?? selectedTodo?.categories,
+      zone: zone?.value ? zone.value : selectedTodo?.zone,
+      due_date: dueDate ?? dueDate ?? selectedTodo?.due_date,
       completed: isCompleted,
-    }
-    console.log(newTodo)
+    } as Todo
 
     try {
-      if (todo) {
+      if (selectedTodo) {
         await editTodo({
-          updatedTodo: {
-            ...newTodo,
-            zone: Number(newTodo.zone),
-            due_date: newTodo.due_date?.toISOString() ?? '',
-          },
-          todoId: todo.id,
+          updatedTodo: newTodo,
+          todoId: selectedTodo.id,
           id: session.user.id,
         })
       } else {
         await addTodo({
-          todo: {
-            ...newTodo,
-            zone: Number(newTodo.zone),
-            due_date: newTodo.due_date?.toISOString() ?? '',
-          },
+          todo: newTodo,
           id: session.user.id,
         })
       }
@@ -120,28 +121,6 @@ export const TodoModal = (props: Props) => {
       console.error(error)
     }
   }
-
-  // 表示するたびにフォームをリセット
-  useEffect(() => {
-    reset({
-      title: todo?.title,
-      zone: todo?.zone,
-      due_date: todo?.due_date,
-      description: todo?.description,
-    })
-    setIsCompleted(todo?.completed || false)
-    setSelectedCategories((prev) => (prev ? [...prev] : []) as Category[])
-  }, [todo, opened, reset])
-
-  // 既にカテゴリーがある場合、初期値としてセット
-  useEffect(() => {
-    setSelectedCategories((data) => {
-      if (todo?.categories) {
-        return todo.categories
-      }
-      return data
-    })
-  }, [data, opened])
 
   async function handleDeleteTodo(id: Id) {
     if (session?.user?.id) {
@@ -161,7 +140,6 @@ export const TodoModal = (props: Props) => {
       <Modal opened={opened} onClose={close}>
         <Box maw={340} mx='auto'>
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
-            {/* Done */}
             <div className='sm:col-span-6'>
               <TextInput
                 {...register('title', { required: true })}
@@ -173,25 +151,31 @@ export const TodoModal = (props: Props) => {
               {errors.title && <span className='text-red-500'>タイトルは必須です</span>}
             </div>
 
-            {/* Done */}
             <div className='sm:col-span-6'>
               <MultiSelect
+                checkIconPosition='left'
+                defaultValue={
+                  defaultValues?.categories?.map((category: Category) => String(category.id)) ?? []
+                }
                 label='カテゴリー'
                 placeholder='カテゴリーを選択してください'
-                data={categoryValues || undefined}
-                value={selectedCategories?.map((category) => String(category.id)) || []}
-                onChange={(value) => {
-                  const selected = categoryData?.filter((category: Category) =>
-                    value.includes(String(category.id)),
+                data={categoryValues ?? []}
+                onChange={(values) => {
+                  setSelectedCategories(
+                    values.map((value) => {
+                      const category = categoryData?.find(
+                        (category: Category) => category.id === Number(value),
+                      )
+                      return category as Category
+                    }),
                   )
-                  setSelectedCategories(selected as Category[])
                 }}
               />
             </div>
 
-            {/* Done */}
             <div className='sm:col-span-4'>
               <Select
+                defaultValue={defaultValues?.zone ? String(defaultValues.zone) : null}
                 label='領域'
                 withAsterisk
                 placeholder='選択してください'
@@ -201,24 +185,23 @@ export const TodoModal = (props: Props) => {
                   { value: '3', label: '第3領域' },
                   { value: '4', label: '第4領域' },
                 ]}
-                value={zone ? zone.value : null}
                 onChange={(_value, option) => setZone(option)}
               />
               {errors.zone && <span className='text-red-500'>領域は必須です</span>}
             </div>
 
-            {/* Done */}
             <div className='sm:col-span-4'>
               <DatePickerInput
+                defaultValue={
+                  dueDate || (defaultValues?.due_date ? new Date(defaultValues?.due_date) : null)
+                }
                 valueFormat='YYYY/MM/DD'
                 label='日付'
                 placeholder='日付を選択してください'
-                value={dueDate}
                 onChange={setDueDate}
               />
             </div>
 
-            {/* Done */}
             <div className='col-span-full'>
               <Textarea
                 {...register('description')}
@@ -228,24 +211,8 @@ export const TodoModal = (props: Props) => {
               />
             </div>
 
-            {todo ? (
+            {selectedTodo ? (
               <div className='sm:col-span-6'>
-                {/* <label
-                  htmlFor='title'
-                  className='block text-sm font-medium leading-6 text-gray-900'
-                >
-                  完了
-                </label>
-                <div className='mt-2'>
-                  <input
-                    type='checkbox'
-                    id='is_completed'
-                    name='is_completed'
-                    checked={isCompleted}
-                    onChange={(e) => setIsCompleted(e.target.checked)}
-                    className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'
-                  />
-                </div> */}
                 <Checkbox
                   label='完了'
                   checked={checked}
@@ -253,12 +220,16 @@ export const TodoModal = (props: Props) => {
                 />
               </div>
             ) : null}
-            {todo ? (
+            {selectedTodo ? (
               <div className='col-span-full flex gap-4'>
                 <Button type='submit' color='violet'>
                   更新
                 </Button>
-                <Button type='submit' onClick={() => todo && handleDeleteTodo(todo.id)} color='red'>
+                <Button
+                  type='submit'
+                  onClick={() => selectedTodo && handleDeleteTodo(selectedTodo.id)}
+                  color='red'
+                >
                   削除
                 </Button>
               </div>

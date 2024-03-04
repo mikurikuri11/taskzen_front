@@ -1,67 +1,20 @@
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 import { useState } from 'react'
-import { FaEdit, FaRegTrashAlt } from 'react-icons/fa'
+import { FaEdit } from 'react-icons/fa'
 
 import { Id, Todo } from '@/types'
 
 interface Props {
   todo: Todo
-  openEditModal: (id: Id) => void
+  openModalWithId: (id: Id) => void
 }
 
 export const TodoCard = (props: Props) => {
-  const { todo, openEditModal } = props
+  const { todo, openModalWithId } = props
 
   const [mouseIsOver, setMouseIsOver] = useState(false)
-  const [editMode, setEditMode] = useState(false)
-
-  // const toggleEditMode = () => {
-  //   setEditMode(!editMode)
-  //   setMouseIsOver(false)
-  // }
-
-  // const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
-  //   id: todo.id,
-  //   data: {
-  //     type: 'Todo',
-  //     todo,
-  //   },
-  // })
-
-  // const style = {
-  //   transition,
-  //   transform: CSS.Transform.toString(transform),
-  // }
-
-  // if (isDragging) {
-  //   return (
-  //     <div
-  //       ref={setNodeRef}
-  //       style={style}
-  //       className='
-  //       hover:ring-2
-  //       hover:ring-insert
-  //       hover:ring-gray-500
-  //       cursor-grab
-  //       bg-slate-300
-  //       w-full
-  //       h-12
-  //       rounded-md
-  //       p-2
-  //       text-center
-  //       opacity-30
-  //       '
-  //     ></div>
-  //   )
-  // }
 
   return (
     <div
-      // ref={setNodeRef}
-      // style={style}
-      // {...attributes}
-      // {...listeners}
       className='
       flex
       justify-between
@@ -70,15 +23,16 @@ export const TodoCard = (props: Props) => {
       w-full
       rounded-md
       px-2
+      py-2
       text-center
     '
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
     >
-      <p>{todo.title}</p>
-      <p>
+      <p className='m-0'>{todo.title}</p>
+      <p className='m-0'>
         {mouseIsOver && (
-          <FaEdit onClick={() => openEditModal(todo.id)} className='cursor-pointer mr-1' />
+          <FaEdit onClick={() => openModalWithId(todo.id)} className='cursor-pointer mr-1' />
         )}
       </p>
     </div>
