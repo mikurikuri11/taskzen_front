@@ -71,7 +71,6 @@ export const TodoModal = (props: Props) => {
 
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
-
   // カテゴリーのデータをフォームにセット
   useEffect(() => {
     setCategoryValues(categories)
@@ -79,7 +78,7 @@ export const TodoModal = (props: Props) => {
 
   // 領域のデータをフォームにセット
   useEffect(() => {
-    setZone(selectedTodo?.zone.toString() as unknown as ComboboxItem);
+    setZone(selectedTodo?.zone.toString() as unknown as ComboboxItem)
   }, [selectedTodo])
 
   // ToDoが変更されたらフォームをリセット
@@ -94,30 +93,22 @@ export const TodoModal = (props: Props) => {
 
     const newTodo = {
       ...data,
-      categories: selectedCategories ?? [],
-      zone: zone?.value,
-      due_date: dueDate,
+      categories: selectedCategories ?? selectedCategories ?? selectedTodo?.categories,
+      zone: zone?.value ? zone.value : selectedTodo?.zone,
+      due_date: dueDate ?? dueDate ?? selectedTodo?.due_date,
       completed: isCompleted,
-    }
+    } as Todo
 
     try {
       if (selectedTodo) {
         await editTodo({
-          updatedTodo: {
-            ...newTodo,
-            zone: Number(newTodo.zone),
-            due_date: newTodo.due_date?.toISOString() ?? '',
-          },
+          updatedTodo: newTodo,
           todoId: selectedTodo.id,
           id: session.user.id,
         })
       } else {
         await addTodo({
-          todo: {
-            ...newTodo,
-            zone: Number(newTodo.zone),
-            due_date: newTodo.due_date?.toISOString() ?? '',
-          },
+          todo: newTodo,
           id: session.user.id,
         })
       }
@@ -162,6 +153,7 @@ export const TodoModal = (props: Props) => {
 
             <div className='sm:col-span-6'>
               <MultiSelect
+                checkIconPosition='left'
                 defaultValue={
                   defaultValues?.categories?.map((category: Category) => String(category.id)) ?? []
                 }

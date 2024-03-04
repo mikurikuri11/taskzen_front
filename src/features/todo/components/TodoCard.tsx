@@ -23,13 +23,14 @@ export const TodoCard = (props: Props) => {
       w-full
       rounded-md
       px-2
+      py-2
       text-center
     '
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
     >
-      <p>{todo.title}</p>
-      <p>
+      <p className='m-0'>{todo.title}</p>
+      <p className='m-0'>
         {mouseIsOver && (
           <FaEdit onClick={() => openModalWithId(todo.id)} className='cursor-pointer mr-1' />
         )}
