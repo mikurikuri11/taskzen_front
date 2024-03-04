@@ -23,7 +23,6 @@ export const useFilteredAchievements = (userId: string | null) => {
       const itemDate = new Date(sortedData[i].achievements_start_date)
       // 今日から過去4つのデータを取得
       if (itemDate <= today && pastFourData.length < 4) {
-        console.log(sortedData[i])
         pastFourData.push(sortedData[i])
       }
     }
