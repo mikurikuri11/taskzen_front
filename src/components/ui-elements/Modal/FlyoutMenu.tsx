@@ -9,7 +9,6 @@ const Items = [
   { href: '/todos', text: 'ToDo' },
   { href: '/category-setting', text: 'カテゴリー' },
   { href: '/report', text: 'レポート' },
-  { href: '/chart', text: 'グラフ' }
 ];
 
 export const FlyoutMenu: FC = () => {
