@@ -12,16 +12,17 @@ interface Props {
 export const TodoMatrix = memo((props: Props) => {
   const { todos, openModalWithId } = props
 
+  const todosByOne = todos.filter((todo) => todo.zone === 1)
+  const todosByTwo = todos.filter((todo) => todo.zone === 2)
+  const todosByThree = todos.filter((todo) => todo.zone === 3)
+  const todosByFour = todos.filter((todo) => todo.zone === 4)
+
   return (
     <SimpleGrid cols={2} spacing='none' verticalSpacing='xs'>
-      {[1, 2, 3, 4].map((zone) => (
-        <TodoZone
-          key={zone}
-          zone={zone}
-          filterTodos={todos.filter((todo) => todo.zone === zone)}
-          openModalWithId={openModalWithId}
-        />
-      ))}
+      <TodoZone key={1} zone={1} filterTodos={todosByOne} openModalWithId={openModalWithId} />
+      <TodoZone key={2} zone={2} filterTodos={todosByTwo} openModalWithId={openModalWithId} />
+      <TodoZone key={3} zone={3} filterTodos={todosByThree} openModalWithId={openModalWithId} />
+      <TodoZone key={4} zone={4} filterTodos={todosByFour} openModalWithId={openModalWithId} />
     </SimpleGrid>
   )
 })

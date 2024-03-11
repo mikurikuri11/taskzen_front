@@ -22,13 +22,13 @@ export const FlyoutMenu: FC = () => {
           <Image
             onClick={() => setIsOpen(!isOpen)}
             src={session?.user?.image}
-            width={50}
-            height={50}
+            width={43}
+            height={43}
             alt=''
             className='rounded-full'
           />
         ) : (
-          <div className='w-14 h-14 rounded-full bg-gray-300' />
+          <div className='w-10 h-10 rounded-full bg-gray-300' />
         )}
       </Popover.Target>
       <Popover.Dropdown>

@@ -10,7 +10,6 @@ interface Props {
 
 export const TodoCard = (props: Props) => {
   const { todo, openModalWithId } = props
-
   const [mouseIsOver, setMouseIsOver] = useState(false)
 
   return (

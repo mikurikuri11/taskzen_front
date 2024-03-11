@@ -15,7 +15,7 @@ export default function Home() {
   const [opened, { open, close }] = useDisclosure(false)
 
   return (
-    <div className='bg-gray-900 py-20 sm:py-30'>
+    <div className='min-h-screen py-20 sm:py-30'>
       <div className='relative overflow-hidden'>
         <div className='mx-auto max-w-5xl px-6 lg:px-8 bg-white rounded-xl'>
           <Carousel withIndicators>

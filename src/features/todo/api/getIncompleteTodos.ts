@@ -9,6 +9,9 @@ export const getIncompleteTodos = async (props: Props): Promise<Todo[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/todos/incomplete_todo/${id}`, {
     cache: 'no-store',
   })
+  if (!res.ok) {
+    throw new Error('Failed to fetch')
+  }
   const todos = await res.json()
   return todos
 }

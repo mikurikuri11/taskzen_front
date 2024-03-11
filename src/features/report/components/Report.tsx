@@ -41,7 +41,7 @@ export const Report = () => {
 
   return (
     <Grid
-      className='text-white bg-slate-00 rounded-md flex flex-col justify-center items-center m-20 bg-slate-00'
+      className='text-white rounded-md flex flex-col justify-center items-center min-h-screen'
       justify='center'
       align='stretch'
     >
