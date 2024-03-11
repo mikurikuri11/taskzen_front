@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { Report } from '@/features/report/components/Report'
+import { getTodos } from '@/features/todo/api/getTodo'
 import { nextAuthOptions } from '@/libs/next-auth/options'
 
 export default async function Home() {
@@ -9,5 +10,8 @@ export default async function Home() {
   if (!session) {
     redirect('/')
   }
-  return <Report />
+
+  const allTodos = await getTodos({ id: session.user.id })
+
+  return <Report allTodos={allTodos} />
 }

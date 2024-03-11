@@ -1,28 +1,13 @@
 'use client'
 
 import { AreaChart } from '@mantine/charts'
-import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
 
-import { useRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { useCalculateDailyAchievementRate } from '../hooks/useCalculateDailyAchievementRate'
-import { getTodos } from '@/features/todo/api/getTodo'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 
 export const AchievementChart = () => {
-  const { data: session, status } = useSession()
-  const [todos, setTodos] = useRecoilState(TodoAtom)
-
-  useEffect(() => {
-    const getTodosAsync = async () => {
-      if (status === 'authenticated' && session) {
-        const data = await getTodos({ id: session.user.id })
-        setTodos(data)
-      }
-    }
-
-    getTodosAsync()
-  }, [])
+  const todos = useRecoilValue(TodoAtom)
 
   const today = new Date()
   const sevenDaysAgo = new Date(today)
@@ -34,7 +19,6 @@ export const AchievementChart = () => {
   })
 
   const dailyAchievements = useCalculateDailyAchievementRate({ dailyTodos })
-  const weeklyAchievementRate = Math.floor(dailyAchievements.reduce((acc, cur) => acc + cur.achievementRate, 0) / dailyAchievements.length)
 
   return (
     <div className='mx-auto max-w-screen-md flex justify-between mt-10 flex-col items-center'>

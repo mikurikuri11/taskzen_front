@@ -1,29 +1,26 @@
 'use client'
 
-import { Grid, rem, Flex } from '@mantine/core'
-import { useSession } from 'next-auth/react'
+import { Grid, rem } from '@mantine/core'
 import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 
-import { AchievementChart } from '@/features/chart/components/AchievementManagement'
+import { AchievementBoard } from '@/features/chart/components/AchievementBoard'
+import { AchievementChart } from '@/features/chart/components/AchievementChart'
 import { useCalculateDailyAchievementRate } from '@/features/chart/hooks/useCalculateDailyAchievementRate'
-import { getTodos } from '@/features/todo/api/getTodo'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
+import { Todo } from '@/types'
 
-export const Report = () => {
-  const { data: session, status } = useSession()
+interface Props {
+  allTodos: Todo[]
+}
+
+export const Report = (props: Props) => {
+  const { allTodos } = props
   const [todos, setTodos] = useRecoilState(TodoAtom)
 
   useEffect(() => {
-    const getTodosAsync = async () => {
-      if (status === 'authenticated' && session) {
-        const data = await getTodos({ id: session.user.id })
-        setTodos(data)
-      }
-    }
-
-    getTodosAsync()
-  }, [])
+    setTodos(allTodos)
+  }, [allTodos])
 
   const today = new Date()
   const sevenDaysAgo = new Date(today)
@@ -49,33 +46,7 @@ export const Report = () => {
         <AchievementChart />
       </Grid.Col>
       <Grid.Col span='content' style={{ minHeight: rem(120) }}>
-        <Flex
-          className='w-full h-full p-10 bg-gray-00'
-          mih={50}
-          gap='md'
-          justify='center'
-          align='center'
-          direction='column'
-          wrap='wrap'
-        >
-          <div className='text-2xl font-semibold text-white mb-10'>
-            今週の達成率 {weeklyAchievementRate} %
-          </div>
-          <p className='text-1xl font-semibold text-white mb-10'>
-            {weeklyAchievementRate !== null && (
-              <>
-                {weeklyAchievementRate <= 30 && 'もう少し頑張りましょう。'}
-                {weeklyAchievementRate > 30 &&
-                  weeklyAchievementRate <= 55 &&
-                  'そこそこできています。もう一踏ん張りです。'}
-                {weeklyAchievementRate > 55 &&
-                  weeklyAchievementRate <= 80 &&
-                  'とてもいい感じです。これからも頑張りましょう。'}
-                {weeklyAchievementRate > 80 && '完璧です。新しいことに挑戦してみましょう。'}
-              </>
-            )}
-          </p>
-        </Flex>
+        <AchievementBoard weeklyAchievementRate={weeklyAchievementRate} />
       </Grid.Col>
     </Grid>
   )
