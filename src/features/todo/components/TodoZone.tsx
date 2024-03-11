@@ -30,11 +30,9 @@ export const TodoZone = (props: Props) => {
             gap-2
             '
         >
-          {filterTodos
-            .filter((todo) => todo.zone === zone)
-            .map((todo) => (
-              <TodoCard key={todo.id} todo={todo} openModalWithId={openModalWithId} />
-            ))}
+          {filterTodos.map((todo) => (
+            <TodoCard key={todo.id} todo={todo} openModalWithId={openModalWithId} />
+          ))}
         </div>
       </div>
     </div>

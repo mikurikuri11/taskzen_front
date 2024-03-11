@@ -2,7 +2,6 @@
 
 import { Button } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-
 import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { TodoModal } from './TodoModal'
@@ -22,7 +21,8 @@ export const TodoManagement = (props: Props) => {
 
   useEffect(() => {
     setIncompletedTodos(todos)
-  }, [todos])
+  }
+  , [todos])
 
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
