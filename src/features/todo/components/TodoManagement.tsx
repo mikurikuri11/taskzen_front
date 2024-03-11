@@ -3,36 +3,26 @@
 import { Button } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
-import { useSession } from 'next-auth/react'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
-import { getIncompleteTodos } from '../api/getIncompleteTodos'
 import { TodoModal } from './TodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useSelectTodo } from '@/features/todo/hooks/useSelectTodo'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
-import { Id } from '@/types'
+import { Id, Todo } from '@/types'
 
-export const TodoManagement: FC = () => {
-  const { data: session, status } = useSession()
+interface Props {
+  todos: Todo[]
+}
+
+export const TodoManagement = (props: Props) => {
+  const { todos } = props
   const [opened, { open, close }] = useDisclosure(false)
-
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
-
-  // TODO:SWR？に書き換える or RSCを使用するなら、Serverで使う
-  // ServerとClientでHTML要素の違いあるため、エラーが起きている
-  // Serverで使うなら、propsを子にわたす or cacheを使う
   useEffect(() => {
-    const getTodosAsync = async () => {
-      if (status === 'authenticated' && session) {
-        const data = await getIncompleteTodos({ id: session.user.id })
-        setIncompletedTodos(data)
-      }
-    }
-
-    getTodosAsync()
-  }, [])
+    setIncompletedTodos(todos)
+  }, [todos])
 
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
