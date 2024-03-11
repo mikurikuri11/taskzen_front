@@ -19,6 +19,10 @@ export const TodoManagement: FC = () => {
 
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
+
+  // TODO:SWR？に書き換える or RSCを使用するなら、Serverで使う
+  // ServerとClientでHTML要素の違いあるため、エラーが起きている
+  // Serverで使うなら、propsを子にわたす or cacheを使う
   useEffect(() => {
     const getTodosAsync = async () => {
       if (status === 'authenticated' && session) {
@@ -47,7 +51,7 @@ export const TodoManagement: FC = () => {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 '>
       <div className='flex justify-between'>
         <h1 className='text-white text-2xl font-bold'>Todo Matrix</h1>
         <Button onClick={openModal} color='violet' className='mt-3'>

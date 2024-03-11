@@ -31,7 +31,7 @@ export const CategoryTable = (props: Props) => {
 
   return (
     <>
-      <div className='mx-auto max-w-7xl text-white py-10'>
+      <div className='mx-auto max-w-7xl text-white mt-10 min-h-screen'>
         <div className='px-4 sm:px-6 lg:px-8'>
           <div className='sm:flex sm:items-center'>
             <div className='sm:flex-auto'>
