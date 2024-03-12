@@ -41,10 +41,14 @@ export const CategoryItem = (props: Props) => {
             border-none
             bg-transparent
             text-white
-            bg-slate-600
-            focus:outline-none
+            bg-gray-700
+            outline
+            ring-0
+            border-transparent
             rounded-md
             px-2
+            mb-0
+            w-full
           '
           defaultValue={category.name}
           autoFocus
