@@ -21,22 +21,19 @@ export const AchievementChart = () => {
   const dailyAchievements = useCalculateDailyAchievementRate({ dailyTodos })
 
   return (
-    <div className='mx-auto max-w-screen-md flex justify-between mt-10 flex-col items-center'>
-      <h1 className='text-3xl font-semibold text-white mb-14'>週間レポート</h1>
-      <AreaChart
-        h={300}
-        data={dailyAchievements}
-        dataKey='date'
-        series={[
-          { name: 'achievementRate', color: 'indigo.6' },
-          // { name: 'Oranges', color: 'blue.6' },
-          // { name: 'Tomatoes', color: 'teal.6' },
-        ]}
-        curveType='bump'
-        tickLine='xy'
-        gridAxis='xy'
-        className='mt-20 mb-24'
-      />
-    </div>
+    <AreaChart
+      h={300}
+      data={dailyAchievements}
+      dataKey='date'
+      series={[
+        { name: 'achievementRate', color: 'indigo.6' },
+        // { name: 'Oranges', color: 'blue.6' },
+        // { name: 'Tomatoes', color: 'teal.6' },
+      ]}
+      curveType='bump'
+      tickLine='xy'
+      gridAxis='xy'
+      className='mt-20 mb-24'
+    />
   )
 }

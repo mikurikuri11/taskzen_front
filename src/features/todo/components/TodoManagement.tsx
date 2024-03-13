@@ -1,28 +1,32 @@
 'use client'
 
-import { Button } from '@mantine/core'
+import { Button, Loader } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
+
+import { useIncompletedTodos } from '../hooks/useIncompletedTodos'
 import { TodoModal } from './TodoModal'
 import { TodoMatrix } from '@/features/todo/components/TodoMatrix'
 import { useSelectTodo } from '@/features/todo/hooks/useSelectTodo'
 import { IncompletedTodoAtom } from '@/recoil/atoms/incompletedTodoAtom'
 import { Id, Todo } from '@/types'
 
-interface Props {
-  todos: Todo[]
-}
+export const TodoManagement = () => {
+  const { data: session, status } = useSession()
+  const id = session?.user?.id
 
-export const TodoManagement = (props: Props) => {
-  const { todos } = props
+  const { data, error, isLoading, isEmpty } = useIncompletedTodos({ id: id as Id })
+
   const [opened, { open, close }] = useDisclosure(false)
   const [incompletedTodos, setIncompletedTodos] = useRecoilState(IncompletedTodoAtom)
 
+  const todos = data as Todo[]
+
   useEffect(() => {
     setIncompletedTodos(todos)
-  }
-  , [todos])
+  }, [todos])
 
   const { selectedTodo, onSelectTodo } = useSelectTodo()
 
@@ -38,6 +42,18 @@ export const TodoManagement = (props: Props) => {
     if (!id) return
     onSelectTodo({ id, incompletedTodos })
     open()
+  }
+
+  if (error) {
+    return <div>エラーが発生しました</div>
+  }
+
+  if (isLoading) {
+    return <Loader color='violet' />
+  }
+
+  if (isEmpty) {
+    return <div>データがありません</div>
   }
 
   return (
