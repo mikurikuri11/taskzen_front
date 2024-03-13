@@ -12,6 +12,14 @@ interface Props {
 export const TodoMatrix = memo((props: Props) => {
   const { todos, openModalWithId } = props
 
+  if (!todos) {
+    return null
+  }
+
+  if (todos.length === 0) {
+    return null
+  }
+
   const todosByOne = todos.filter((todo) => todo.zone === 1)
   const todosByTwo = todos.filter((todo) => todo.zone === 2)
   const todosByThree = todos.filter((todo) => todo.zone === 3)
