@@ -1,5 +1,6 @@
 import './globals.css'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
+import { ModalsProvider } from '@mantine/modals'
 import '@mantine/charts/styles.css'
 import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css'
@@ -31,9 +32,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NextAuthProvider>
           <RecoilProvider>
             <MantineProvider>
-              <Header />
-              <Suspense fallback={<Loading />}>{children}</Suspense>
-              <Footer />
+              <ModalsProvider>
+                <Header />
+                <Suspense fallback={<Loading />}>{children}</Suspense>
+                <Footer />
+              </ModalsProvider>
             </MantineProvider>
           </RecoilProvider>
         </NextAuthProvider>
