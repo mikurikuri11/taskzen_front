@@ -12,13 +12,13 @@ export const TodoZone = (props: Props) => {
 
   return (
     <div
-      className='rounded-md border border-solid border-slate-500 overflow-y-auto overflow-x-hidden group relative bg-white p-6 w-96 h-72
-      '
+      className='rounded-md border border-solid border-slate-500 overflow-y-auto overflow-x-hidden group relative p-6 w-96 h-72
+      bg-white'
     >
       <div>
         <h3 className='text-base font-semibold leading-6 text-gray-900'>
           {zone === 2 ? (
-            <span className='bg-blue-200 rounded-lg p-1'>第{zone}の領域</span>
+            <span className='bg-blue-200 p-2 rounded-md'>第{zone}の領域</span>
           ) : (
             <span>第{zone}の領域</span>
           )}

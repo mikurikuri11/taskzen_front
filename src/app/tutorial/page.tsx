@@ -72,7 +72,7 @@ export default function Home() {
               <div className='flex justify-center items-center mb-10'>
                 <Image
                   width={600}
-                  height={600}
+                  height={500}
                   src='/taskzenn_matrix_diagram.png'
                   alt='ToDoの作成方法の画像'
                 />
@@ -106,7 +106,7 @@ export default function Home() {
                 </div>
               </div>
               <div className='flex justify-center items-center mb-10'>
-                <Image width={600} height={600} src='/report.png' alt='ToDoの作成方法の画像' />
+                <Image width={600} height={500} src='/report.png' alt='ToDoの作成方法の画像' />
               </div>
             </Carousel.Slide>
           </Carousel>

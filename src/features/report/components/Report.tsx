@@ -1,6 +1,6 @@
 'use client'
 
-import { Flex, Loader, Text } from '@mantine/core'
+import { Flex, Loader, Title } from '@mantine/core'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
@@ -66,14 +66,13 @@ export const Report = () => {
 
   return (
     <Flex w={1000} mih={50} gap='md' justify='center' align='center' direction='column' wrap='wrap'>
-      <Text c='white' size='xl' fw={700}>
+      <Title c='white' size='h2'>
         週間レポート
-      </Text>
+      </Title>
       <AchievementChart />
       <Flex mih={50} gap='xl' justify='center' align='center' direction='row' wrap='wrap'>
-        <AchievementBoard
-          weeklyAchievementRate={weeklyAchievementRate}
-        />
+        <AchievementBoard title='達成率' achievementRate={weeklyAchievementRate} />
+        <AchievementBoard title='第2の習慣の達成率' achievementRate={weeklyAchievementRateByTwo} />
       </Flex>
     </Flex>
   )

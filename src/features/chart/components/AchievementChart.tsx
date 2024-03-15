@@ -19,14 +19,21 @@ export const AchievementChart = () => {
   })
 
   const dailyAchievements = useCalculateDailyAchievementRate({ dailyTodos })
-
+  const modifiedData = dailyAchievements.map(item => {
+    return {
+        "date": item.date,
+        "達成率": item.achievementRate
+    };
+});
   return (
     <AreaChart
       h={300}
-      data={dailyAchievements}
+      data={modifiedData}
       dataKey='date'
+      tooltipAnimationDuration={200}
+      unit='%'
       series={[
-        { name: 'achievementRate', color: 'indigo.6' },
+        { name: '達成率', color: 'indigo.6' },
         // { name: 'Oranges', color: 'blue.6' },
         // { name: 'Tomatoes', color: 'teal.6' },
       ]}

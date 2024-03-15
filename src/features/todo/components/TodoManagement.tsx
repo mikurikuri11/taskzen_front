@@ -52,10 +52,6 @@ export const TodoManagement = () => {
     return <Loader color='violet' />
   }
 
-  if (isEmpty) {
-    return <div>データがありません</div>
-  }
-
   return (
     <div className='flex flex-col gap-4 '>
       <div className='flex justify-between'>

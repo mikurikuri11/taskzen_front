@@ -1,4 +1,7 @@
 import { Popover } from '@mantine/core'
+import { Text } from '@mantine/core'
+import { modals } from '@mantine/modals'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
@@ -9,14 +12,36 @@ const Items = [
   { href: '/todos', text: 'ToDo' },
   { href: '/category-setting', text: 'カテゴリー' },
   { href: '/report', text: 'レポート' },
-];
+]
 
 export const FlyoutMenu: FC = () => {
   const { data: session, status } = useSession()
   const [isOpen, setIsOpen] = useState(false)
 
+  const openModal = () =>
+    modals.openConfirmModal({
+      title: 'ログアウトしてもよろしいですか？',
+      // children: (
+      //   <Text size='sm'>
+      //     This action is so important that you are required to confirm it with a modal. Please click
+      //     one of these buttons to proceed.
+      //   </Text>
+      // ),
+      labels: { confirm: 'OK', cancel: 'キャンセル' },
+      confirmProps: { color: 'red' },
+      onCancel: () => console.log('キャンセル'),
+      onConfirm: () => signOut(),
+    })
+
   return (
-    <Popover width={200} position='bottom' withArrow shadow='md' opened={isOpen} onClose={() => setIsOpen(false)}>
+    <Popover
+      width={200}
+      position='bottom'
+      withArrow
+      shadow='md'
+      opened={isOpen}
+      onClose={() => setIsOpen(false)}
+    >
       <Popover.Target>
         {session?.user?.image ? (
           <Image
@@ -47,7 +72,7 @@ export const FlyoutMenu: FC = () => {
           <div
             className='block p-2 text-red-600 hover:text-red-500 hover:cursor-pointer'
             onClick={() => {
-              signOut()
+              openModal()
             }}
           >
             ログアウト

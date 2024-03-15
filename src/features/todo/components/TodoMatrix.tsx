@@ -16,14 +16,10 @@ export const TodoMatrix = memo((props: Props) => {
     return null
   }
 
-  if (todos.length === 0) {
-    return null
-  }
-
-  const todosByOne = todos.filter((todo) => todo.zone === 1)
-  const todosByTwo = todos.filter((todo) => todo.zone === 2)
-  const todosByThree = todos.filter((todo) => todo.zone === 3)
-  const todosByFour = todos.filter((todo) => todo.zone === 4)
+  const todosByOne = todos ? todos.filter((todo) => todo.zone === 1) : []
+  const todosByTwo = todos ? todos.filter((todo) => todo.zone === 2) : []
+  const todosByThree = todos ? todos.filter((todo) => todo.zone === 3) : []
+  const todosByFour = todos ? todos.filter((todo) => todo.zone === 4) : []
 
   return (
     <SimpleGrid cols={2} spacing='none' verticalSpacing='xs'>
