@@ -37,14 +37,14 @@ export default function Home() {
                 このアプリは、第2領域にあるタスクに効果的にアプローチできるようにサポートします。
                 <br />
               </p>
-              {/* <div className='flex justify-center items-center mb-10'>
+              <div className='flex justify-center items-center mb-10'>
                 <Image
                   width={600}
                   height={600}
                   src='/matrix_diagram.png'
                   alt='ToDoの作成方法の画像'
                 />
-              </div> */}
+              </div>
               <p className='text-center mx-auto max-w-2xl lg:text-left mt-4 mb-10 text-gray-400'>
                 参考：
                 <Link
@@ -69,14 +69,14 @@ export default function Home() {
                 このアプローチにより、作成したToDoが自分にとって今最も重要なことかどうかを判断することができます。
                 <br />
               </p>
-              {/* <div className='flex justify-center items-center mb-10'>
+              <div className='flex justify-center items-center mb-10'>
                 <Image
                   width={600}
-                  height={600}
+                  height={500}
                   src='/taskzenn_matrix_diagram.png'
                   alt='ToDoの作成方法の画像'
                 />
-              </div> */}
+              </div>
             </Carousel.Slide>
             <Carousel.Slide>
               <h2 className='text-2xl mt-10 mb-5 text-center'>その後の機能</h2>
@@ -105,9 +105,9 @@ export default function Home() {
                   )}
                 </div>
               </div>
-              {/* <div className='flex justify-center items-center mb-10'>
-                <Image width={600} height={600} src='/report.png' alt='ToDoの作成方法の画像' />
-              </div> */}
+              <div className='flex justify-center items-center mb-10'>
+                <Image width={600} height={500} src='/report.png' alt='ToDoの作成方法の画像' />
+              </div>
             </Carousel.Slide>
           </Carousel>
           <LoginModal opened={opened} close={close} />
