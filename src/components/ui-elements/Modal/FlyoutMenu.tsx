@@ -20,16 +20,16 @@ export const FlyoutMenu: FC = () => {
 
   const openModal = () =>
     modals.openConfirmModal({
-      title: 'ログアウトしますか？',
+      title: 'ログアウトしてもよろしいですか？',
       // children: (
       //   <Text size='sm'>
       //     This action is so important that you are required to confirm it with a modal. Please click
       //     one of these buttons to proceed.
       //   </Text>
       // ),
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: 'OK', cancel: 'キャンセル' },
       confirmProps: { color: 'red' },
-      onCancel: () => console.log('Cancel'),
+      onCancel: () => console.log('キャンセル'),
       onConfirm: () => signOut(),
     })
 
