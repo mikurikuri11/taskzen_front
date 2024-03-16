@@ -31,8 +31,8 @@ export const AchievementChart = () => {
   if (isEmpty) {
     return (
       <Box
-        bg='indigo.6'
-        c='white'
+        bg='rgba(255, 255, 255)'
+        c='black'
         opacity='0.8'
         my='xl'
         w={{ base: 200, sm: 400, lg: 500 }}
