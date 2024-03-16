@@ -1,6 +1,7 @@
 'use client'
 
 import { AreaChart } from '@mantine/charts'
+import { Box } from '@mantine/core'
 
 import { useRecoilValue } from 'recoil'
 import { useCalculateDailyAchievementRate } from '../hooks/useCalculateDailyAchievementRate'
@@ -19,12 +20,33 @@ export const AchievementChart = () => {
   })
 
   const dailyAchievements = useCalculateDailyAchievementRate({ dailyTodos })
-  const modifiedData = dailyAchievements.map(item => {
+  const modifiedData = dailyAchievements.map((item) => {
     return {
-        "date": item.date,
-        "達成率": item.achievementRate
-    };
-});
+      date: item.date,
+      達成率: item.achievementRate,
+    }
+  })
+  const isEmpty = modifiedData && modifiedData.length === 0
+
+  if (isEmpty) {
+    return (
+      <Box
+        bg='indigo.6'
+        c='white'
+        opacity='0.8'
+        my='xl'
+        w={{ base: 200, sm: 400, lg: 500 }}
+        h={{ base: 100, sm: 200, lg: 300 }}
+        p='lg'
+        fz='xl'
+        fw={700}
+        className='rounded-xl flex items-center justify-center'
+      >
+        データがありません
+      </Box>
+    )
+  }
+
   return (
     <AreaChart
       h={300}
