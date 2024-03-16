@@ -60,8 +60,9 @@ export const Report = () => {
     return <Loader color='violet' />
   }
 
+  // TODO: 週間レポートのデータがない場合の表示を考える
   if (isEmpty) {
-    return <div>データがありません</div>
+    return <div className='text-white text-xl font-bold'>データがありません</div>
   }
 
   return (
