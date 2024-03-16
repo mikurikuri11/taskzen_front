@@ -1,20 +1,22 @@
 import { Flex, Text } from '@mantine/core'
 
 interface Props {
-  title: string;
-  achievementRate: number | null;
+  title: string
+  achievementRate: number | null
 }
 
 export const AchievementBoard = (props: Props) => {
-  const { title, achievementRate } = props;
+  const { title, achievementRate } = props
 
   const getMessage = (rate: number | null) => {
-    if (rate === null) return '';
-    if (rate <= 30) return 'もう少し頑張りましょう。';
-    if (rate <= 55) return 'そこそこできています。もう一踏ん張りです。';
-    if (rate <= 80) return 'とてもいい感じです。これからも頑張りましょう。';
-    return '完璧です。新しいことに挑戦してみましょう。';
-  };
+    if (rate === null) return ''
+    if (rate <= 30) return 'もう少し頑張りましょう。'
+    if (rate <= 55) return 'そこそこできています。もう一踏ん張りです。'
+    if (rate <= 80) return 'とてもいい感じです。これからも頑張りましょう。'
+    return '完璧です。新しいことに挑戦してみましょう。'
+  }
+
+  const isEmpty = !achievementRate
 
   return (
     <Flex
@@ -30,11 +32,11 @@ export const AchievementBoard = (props: Props) => {
         {title}
       </Text>
       <Text size='xl' fw={700}>
-        {achievementRate} %
+        {isEmpty ? 'データがありません' : `${achievementRate} %`}
       </Text>
       <Text size='sm' c='dimmed'>
-        {getMessage(achievementRate)}
+        {isEmpty ? '' : getMessage(achievementRate)}
       </Text>
     </Flex>
-  );
-};
+  )
+}
