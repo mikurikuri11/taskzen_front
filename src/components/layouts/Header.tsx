@@ -80,7 +80,7 @@ export const Header: FC = () => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className='sr-only'>Close menu</span>
-                <XMarkIcon  aria-hidden='true' />
+                <XMarkIcon aria-hidden='true' />
               </button>
             </div>
             <div className='mt-6 flow-root'>

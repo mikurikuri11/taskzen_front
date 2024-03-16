@@ -25,7 +25,7 @@ export const useCalculateDailyAchievementRate = (props: Props) => {
 
   // 日付ごとの達成率を計算
   const dailyAchievementRates = Array.from(dailyDataMap.entries()).map(([date, data]) => {
-    const achievementRate = Math.floor(((data.completedTodos / data.totalTodos) * 100) || 0)
+    const achievementRate = Math.floor((data.completedTodos / data.totalTodos) * 100 || 0)
     return {
       date,
       achievementRate,

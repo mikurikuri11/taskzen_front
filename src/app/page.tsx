@@ -56,7 +56,9 @@ export default function Home() {
             自分にとって今最も重要なことを管理する
           </p>
           <div className='mt-10 flex items-center gap-x-6'>
-          <Button component={Link} href="/tutorial" variant="filled" color="violet">始めてみる</Button>
+            <Button component={Link} href='/tutorial' variant='filled' color='violet'>
+              始めてみる
+            </Button>
           </div>
         </div>
         <div className='mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32'>

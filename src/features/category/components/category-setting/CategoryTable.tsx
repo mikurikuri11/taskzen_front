@@ -38,7 +38,9 @@ export const CategoryTable = (props: Props) => {
               <div className='flex'>
                 <h1 className='text-2xl font-bold leading-6 mt-4'>カテゴリー</h1>
                 <div className='mt-4 ml-auto sm:mt-0 sm:flex-none'>
-                  <Button onClick={open} color='violet'>追加する</Button>
+                  <Button onClick={open} color='violet'>
+                    追加する
+                  </Button>
                 </div>
               </div>
               <div className='mt-8 flow-root'>

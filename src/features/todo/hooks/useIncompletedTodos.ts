@@ -1,5 +1,5 @@
-import useSWR from "swr"
-import { Id } from "@/types"
+import useSWR from 'swr'
+import { Id } from '@/types'
 
 interface Props {
   id: Id

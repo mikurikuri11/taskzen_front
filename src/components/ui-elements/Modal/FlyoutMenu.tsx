@@ -1,5 +1,4 @@
-import { Popover } from '@mantine/core'
-import { Text } from '@mantine/core'
+import { Popover , Text } from '@mantine/core'
 import { modals } from '@mantine/modals'
 
 import Image from 'next/image'
