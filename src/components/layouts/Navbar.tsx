@@ -1,10 +1,7 @@
 'use client'
 
 import { Dialog, Transition } from '@headlessui/react'
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 import { Tooltip, Stack, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
