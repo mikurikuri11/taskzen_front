@@ -1,12 +1,12 @@
 'use client'
 
-import { AreaChart } from '@mantine/charts'
-import { BarChart } from '@mantine/charts'
 import { Box, SimpleGrid } from '@mantine/core'
-
 import { useRecoilValue } from 'recoil'
+
 import { useCalculateDailyAchievementRate } from '../hooks/useCalculateDailyAchievementRate'
 import { useCalculateDailyTodoCount } from '../hooks/useCalculateDailyTodoCount'
+import { CustomAreaChart } from '@/features/chart/components/AreaChart'
+import { CustomBarChart } from '@/features/chart/components/BarChart'
 import { TodoAtom } from '@/recoil/atoms/todoAtom'
 import { todoCount } from '@/types'
 
@@ -102,39 +102,8 @@ export const AchievementChart = () => {
 
   return (
     <SimpleGrid cols={2} className='w-full'>
-      <AreaChart
-        h={300}
-        data={areaChartData}
-        dataKey='date'
-        tooltipAnimationDuration={200}
-        unit='%'
-        series={[
-          { name: '達成率', color: 'indigo.6' },
-          // { name: 'Oranges', color: 'blue.6' },
-          // { name: 'Tomatoes', color: 'teal.6' },
-        ]}
-        curveType='bump'
-        tickLine='xy'
-        gridAxis='xy'
-        className='bg-white p-6 rounded-md shadow-md'
-      />
-      <BarChart
-        h={300}
-        data={barChartData}
-        dataKey='date'
-        tooltipAnimationDuration={200}
-        type='stacked'
-        withLegend
-        legendProps={{ verticalAlign: 'bottom', height: 50 }}
-        series={[
-          { name: '第1の習慣', color: 'red.6' },
-          { name: '第2の習慣', color: 'yellow.6' },
-          { name: '第3の習慣', color: 'teal.6' },
-          { name: '第4の習慣', color: 'blue.6' },
-        ]}
-        tickLine='y'
-        className='bg-white p-6 rounded-md shadow-md'
-      />
+      <CustomAreaChart areaChartData={areaChartData} />
+      <CustomBarChart barChartData={barChartData} />
     </SimpleGrid>
   )
 }
