@@ -1,6 +1,6 @@
 'use client'
 
-import { Flex, Loader, Title } from '@mantine/core'
+import { Flex, Loader, SimpleGrid, Title } from '@mantine/core'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
@@ -61,15 +61,16 @@ export const Report = () => {
   }
 
   return (
-    <Flex w={1000} mih={50} gap='md' justify='center' align='center' direction='column' wrap='wrap'>
+    // TODO: Headerコンポーネントを使い、Reportページのみに適用する
+    <Flex w={1000} mih={50} gap='xl' justify='center' align='center' direction='column' wrap='wrap'>
       <Title c='white' size='h2'>
         週間レポート
       </Title>
-      <AchievementChart />
-      <Flex mih={50} gap='xl' justify='center' align='center' direction='row' wrap='wrap'>
+      <SimpleGrid cols={2} className='w-full'>
         <AchievementBoard title='達成率' achievementRate={weeklyAchievementRate} />
         <AchievementBoard title='第2の習慣の達成率' achievementRate={weeklyAchievementRateByTwo} />
-      </Flex>
+      </SimpleGrid>
+      <AchievementChart />
     </Flex>
   )
 }

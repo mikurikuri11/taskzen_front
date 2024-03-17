@@ -20,7 +20,7 @@ export const AchievementBoard = (props: Props) => {
 
   return (
     <Flex
-      className={`overflow-hidden rounded-xl border border-gray-200 bg-gray-100 p-6`}
+      className='overflow-hidden rounded-md border border-gray-200 bg-white p-6'
       mih={50}
       gap='md'
       justify='center'
