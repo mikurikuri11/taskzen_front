@@ -12,6 +12,7 @@ import { Suspense } from 'react'
 import Loading from './loading'
 import { Footer } from '@/components/layouts/Footer'
 import { Header } from '@/components/layouts/Header'
+import { Navbar } from '@/components/layouts/Navbar'
 import NextAuthProvider from '@/providers/NextAuth'
 import { RecoilProvider } from '@/recoil/Provider'
 
@@ -33,9 +34,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <RecoilProvider>
             <MantineProvider>
               <ModalsProvider>
-                <Header />
+                {/* <Header /> */}
+                <Navbar />
                 <Suspense fallback={<Loading />}>{children}</Suspense>
-                <Footer />
+
+                {/* <Footer /> */}
               </ModalsProvider>
             </MantineProvider>
           </RecoilProvider>

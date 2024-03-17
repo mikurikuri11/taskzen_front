@@ -47,3 +47,11 @@ export interface Notification {
   notification_time: number
   active: boolean
 }
+
+export interface todoCount {
+  date: string
+  第1の習慣?: number
+  第2の習慣?: number
+  第3の習慣?: number
+  第4の習慣?: number
+}
