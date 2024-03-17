@@ -1,11 +1,11 @@
-import { BarChart } from '@mantine/charts';
+import { BarChart } from '@mantine/charts'
 
 interface Props {
-  barChartData: { date: string; [key: string]: any }[];
+  barChartData: { date: string; [key: string]: any }[]
 }
 
 export const CustomBarChart = (props: Props) => {
-  const { barChartData } = props;
+  const { barChartData } = props
   return (
     <BarChart
       h={300}
@@ -24,5 +24,5 @@ export const CustomBarChart = (props: Props) => {
       tickLine='y'
       className='bg-white p-6 rounded-md shadow-md'
     />
-  );
-};
+  )
+}

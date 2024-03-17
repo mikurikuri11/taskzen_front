@@ -1,12 +1,12 @@
-import { AreaChart } from '@mantine/charts';
-import React from 'react';
+import { AreaChart } from '@mantine/charts'
+import React from 'react'
 
 interface Props {
-  areaChartData: { date: string; 達成率: number }[];
+  areaChartData: { date: string; 達成率: number }[]
 }
 
 export const CustomAreaChart = (props: Props) => {
-  const { areaChartData } = props;
+  const { areaChartData } = props
   return (
     <AreaChart
       h={300}
@@ -24,5 +24,5 @@ export const CustomAreaChart = (props: Props) => {
       gridAxis='xy'
       className='bg-white p-6 rounded-md shadow-md'
     />
-  );
-};
+  )
+}
